@@ -32,7 +32,7 @@ user's feelings, as well as any referee comments. */
 
 CREATE TABLE IF NOT EXISTS feelings_table (
 
-  feeling_id int UNIQUE NOT NULL,
+  feeling_id int UNIQUE AUTO_INCREMENT NOT NULL,
   feelings_username char(30) UNIQUE NOT NULL,
   baseline_mood char(40) UNIQUE NOT NULL,
   referee_comment varchar (5000) DEFAULT 'Your referee has not left a comment today.',
@@ -51,7 +51,7 @@ automatic positive mindset tasks set by a psychiatrist. */
 
 CREATE TABLE IF NOT EXISTS therapy_table (
 
-  therapy_id int UNIQUE NOT NULL,
+  therapy_id int UNIQUE AUTO_INCREMENT NOT NULL,
   referee_username char(30) UNIQUE NOT NULL,
   baseline_mood char(40) UNIQUE NOT NULL,
   therapy_title varchar(500) DEFAULT 'This is the therapy title.' NOT NULL
