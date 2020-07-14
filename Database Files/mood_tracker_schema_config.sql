@@ -34,11 +34,7 @@ CREATE TABLE IF NOT EXISTS feelings_table (
 
   feeling_id int UNIQUE NOT NULL,
   feelings_username char(30) UNIQUE NOT NULL,
-  baseline_mood char(40) NOT NULL,
-
-  /* Not sure if baseline_mood is a foreign key or not. The contents of this
-  field will determine a returned course of therapy from therapy_table. */
-
+  baseline_mood char(40) UNIQUE NOT NULL,
   referee_comment varchar (5000) DEFAULT 'Your referee has not left a comment today.',
   patient_comment varchar (200) DEFAULT 'The patient has not left a comment today.' NOT NULL,
   date_of_comment date,
@@ -46,7 +42,8 @@ CREATE TABLE IF NOT EXISTS feelings_table (
   /* need to make the date have a DEFAULT value of today's date! */
 
   PRIMARY KEY(feeling_id),
-  FOREIGN KEY(feelings_username) REFERENCES user_table(username)
+  FOREIGN KEY(feelings_username) REFERENCES user_table(username),
+  FOREIGN KEY(baseline_mood) REFERENCES mood_list(mood)
 );
 
 /* Create the therapy_table if it does not already exist. This stores the
@@ -56,14 +53,24 @@ CREATE TABLE IF NOT EXISTS therapy_table (
 
   therapy_id int UNIQUE NOT NULL,
   referee_username char(30) UNIQUE NOT NULL,
-  baseline_mood char(40) NOT NULL,
-
-  /* Thinking of making another static table for different types of mood and their
-  associated images/emojis. */
-
+  baseline_mood char(40) UNIQUE NOT NULL,
   therapy_title varchar(500) DEFAULT 'This is the therapy title.' NOT NULL
   therapy_contents varchar(10000) DEFAULT 'This is the body text for any therapy treatment' NOT NULL
 
   PRIMARY KEY(therapy_id),
-  FOREIGN KEY(referee_username) REFERENCES user_table(username)
+  FOREIGN KEY(referee_username) REFERENCES user_table(username),
+  FOREIGN KEY(baseline_mood) REFERENCES mood_list(mood)
+
+);
+
+/* Create a list of moods if it does not already exists. Stores every emotion
+as a primary key, so it can be explicitly referenced by other tables & resolving
+many to many conflict. */
+
+CREATE TABLE IF NOT EXISTS mood_list (
+
+  mood char(40) UNIQUE NOT NULL,
+  mood_description varchar(500) NOT NULL,
+  mood_image varchar(200) DEFAULT 'This mood does not have a corresponding image.',
+  PRIMARY KEY(mood)
 );
