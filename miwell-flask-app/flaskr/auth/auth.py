@@ -3,7 +3,10 @@
 # Imports --------------------------------------------------------------------------------
 
 from flask import Blueprint, url_for, flash, redirect, session, render_template
-from flask_login import login_manager, logout_user, current_user, login_user
+from flask_login import logout_user, current_user, login_user
+
+from flaskr import login_manager
+
 from flaskr.register.models import Psychiatrist, Patient  # Imports our Psychiatrist and Patient Models
 
 from flaskr.auth.forms import LoginForm  # Imports our Login Form.
@@ -68,3 +71,18 @@ def unauthorised():
 def logout():
     logout_user()
     return redirect(url_for('main_bp.homepage'))
+
+@ login_manager.user_loader
+def user_loader(user_id):
+
+    if user_id is not None:
+
+        if current_user.user_authentication == "Psychiatrist":
+            Psychiatrist.get(user_id)
+
+        elif current_user.user_authentication == "Patient":
+            Patient.get(user_id)
+
+        else:
+            return None
+

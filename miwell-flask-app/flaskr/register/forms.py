@@ -114,4 +114,4 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
     def validate_psych_email(self, email):
         email_search = Psychiatrist.query.filter_by(email=email.data).first()  # Searches db for the given email.
         if email_search is not None:  # If search returns a result, raise a validation error.
-            raise ValidationError( 'An account is already registered to this email address.')
+            raise ValidationError('An account is already registered to this email address.')

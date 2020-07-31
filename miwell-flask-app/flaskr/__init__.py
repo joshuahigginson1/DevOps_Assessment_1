@@ -34,7 +34,6 @@ def create_app():  # Initialises the core application.
     db.init_app(app)
     login_manager.init_app(app)
     argon2.init_app(app)
-    principal.init_app(app)
 
     # Any part of our app which is not imported, initialised, or registered within the with app.app_context(): block...
     # ... effectively does not exist. This block is the lifeblood of our Flask app.
