@@ -44,7 +44,8 @@ def register_patient():
             last_name=patient_form.last_name.data,
             phone_number=patient_form.phone_number.data,
             postcode=patient_form.postcode.data,
-            medical_conditions=patient_form.medical_conditions.data
+            medical_conditions=patient_form.medical_conditions.data,
+            user_authentication="Patient"
         )  # Translates WTForm data to a Patient object, ready for use with SQL-Alchemy.
 
         db.session.add(patient)
@@ -80,7 +81,8 @@ def register_psychiatrist():
             last_name=psychiatrist_form.last_name.data,
             phone_number=psychiatrist_form.phone_number.data,
             postcode=psychiatrist_form.postcode.data,
-            psychiatrist_bio=psychiatrist_form.psychiatrist_bio.data
+            psychiatrist_bio=psychiatrist_form.psychiatrist_bio.data,
+            user_authentication="Psychiatrist"
         )  # Translates WTForm data to a Psychiatrist SQL_Alchemy object.
 
         db.session.add(psychiatrist)

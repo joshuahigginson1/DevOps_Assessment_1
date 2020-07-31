@@ -9,7 +9,6 @@ from flask import Flask
 from flask_argon2 import Argon2  # Better password hash generator than BCrypt.
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_principal import Principal  # Additional tools for defining user identity.
 
 # Globally Accessible Libraries ---------------------------------------------------------
 
@@ -19,7 +18,6 @@ from flask_principal import Principal  # Additional tools for defining user iden
 db = SQLAlchemy()
 login_manager = LoginManager()
 argon2 = Argon2()
-principal = Principal()
 
 
 # Functions -----------------------------------------------------------------------------

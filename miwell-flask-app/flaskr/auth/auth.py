@@ -2,7 +2,7 @@
 
 # Imports --------------------------------------------------------------------------------
 
-from flask import Blueprint, url_for, flash, redirect, session
+from flask import Blueprint, url_for, flash, redirect, session, render_template
 from flask_login import login_manager, logout_user, current_user, login_user
 from flaskr.register.models import Psychiatrist, Patient  # Imports our Psychiatrist and Patient Models
 
@@ -18,50 +18,44 @@ auth_bp = Blueprint(
     template_folder='templates'
 )
 
-
 # Routes ----------------------------------------------------------------------------------
 
+"""
 def login():
-
     if current_user.is_authenticated:
         return redirect(url_for('dashboard_bp.dashboard'))
 
-    login_form = LoginForm()
+    login_form = LoginForm()  # Initialise login form.
 
-    if login_form.validate_on_submit():
+    if login_form.validate_on_submit():  # If the login form is valid, then...
 
-        user=Users.query.filter_by(email=login_form.email.data).first()
+        # Search for an account in both the patient and psychiatrist tables, within our SQL database.
 
-        if user and check_password_hash(user.password, login_form.password.data):
+        patient_account_check = Patient.query.filter_by(email=login_form.email.data).first()
+        psych_account_check = Psychiatrist.query.filter_by(email=login_form.email.data).first()
 
-            login_user(user, remember=login_form.remember.data)
-            next_page = request.args.get('next')
-            if next_page:
-                return redirect(next_page)
+        # If there is a patient account, and the two hashed passwords match, then execute the following code:
 
-            else:
-                flash('Please check your login details and try again.')
-                return redirect(url_for('home'))
+        if patient_account_check and check_password_hash(patient_account_check.password, login_form.password.data):
+
+            login_user(patient_account_check, remember=login_form.remember.data)
+            return redirect(url_for('dashboard_bp.dashboard'))
+
+            # Next iteration of sprint, we need to redirect the patient to a greetings page, where they fill out mood.
+
+        # Else if there is a psychiatrist account, and the two hashed passwords match, then execute the following code:
+
+        elif psych_account_check and check_password_hash(psych_account_check.password, login_form.password.data):
+
+            login_user(psych_account_check, remember=login_form.remember.data)
+            return redirect(url_for('dashboard_bp.dashboard'))
+
+        else:
+            flash('Please check your login details and try again.')
+            return redirect(url_for('main_bp.homepage'))
+
     return render_template('login.html', title='Login', login_form=login_form)
-
-
-
-
-
-
-
-
-
-@login_manager.user_loader  # Checks to see if a user is logged in, every time a page is loaded.
-def load_user(id):
-    if session['account_type'] == 'Psychiatrist':
-        return Psychiatrist.query.get(int(id))
-
-    elif session['account_type'] == 'Patient':
-        return Patient.query.get(int(id))
-
-    else:
-        return None
+"""
 
 
 @login_manager.unauthorized_handler  # Redirects unauthorised users back to the homepage.
@@ -73,4 +67,4 @@ def unauthorised():
 @auth_bp.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('main_bp.homepage'))

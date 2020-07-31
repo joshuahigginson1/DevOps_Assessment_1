@@ -18,6 +18,7 @@ class CommonUser(db.Model):
     last_name = db.Column(db.String(80), nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
     postcode = db.Column(db.String(10), nullable=False)
+    user_authentication = db.Column(db.String(20), nullable=False)
 
 
 class Patient(UserMixin, CommonUser):  # Creates the schema for a 'User table' within our database.
