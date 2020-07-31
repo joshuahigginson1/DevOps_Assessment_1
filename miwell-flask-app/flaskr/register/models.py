@@ -22,14 +22,14 @@ class CommonUser(db.Model):
 
 class Patient(UserMixin, CommonUser):  # Creates the schema for a 'User table' within our database.
 
-    __table__ = 'registered_patients'  # Sets SQL database table name.
+    __tablename__ = 'registered_patients'  # Sets SQL database table name.
 
     username = db.Column(db.String(50), primary_key=True, unique=True, nullable=False)
     medical_conditions = db.Column(db.String(500))
 
 
 class Psychiatrist(UserMixin, CommonUser):
-    __table__ = 'registered_psychiatrists'
+    __tablename__ = 'registered_psychiatrists'
 
-    bacp_number = db.Column(db.Int(20), primary_key=True, unique=True, nullable=False)
+    bacp_number = db.Column(db.Integer(), primary_key=True, unique=True, nullable=False)
     psychiatrist_bio = db.Column(db.String(500))

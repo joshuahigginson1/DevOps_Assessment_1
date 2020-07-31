@@ -54,7 +54,10 @@ def register_patient():
         return redirect(url_for('main_bp.homepage'))
 
     return render_template(
-        'register/patient_register_page.html', title='Register ~ MiWell')
+        'register/patient_register_page.html',
+        title='Register ~ MiWell',
+        patient_form=patient_form
+    )
 
 
 @register_bp.route('/register_psychiatrist', methods=['GET', 'POST'])
@@ -87,4 +90,7 @@ def register_psychiatrist():
         return redirect(url_for('main_bp.homepage'))
 
     return render_template(
-        'register/psych_register_page.html', title='Register Psychiatrist ~ MiWell')
+        'register/psych_register_page.html',
+        title='Register Psychiatrist ~ MiWell',
+        psychiatrist_form=psychiatrist_form
+    )

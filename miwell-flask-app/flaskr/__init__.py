@@ -9,6 +9,7 @@ from flask import Flask
 from flask_argon2 import Argon2  # Better password hash generator than BCrypt.
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_principal import Principal  # Additional tools for defining user identity.
 
 # Globally Accessible Libraries ---------------------------------------------------------
 
@@ -18,6 +19,7 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 login_manager = LoginManager()
 argon2 = Argon2()
+principal = Principal()
 
 
 # Functions -----------------------------------------------------------------------------
@@ -34,6 +36,7 @@ def create_app():  # Initialises the core application.
     db.init_app(app)
     login_manager.init_app(app)
     argon2.init_app(app)
+    principal.init_app(app)
 
     # Any part of our app which is not imported, initialised, or registered within the with app.app_context(): block...
     # ... effectively does not exist. This block is the lifeblood of our Flask app.
@@ -70,7 +73,7 @@ def create_app():  # Initialises the core application.
         # Flask-Login needs to know the view function which  handles login functionality.
         # 'login' is the endpoint name that you would use in a url_for() call, to get the URL.
 
-        login_manager.login_view = 'auth.bp/login_functionality'
+        login_manager.login_view = 'main_bp.homepage'
 
         # If we have a database, we need to run the command .create_all() to our database schema.
 

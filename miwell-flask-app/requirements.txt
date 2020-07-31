@@ -9,3 +9,4 @@ Flask-SQLAlchemy==2.4.4
 email-validator==1.1.1
 gunicorn==20.0.4
 Flask-Argon2==0.1.5.1
+Flask-Principal==0.4.0

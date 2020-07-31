@@ -1,6 +1,4 @@
-"""
-A template which lays out the basic syntax for a forms.py file using Flask and WTForms.
-"""
+# Generates the forms for user registration.
 
 # Imports --------------------------------------------------------------------------------
 
