@@ -1,0 +1,24 @@
+{% extends "main/main_layout/main_site_layout.html" %}
+
+{% block head %}
+
+    <title>{{ title }}</title>
+
+{% endblock %}
+
+
+{% block body %}
+
+    <h2>Register with MiWell!</h2>
+
+        {% include "register/psych_register_form.html" %}
+
+    <br>
+
+        <a href="{{ url_for('main_bp.homepage') }}">Already Registered?</a>
+
+    <br>
+
+        <a href="{{ url_for('register_bp.patient_register_page)}}">Register as a Patient.</a>
+
+{% endblock %}

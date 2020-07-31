@@ -10,7 +10,6 @@ from flask_argon2 import Argon2  # Better password hash generator than BCrypt.
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
-
 # Globally Accessible Libraries ---------------------------------------------------------
 
 # Setting plugins as global variables outside of create_app() makes them  accessible to other parts of our application. 
@@ -67,6 +66,11 @@ def create_app():  # Initialises the core application.
         # app.register_blueprint(blueprint_module_name.blueprint_name1)
         # app.register_blueprint(blueprint_module_name.blueprint_name2)
         # app.register_blueprint(blueprint_module_name.blueprint_name3)
+
+        # Flask-Login needs to know the view function which  handles login functionality.
+        # 'login' is the endpoint name that you would use in a url_for() call, to get the URL.
+
+        login_manager.login_view = 'auth.bp/login_functionality'
 
         # If we have a database, we need to run the command .create_all() to our database schema.
 
