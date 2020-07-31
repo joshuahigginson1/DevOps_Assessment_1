@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        {% block head %}{% endblock %}
+
+    </head>
+
+    <nav>
+
+        {% include 'main/main_layout/main_nav.html' %}
+
+    </nav>
+
+
+    <body>
+
+        {% block body %}{% endblock %}
+
+    </body>
+
+
+    <footer>
+
+        {% include 'footer.html' %}
+
+    </footer>
+
+
+</html>
