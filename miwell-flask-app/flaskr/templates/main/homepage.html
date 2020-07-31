@@ -1,0 +1,24 @@
+{% extends "main/main_layout/main_site_layout.html" %}
+
+{% block head %}
+
+    <title>{{ title }}</title>
+
+{% endblock %}
+
+
+{% block body %}
+
+    <h2>Welcome to MiWell!</h2>
+
+        {% include "auth/main_login.html" %}
+
+    <br>
+
+        <a href="{{ url_for('register_bp.register') }}">Or register!</a>
+
+        <a href="{{ url_for('mood_tracker_bp.user_greeting') }}">Skip to User Greeting</a>
+
+    <br>
+
+{% endblock %}

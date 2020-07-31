@@ -1,0 +1,128 @@
+<!-- #######  Page for Greeting Users #########-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<h1 style="text-align: center;">Welcome Current User</h1>
+
+<p style="text-align: center;">How are you feeling today?</p>
+
+<br>
+
+<form action='' method='POST'>  <! -- DETERMINES THE START OF OUR FORM IN WTFORMS -->
+
+    <p>form.hidden_tag()</p>  <! -- CSRF PROTECTION -->
+
+    <div>   <! -- FIRST ROW OF BUTTONS -->
+
+        <h5 style="text-align: center;">Mood</h5>
+
+        <p style="text-align: center;">
+
+
+            <input id="sad" name="row1" type="radio" />
+            <label for="sad">1</label>
+
+            <input id="happy" name="row1" type="radio" />
+            <label for="happy">2</label>
+
+            <input id="panic" name="row1" type="radio" />
+            <label for="panic">3</label>
+
+            <input id="laugh" name="row1" type="radio" />
+            <label for="laugh">4</label>
+
+            <input id="sad" name="row1" type="radio" />
+            <label for="sad">5</label>
+
+            <input id="sad" name="row1" type="radio" />
+            <label for="sad">6</label>
+
+        </p>
+
+    </div>
+
+    <br>
+
+    <div> <! -- SECOND ROW OF BUTTONS -->
+
+        <h5 style="text-align: center;">How are you feeling compared to yesterday?</h5>
+
+        <p style="text-align: center;">
+
+            <input id="worse" name="row2" type="radio" />
+            <label for="worse">Worse than yesterday.</label>
+
+            <input id="same" name="row2" type="radio" />
+            <label for="same">The same as yesterday.</label>
+
+            <input id="better" name="row2" type="radio" />
+            <label for="better">Better than yesterday.</label>
+
+        </p>
+
+    </div>
+
+    <br>
+
+    <div>    <! -- THIRD ROW OF BUTTONS -->
+
+        <h5 style="text-align: center;">Behaviour</h5>
+
+        <p style="text-align: center;">
+
+            <input id="sad" name="row3" type="checkbox" />
+            <label for="sad">Sad Emoji</label>
+
+            <input id="happy" name="row3" type="checkbox" />
+            <label for="happy">Happy Emoji</label>
+
+            <input id="panic" name="row3" type="checkbox" />
+            <label for="panic">Panicking Emoji</label>
+
+            <input id="laugh" name="row3" type="checkbox" />
+            <label for="laugh">Laughing Emoji</label>
+
+        </p>
+
+    </div>
+
+    <br>
+
+    <p style="text-align: center;">
+
+        <label for="fname">Anything else?</label>
+        <input id="fname" name="fname" type="text">
+
+    </p>  <! -- TWITTER STYLE TEXT BOX -->
+
+    <p style="text-align: right;">
+
+        <input type="submit" value="Submit">
+
+    </p>  <! -- SUBMIT BUTTON -->
+
+
+</form>
+
+<a href="{{ url_for('dashboard_bp.dashboard') }}">skip to dashboard</a>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

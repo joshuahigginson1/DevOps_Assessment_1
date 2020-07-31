@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+{% block body_content %}
+
+<h1>Login Page</h1>
+
+<p>Need an account?</p>
+<a href="{{ url_for('auth_bp.register') }}">Sign Up Here</a>
+<br>
+
+<div class='form'>
+
+    <form method='POST' action=''>
+
+        {{ form.hidden_tag() }}
+
+        <div class='form_group'>
+
+            {{ form.email.label }}
+            {{ form.email }}
+
+            {% if form.email.errors %}
+
+            <div class='error'>
+
+                {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        <br>
+
+        <div class='form_group'>
+
+            {{ form.password.label }}
+            {{ form.password }}
+
+            {% if form.password.errors %}
+
+            <div class='error'>
+
+                {% for error in form.password.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        <br>
+
+        <div class='form_group'>
+            {{ form.remember.label }}
+            {{ form.remember }}
+
+            <br>
+
+            {{ form.submit }}
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
