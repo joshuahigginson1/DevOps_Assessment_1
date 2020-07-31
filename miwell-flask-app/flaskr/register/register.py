@@ -32,7 +32,7 @@ def register_patient():
 
     patient_form = PatientRegistrationForm()
 
-    if form.validate_on_submit():
+    if patient_form.validate_on_submit():
 
         hashed_password = generate_password_hash(patient_form.password.data)  # Generate password hash with Argon2
 
@@ -63,24 +63,24 @@ def register_psychiatrist():
     if current_user.is_authenticated:  # If current user is already logged in, direct them to dashboard.
         return redirect(url_for('main_bp.homepage'))
 
-    form = PsychRegistrationForm()
+    psychiatrist_form = PsychRegistrationForm()
 
-    if form.validate_on_submit():
+    if psychiatrist_form.validate_on_submit():
 
-        hashed_password = generate_password_hash(form.password.data)  # Generate password hash with Argon2
+        hashed_password = generate_password_hash(psychiatrist_form.password.data)  # Generate password hash with Argon2
 
-        patient = Psychiatrist(
-            username=form.username.data,
+        psychiatrist = Psychiatrist(
+            bacp_number=psychiatrist_form.bacp_number.data,
             hashed_password=hashed_password,
-            email=form.email.data,
-            first_name=form.first_name.data,
-            last_name=form.last_name.data,
-            phone_number=form.phone_number.data,
-            postcode=form.postcode.data,
-            medical_conditions=form.medical_conditions.data
+            email=psychiatrist_form.email.data,
+            first_name=psychiatrist_form.first_name.data,
+            last_name=psychiatrist_form.last_name.data,
+            phone_number=psychiatrist_form.phone_number.data,
+            postcode=psychiatrist_form.postcode.data,
+            psychiatrist_bio=psychiatrist_form.psychiatrist_bio.data
         )  # Translates WTForm data to a Psychiatrist SQL_Alchemy object.
 
-        db.session.add(patient)
+        db.session.add(psychiatrist)
         db.session.commit()
 
         flash('Congratulations, you are now a registered user!')

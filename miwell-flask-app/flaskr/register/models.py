@@ -32,4 +32,4 @@ class Psychiatrist(UserMixin, CommonUser):
     __table__ = 'registered_psychiatrists'
 
     bacp_number = db.Column(db.Int(20), primary_key=True, unique=True, nullable=False)
-    specialisms = db.Column(db.String(500))
+    psychiatrist_bio = db.Column(db.String(500))

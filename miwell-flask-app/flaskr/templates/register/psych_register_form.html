@@ -1,45 +1,243 @@
-<form method='POST' action=''>
+<div class='form'>
 
-    <p>form.hidden_tag()</p>
+    <form method='POST' action=''>
 
-    <label for="email">Email Address:</label> <br>
-    <input id="email" name="email" type="text">
+        {{ psychiatrist_form.hidden_tag() }}  <! -- CSRF Protection Tag -->
 
-    <br>
-    <br>
+            <div class='form_group'>
 
-    <label for="new_password">New Password:</label><br>
-    <input id="new_password" name="new_password" type="text">
+                {{ psychiatrist_form.email.label }}
+                {{ psychiatrist_form.email }}
 
-    <br>
-    <br>
+                {% if psychiatrist_form.email.errors %}
 
-    <label for="repeat_password">Confirm Password:</label><br>
-    <input id="repeat_password" name="repeat_password" type="text">
+                    <div class='error'>
 
-    <br>
-    <br>
+                        {% for error in psychiatrist_form.email.errors %}
 
-    <label for="first_name">First Name:</label><br>
-    <input id="first_name" name="first_name" type="text">
+                            <span>{{ error }}</span>
 
-    <br>
-    <br>
+                        {% endfor %}
 
-    <label for="last_name">Last Name:</label><br>
-    <input id="last_name" name="last_name" type="text">
+                    </div>
 
+                {% endif %}
 
-    <br>
-    <br>
+            </div>  <! -- Email -->
 
+        <br>
+        <br>
 
-    <input id="psychiatrist" name="psychiatrist" type="checkbox">
-    <label for="remember_me">I'm a psychiatrist.</label>
+            <div class='form_group'>
 
-    <label for="last_name">BACP Number:</label><br>
-    <input id="BACP_Number" name="BACP_Number" type="text">
+                {{ psychiatrist_form.password.label }}
+                {{ psychiatrist_form.password }}
 
-    <input type="submit" value="Register!">
+                {% if psychiatrist_form.password.errors %}
 
-</form>
+                    <div class='error'>
+
+                        {% for error in psychiatrist_form.password.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- New Password -->
+
+        <br>
+        <br>
+
+            <div class='form_group'>
+
+                {{ psychiatrist_form.confirm_password.label }}
+                {{ psychiatrist_form.confirm_password }}
+
+                {% if psychiatrist_form.confirm_password.errors %}
+
+                    <div class='error'>
+
+                        {% for error in psychiatrist_form.confirm_password.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Confirm Password -->
+
+        <br>
+        <br>
+
+            <div class='form_group'>
+
+                {{ psychiatrist_form.first_name.label }}
+                {{ psychiatrist_form.first_name }}
+
+                {% if psychiatrist_form.first_name.errors %}
+
+                    <div class='error'>
+
+                        {% for error in psychiatrist_form.first_name.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- First Name -->
+
+        <br>
+        <br>
+
+            <div class='form_group'>
+
+                {{ psychiatrist_form.last_name.label }}
+                {{ psychiatrist_form.last_name }}
+
+                {% if psychiatrist_form.last_name.errors %}
+
+                    <div class='error'>
+
+                        {% for error in psychiatrist_form.last_name.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Last Name -->
+
+        <br>
+        <br>
+
+            <div class='form_group'>
+
+                {{ psychiatrist_form.bacp_number.label }}
+                {{ psychiatrist_form.bacp_number }}
+
+                {% if psychiatrist_form.bacp_number.errors %}
+
+                    <div class='error'>
+
+                        {% for error in psychiatrist_form.bacp_number.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- BACP Number -->
+
+        <br>
+        <br>
+
+            <div class='form_group'>
+
+                {{ psychiatrist_form.phone_number.label }}
+                {{ psychiatrist_form.phone_number }}
+
+                {% if psychiatrist_form.phone_number.errors %}
+
+                    <div class='error'>
+
+                        {% for error in psychiatrist_form.phone_number.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Phone Number -->
+
+        <br>
+        <br>
+
+            <div class='form_group'>
+
+                {{ psychiatrist_form.postcode.label }}
+                {{ psychiatrist_form.postcode }}
+
+                {% if psychiatrist_form.postcode.errors %}
+
+                    <div class='error'>
+
+                        {% for error in psychiatrist_form.postcode.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Postcode -->
+
+        <br>
+        <br>
+
+            <div class='form_group'>
+
+                {{ psychiatrist_form.psychiatrist_bio.label }}
+                {{ psychiatrist_form.psychiatrist_bio }}
+
+                {% if psychiatrist_form.psychiatrist_bio.errors %}
+
+                    <div class='error'>
+
+                        {% for error in psychiatrist_form.psychiatrist_bio.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Psychiatrist Bio -->
+
+        <br>
+        <br>
+
+            <div class='recaptcha'>
+
+                {{ psychiatrist_form.recaptcha }}
+
+            </div>  <! -- Recaptcha -->
+
+        <br>
+        <br>
+
+            <div class='form_submit_button'>
+
+                {{ psychiatrist_form.submit }}
+
+            </div>  <! -- Submit Button -->
+
+        <br>
+        <br>
+
+    </form>
+
+</div>

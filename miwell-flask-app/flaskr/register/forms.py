@@ -100,7 +100,7 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
         Length(min=4, max=8, message='Please enter a valid UK postcode.'),
         DataRequired(message='Please enter a postcode.')])
 
-    medical_conditions = StringField('Medical Conditions', [
+    psychiatrist_bio = StringField('Psychiatrist Bio', [
         Length(max=500, message='Please keep your psychiatrist bio under 500 characters.'),
         DataRequired(message='Please write a short bio. This will help your patients to connect.')])
 
