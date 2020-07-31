@@ -1,8 +1,4 @@
-"""
-This file is a template for creating and configuring a blueprint within Flask.
-
-Blueprint Task: Write what the blueprint does HERE.
-"""
+# This blueprint handles the registration of new users and new psychiatrists for the web app.
 
 # Imports --------------------------------------------------------------------------------
 

@@ -20,20 +20,28 @@ class Config(object):
 
     # Flask Config from Environment Variables
 
-    # SECRET_KEY = environ.get('SECRET_KEY')
+    SECRET_KEY = environ.get('SECRET_KEY')
     # FLASK_ENV = environ.get('FLASK_ENV')
 
     # SQL-Alchemy Database Config
 
-    # SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
-    # SQLALCHEMY_ECHO = False
-    # SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
+    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Static Assets Config
 
     STATIC_FOLDER = 'static'
     TEMPLATES_FOLDER = 'templates'
 
+    # Argon2 Config
+
+    # ARGON2_TIME_COST
+    # ARGON2_MEMORY_COST
+    # ARGON2_PARALLELISM
+    # ARGON2_HASH_LENGTH
+    # ARGON2_SALT_LENGTH
+    # ARGON2_ENCODING
 
 class ProductionConfig(Config):
     pass

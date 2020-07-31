@@ -6,19 +6,19 @@
 
 from flask import Flask
 
+from flask_argon2 import Argon2  # Better password hash generator than BCrypt.
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_login import LoginManager
-# from flask_bcrypt import Bcrypt
 
 # Globally Accessible Libraries ---------------------------------------------------------
 
 # Setting plugins as global variables outside of create_app() makes them  accessible to other parts of our application. 
 # However, we can't actually use them until after they have been initialised by our app.
 
-# db = SQLAlchemy()
-# login_manager = LoginManager()
-# bcrypt = Bcrypt()
+db = SQLAlchemy()
+login_manager = LoginManager()
+argon2 = Argon2()
 
 
 # Functions -----------------------------------------------------------------------------
@@ -32,9 +32,9 @@ def create_app():  # Initialises the core application.
     app.config.from_object('config.Config')
 
     # Initialise our Globally Accessible Libraries
-    # db.init_app(app)
-    #login_manager.init_app(app)
-    # bcrypt.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
+    argon2.init_app(app)
 
     # Any part of our app which is not imported, initialised, or registered within the with app.app_context(): block...
     # ... effectively does not exist. This block is the lifeblood of our Flask app.
@@ -49,7 +49,7 @@ def create_app():  # Initialises the core application.
         from .register import register
         from .mood_tracker import mood_tracker
         from .dashboard import dashboard
-        # from .auth import auth
+        from .auth import auth
 
         # from .bp_folder1 import blueprint_name1
         # from .bp_folder2 import blueprint_name2
@@ -60,7 +60,7 @@ def create_app():  # Initialises the core application.
 
         app.register_blueprint(main.main_bp)
         app.register_blueprint(register.register_bp)
-        # app.register_blueprint(auth.auth_bp)
+        app.register_blueprint(auth.auth_bp)
         app.register_blueprint(mood_tracker.mood_tracker_bp)
         app.register_blueprint(dashboard.dashboard_bp)
 
@@ -70,7 +70,7 @@ def create_app():  # Initialises the core application.
 
         # If we have a database, we need to run the command .create_all() to our database schema.
 
-    # db.create_all()
+        db.create_all()
 
     return app
 
