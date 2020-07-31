@@ -1,0 +1,22 @@
+{% extends "main/main_layout/main_site_layout.html" %}
+
+{% block head %}
+
+    <title>{{ title }}</title>
+
+{% endblock %}
+
+
+{% block body %}
+
+    <h2>Register with MiWell!</h2>
+
+        {% include "register/register_form.html" %}
+
+    <br>
+
+        <a href="{{ url_for('main_bp.homepage') }}">Already Registered?</a>
+
+    <br>
+
+{% endblock %}
