@@ -29,6 +29,7 @@ register_bp = Blueprint(
 @register_bp.route('/register', methods=['GET', 'POST'])
 def register_patient():
     if current_user.is_authenticated:  # If current user is already logged in, direct them to dashboard.
+        flash('You are already signed in!', 'primary')  # Displays message to user.
         return redirect(url_for('main_bp.homepage'))
 
     patient_form = PatientRegistrationForm()
@@ -62,17 +63,17 @@ def register_patient():
             db.session.add(patient)  # Adds our new patient object to the MySQL database.
             db.session.commit()
 
-            flash('Congratulations, you are now a registered user!')
+            flash('Congratulations, you are now a registered user!', 'success')
             return redirect(url_for('main_bp.homepage'))
 
         elif existing_psych_email:  # If there is an existing psychiatrist email, then...
-            flash('A psychiatrist has already registered with this email address.')
+            flash('A psychiatrist has already registered with this email address.', 'danger')
 
         elif existing_patient_email:  # If there is an existing patient email, then...
-            flash('An account already exists with the current email address.')
+            flash('An account already exists with the current email address.', 'danger')
 
         elif existing_patient_username:  # If there is an existing patient username, then...
-            flash('A user already exists with your chosen username.')
+            flash('A user already exists with your chosen username.', 'danger')
 
     return render_template(
         'register/patient_register_page.html',
@@ -84,6 +85,7 @@ def register_patient():
 @register_bp.route('/register_psychiatrist', methods=['GET', 'POST'])
 def register_psychiatrist():
     if current_user.is_authenticated:  # If current user is already logged in, direct them to dashboard.
+        flash('You are already signed in!', 'primary')  # Displays message to user.
         return redirect(url_for('main_bp.homepage'))
 
     psychiatrist_form = PsychRegistrationForm()
@@ -121,13 +123,13 @@ def register_psychiatrist():
             return redirect(url_for('main_bp.homepage'))
 
         elif existing_patient_email:  # If there is an existing patient email, then...
-            flash('An account already exists with the current email address.')
+            flash('An account already exists with the current email address.', 'danger')
 
         elif existing_psych_email:  # If there is an existing psychiatrist email, then...
-            flash('A psychiatrist has already registered with this email address.')
+            flash('A psychiatrist has already registered with this email address.', 'danger')
 
         elif existing_psych_bacp:  # If there is an existing psychiatrist with the same BACP number, then...
-            flash('A psychiatrist has already registered with this BACP number.')
+            flash('A psychiatrist has already registered with this BACP number.', 'danger')
 
     return render_template(
         'register/psych_register_page.html',

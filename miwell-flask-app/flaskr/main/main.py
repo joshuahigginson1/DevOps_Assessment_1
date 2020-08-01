@@ -26,6 +26,7 @@ main_bp = Blueprint(
 @main_bp.route('/', methods=['GET', 'POST'])
 def homepage():
     if current_user.is_authenticated:  # If user is already logged in, take them immediately to their dashboard.
+        flash('You are already signed in!', 'primary')  # Displays message to user.
         return redirect(url_for('dashboard_bp.dashboard'))
 
     login_form = LoginForm()  # Initialise login form.
@@ -42,6 +43,7 @@ def homepage():
         if patient_account_check and check_password_hash(patient_account_check.hashed_password, login_form.password.data):
 
             login_user(patient_account_check, remember=login_form.remember.data)
+            flash('Signed in successfully!', 'success')  # Displays message to user.
             return redirect(url_for('dashboard_bp.dashboard'))
 
             # Next iteration of sprint, we need to redirect the patient to a greetings page, where they fill out mood.
@@ -51,6 +53,7 @@ def homepage():
         elif psych_account_check and check_password_hash(psych_account_check.hashed_password, login_form.password.data):
 
             login_user(psych_account_check, remember=login_form.remember.data)
+            flash('Signed in successfully!', 'success')  # Displays message to user.
             return redirect(url_for('dashboard_bp.dashboard'))
 
         else:
