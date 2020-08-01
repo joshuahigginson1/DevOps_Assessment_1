@@ -23,7 +23,7 @@ auth_bp = Blueprint(
 
 @login_manager.unauthorized_handler  # Redirects unauthorised users back to the homepage.
 def unauthorised():
-    flash('You must be logged in to view that page.')
+    flash('You must be logged in to view that page.', 'danger')
     return redirect(url_for('main_bp.homepage'))
 
 
@@ -36,7 +36,9 @@ def logout():
 @login_manager.user_loader
 def user_loader(user_id):
     user = Patient.query.get(user_id)
+
     if user is None:
+
         user = Psychiatrist.query.get(user_id)
 
-        return user
+    return user

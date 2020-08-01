@@ -2,9 +2,6 @@
 
 # Imports --------------------------------------------------------------------------------
 
-from flask import Blueprint, render_template
-from flask import current_app as app
-
 from flask import Blueprint, url_for, flash, redirect, render_template
 from flask_login import current_user, login_user
 from flaskr.register.models import Psychiatrist, Patient  # Imports our Psychiatrist and Patient Models
@@ -40,7 +37,8 @@ def homepage():
 
         # If there is a patient account, and the two hashed passwords match, then execute the following code:
 
-        if patient_account_check and check_password_hash(patient_account_check.hashed_password, login_form.password.data):
+        if patient_account_check and check_password_hash(patient_account_check.hashed_password,
+                                                         login_form.password.data):
 
             login_user(patient_account_check, remember=login_form.remember.data)
             flash('Signed in successfully!', 'success')  # Displays message to user.

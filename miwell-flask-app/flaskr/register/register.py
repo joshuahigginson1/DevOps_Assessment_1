@@ -13,8 +13,6 @@ from flask_argon2 import generate_password_hash
 
 from flask_login import current_user
 
-from flaskr.auth import auth
-
 # Blueprint Configuration -----------------------------------------------------------------
 
 
@@ -119,7 +117,7 @@ def register_psychiatrist():
             db.session.add(psychiatrist)  # Adds our new psychiatrist object to the MySQL database.
             db.session.commit()
 
-            flash('Congratulations, you are now a registered user!')
+            flash('Congratulations, you are now a registered psychiatrist!')
             return redirect(url_for('main_bp.homepage'))
 
         elif existing_patient_email:  # If there is an existing patient email, then...
