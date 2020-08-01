@@ -54,7 +54,7 @@ def homepage():
             return redirect(url_for('dashboard_bp.dashboard'))
 
         else:
-            flash('Please check your login details and try again.')
+            flash('Please check your login details and try again.', 'warning')  # Flashes a warning on screen.
             return redirect(url_for('main_bp.homepage'))
 
     return render_template(

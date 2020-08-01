@@ -29,6 +29,12 @@ class Config(object):
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Recaptcha Config
+
+    RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY')
+    RECAPTCHA_PRIVATE_KEY = environ.get('RECAPTCHA_PRIVATE_KEY')
+
+
     # Static Assets Config
 
     STATIC_FOLDER = 'static'

@@ -11,11 +11,11 @@
 
     <h2>Welcome to MiWell!</h2>
 
-        {% include "auth/main_login.html" %}
+        {% include "auth/main_login_form.html" %}
 
     <br>
 
-        <a href="{{ url_for('register_bp.register') }}">Or register!</a>
+        <a href="{{ url_for('register_bp.register_patient') }}">Or register!</a>
 
         <a href="{{ url_for('mood_tracker_bp.user_greeting') }}">Skip to User Greeting</a>
 
