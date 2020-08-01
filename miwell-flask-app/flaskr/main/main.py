@@ -25,7 +25,7 @@ main_bp = Blueprint(
 # Routes ----------------------------------------------------------------------------------
 @main_bp.route('/', methods=['GET', 'POST'])
 def homepage():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated:  # If user is already logged in, take them immediately to their dashboard.
         return redirect(url_for('dashboard_bp.dashboard'))
 
     login_form = LoginForm()  # Initialise login form.

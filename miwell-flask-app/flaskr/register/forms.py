@@ -52,16 +52,6 @@ class PatientRegistrationForm(FlaskForm):  # Creates a new child class, inheriti
 
     submit = SubmitField('Register Now!')
 
-    def validate_patient_username(self, username):
-        username_search = Patient.query.filter_by(username=username.data).first()  # Searches db for the given username.
-        if username_search is not None:  # If search returns a result, raise a validation error.
-            raise ValidationError('This username is already taken.')
-
-    def validate_patient_email(self, email):
-        email_search = Patient.query.filter_by(email=email.data).first()  # Searches db for the given email.
-        if email_search is not None:  # If search returns a result, raise a validation error.
-            raise ValidationError('An account is already registered to this email address.')
-
 
 class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting from parent 'FlaskForm'.
 
@@ -105,13 +95,3 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
     # recaptcha = RecaptchaField()
 
     submit = SubmitField('Register Now!')
-
-    def validate_bacp_number(self, bacp_number):
-        username_search = Psychiatrist.query.filter_by(bacp_number=bacp_number.data).first()
-        if username_search is not None:  # If search returns a hit, raise a validation error.
-            raise ValidationError('This bacp number has already been registered to our service.')
-
-    def validate_psych_email(self, email):
-        email_search = Psychiatrist.query.filter_by(email=email.data).first()  # Searches db for the given email.
-        if email_search is not None:  # If search returns a result, raise a validation error.
-            raise ValidationError('An account is already registered to this email address.')

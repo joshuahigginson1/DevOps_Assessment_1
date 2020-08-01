@@ -1,19 +1,16 @@
-# This blueprint stores all routes related to user authentication.
+# This blueprint stores all functions and routes related to user authentication.
 
 # Imports --------------------------------------------------------------------------------
 
-from flask import Blueprint, url_for, flash, redirect, session, render_template
-from flask_login import logout_user, current_user, login_user
+from flask import Blueprint, url_for, flash, redirect
+from flask_login import logout_user
 
 from flaskr import login_manager
 
 from flaskr.register.models import Psychiatrist, Patient  # Imports our Psychiatrist and Patient Models
 
-from flaskr.auth.forms import LoginForm  # Imports our Login Form.
-
-from flask_argon2 import check_password_hash  # Imports Argon2 to check password hash against our database.
-
 # Blueprint Configuration -----------------------------------------------------------------
+
 
 auth_bp = Blueprint(
     'auth_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.

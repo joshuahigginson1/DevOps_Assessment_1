@@ -2,7 +2,7 @@
 
 # Imports --------------------------------------------------------------------------------
 
-from flask import Blueprint, render_template, redirect, url_for, flash, current_app as app
+from flask import Blueprint, render_template, redirect, url_for, flash
 
 from flaskr import db
 
@@ -11,7 +11,9 @@ from flaskr.register.models import Patient, Psychiatrist
 
 from flask_argon2 import generate_password_hash
 
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import current_user
+
+from flaskr.auth import auth
 
 # Blueprint Configuration -----------------------------------------------------------------
 
@@ -26,33 +28,51 @@ register_bp = Blueprint(
 # Routes ----------------------------------------------------------------------------------
 @register_bp.route('/register', methods=['GET', 'POST'])
 def register_patient():
-
     if current_user.is_authenticated:  # If current user is already logged in, direct them to dashboard.
         return redirect(url_for('main_bp.homepage'))
 
     patient_form = PatientRegistrationForm()
 
-    if patient_form.validate_on_submit():
+    if patient_form.validate_on_submit():  # If the submitted form passes validation, then...
 
-        hashed_password = generate_password_hash(patient_form.password.data)  # Generate password hash with Argon2
+        # Search for any patients within the database that have an identical email or username.
 
-        patient = Patient(
-            username=patient_form.username.data,
-            hashed_password=hashed_password,
-            email=patient_form.email.data,
-            first_name=patient_form.first_name.data,
-            last_name=patient_form.last_name.data,
-            phone_number=patient_form.phone_number.data,
-            postcode=patient_form.postcode.data,
-            medical_conditions=patient_form.medical_conditions.data,
-            user_authentication="Patient"
-        )  # Translates WTForm data to a Patient object, ready for use with SQL-Alchemy.
+        existing_psych_email = Psychiatrist.query.filter_by(email=patient_form.email.data).first()
+        existing_patient_email = Patient.query.filter_by(email=patient_form.email.data).first()
+        existing_patient_username = Patient.query.filter_by(username=patient_form.username.data).first()
 
-        db.session.add(patient)
-        db.session.commit()
+        # If there are no accounts with a matching email or username, then execute the following code:
 
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('main_bp.homepage'))
+        if existing_patient_email is None and existing_patient_username is None and existing_psych_email is None:
+
+            hashed_password = generate_password_hash(patient_form.password.data)  # Generate password hash with Argon2
+
+            patient = Patient(
+                username=patient_form.username.data,
+                hashed_password=hashed_password,
+                email=patient_form.email.data,
+                first_name=patient_form.first_name.data,
+                last_name=patient_form.last_name.data,
+                phone_number=patient_form.phone_number.data,
+                postcode=patient_form.postcode.data,
+                medical_conditions=patient_form.medical_conditions.data,
+                user_authentication="Patient"
+            )  # Translates WTForm data to a Patient object, ready for use with SQL-Alchemy.
+
+            db.session.add(patient)  # Adds our new patient object to the MySQL database.
+            db.session.commit()
+
+            flash('Congratulations, you are now a registered user!')
+            return redirect(url_for('main_bp.homepage'))
+
+        elif existing_psych_email:  # If there is an existing psychiatrist email, then...
+            flash('A psychiatrist has already registered with this email address.')
+
+        elif existing_patient_email:  # If there is an existing patient email, then...
+            flash('An account already exists with the current email address.')
+
+        elif existing_patient_username:  # If there is an existing patient username, then...
+            flash('A user already exists with your chosen username.')
 
     return render_template(
         'register/patient_register_page.html',
@@ -63,33 +83,51 @@ def register_patient():
 
 @register_bp.route('/register_psychiatrist', methods=['GET', 'POST'])
 def register_psychiatrist():
-
     if current_user.is_authenticated:  # If current user is already logged in, direct them to dashboard.
         return redirect(url_for('main_bp.homepage'))
 
     psychiatrist_form = PsychRegistrationForm()
 
-    if psychiatrist_form.validate_on_submit():
+    if psychiatrist_form.validate_on_submit():  # If the submitted form passes validation, then...
 
-        hashed_password = generate_password_hash(psychiatrist_form.password.data)  # Generate password hash with Argon2
+        # Search for any psychiatrists within the database that have an identical email or BACP number.
 
-        psychiatrist = Psychiatrist(
-            bacp_number=psychiatrist_form.bacp_number.data,
-            hashed_password=hashed_password,
-            email=psychiatrist_form.email.data,
-            first_name=psychiatrist_form.first_name.data,
-            last_name=psychiatrist_form.last_name.data,
-            phone_number=psychiatrist_form.phone_number.data,
-            postcode=psychiatrist_form.postcode.data,
-            psychiatrist_bio=psychiatrist_form.psychiatrist_bio.data,
-            user_authentication="Psychiatrist"
-        )  # Translates WTForm data to a Psychiatrist SQL_Alchemy object.
+        existing_psych_bacp = Psychiatrist.query.filter_by(bacp_number=psychiatrist_form.bacp_number.data).first()
+        existing_psych_email = Psychiatrist.query.filter_by(email=psychiatrist_form.email.data).first()
+        existing_patient_email = Patient.query.filter_by(email=psychiatrist_form.email.data).first()
 
-        db.session.add(psychiatrist)
-        db.session.commit()
+        # If there are no accounts with a matching email or bacp number, then execute the following code:
 
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('main_bp.homepage'))
+        if existing_psych_email is None and existing_psych_bacp is None and existing_patient_email is None:
+
+            hashed_password = generate_password_hash(psychiatrist_form.password.data)  # Generate password hash.
+
+            psychiatrist = Psychiatrist(
+                bacp_number=psychiatrist_form.bacp_number.data,
+                hashed_password=hashed_password,
+                email=psychiatrist_form.email.data,
+                first_name=psychiatrist_form.first_name.data,
+                last_name=psychiatrist_form.last_name.data,
+                phone_number=psychiatrist_form.phone_number.data,
+                postcode=psychiatrist_form.postcode.data,
+                psychiatrist_bio=psychiatrist_form.psychiatrist_bio.data,
+                user_authentication="Psychiatrist"
+            )  # Translates WTForm data to a Psychiatrist SQL_Alchemy object.
+
+            db.session.add(psychiatrist)  # Adds our new psychiatrist object to the MySQL database.
+            db.session.commit()
+
+            flash('Congratulations, you are now a registered user!')
+            return redirect(url_for('main_bp.homepage'))
+
+        elif existing_patient_email:  # If there is an existing patient email, then...
+            flash('An account already exists with the current email address.')
+
+        elif existing_psych_email:  # If there is an existing psychiatrist email, then...
+            flash('A psychiatrist has already registered with this email address.')
+
+        elif existing_psych_bacp:  # If there is an existing psychiatrist with the same BACP number, then...
+            flash('A psychiatrist has already registered with this BACP number.')
 
     return render_template(
         'register/psych_register_page.html',
