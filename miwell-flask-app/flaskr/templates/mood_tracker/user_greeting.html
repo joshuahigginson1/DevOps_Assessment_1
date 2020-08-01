@@ -1,4 +1,4 @@
-<!-- #######  Page for Greeting Users #########-->
+<!--  Page for Greeting Users -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,19 +8,21 @@
     <title>Title</title>
 </head>
 
+{% include 'flashing_interface.html' %}   <!-- Adds our 'message flash' interface to the top of our greetings page. -->
+
 <body>
 
-<h1 style="text-align: center;">Welcome Current User</h1>
+<h1 style="text-align: center;">Welcome {{ current_user.first_name }}!</h1>  <!-- Welcomes the current user by first name. -->
 
 <p style="text-align: center;">How are you feeling today?</p>
 
 <br>
 
-<form action='' method='POST'>  <! -- DETERMINES THE START OF OUR FORM IN WTFORMS -->
+<form action='' method='POST'>  <!-- DETERMINES THE START OF OUR FORM IN WTFORMS -->
 
-    <p>form.hidden_tag()</p>  <! -- CSRF PROTECTION -->
+    <p>form.hidden_tag()</p>  <!-- CSRF PROTECTION -->
 
-    <div>   <! -- FIRST ROW OF BUTTONS -->
+    <div>
 
         <h5 style="text-align: center;">Mood</h5>
 
@@ -47,11 +49,11 @@
 
         </p>
 
-    </div>
+    </div>   <!-- FIRST ROW OF BUTTONS -->
 
     <br>
 
-    <div> <! -- SECOND ROW OF BUTTONS -->
+    <div>
 
         <h5 style="text-align: center;">How are you feeling compared to yesterday?</h5>
 
@@ -68,11 +70,11 @@
 
         </p>
 
-    </div>
+    </div>   <!-- SECOND ROW OF BUTTONS -->
 
     <br>
 
-    <div>    <! -- THIRD ROW OF BUTTONS -->
+    <div>
 
         <h5 style="text-align: center;">Behaviour</h5>
 
@@ -92,7 +94,7 @@
 
         </p>
 
-    </div>
+    </div>   <!-- THIRD ROW OF BUTTONS -->
 
     <br>
 
@@ -101,13 +103,13 @@
         <label for="fname">Anything else?</label>
         <input id="fname" name="fname" type="text">
 
-    </p>  <! -- TWITTER STYLE TEXT BOX -->
+    </p>  <!-- TWITTER STYLE TEXT BOX -->
 
     <p style="text-align: right;">
 
         <input type="submit" value="Submit">
 
-    </p>  <! -- SUBMIT BUTTON -->
+    </p>  <!-- SUBMIT BUTTON -->
 
 
 </form>

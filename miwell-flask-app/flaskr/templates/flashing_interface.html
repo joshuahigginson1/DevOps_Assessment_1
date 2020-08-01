@@ -1,0 +1,57 @@
+<!-- HTML to display our Flask 'FLASH' messages to the current logged in user. -->
+
+<div class ='container'>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}   <!-- Gets all of our current flashed messages -->
+
+        {% if messages %}   <!-- If there are any messages, execute following code: -->
+
+            {% for category, message in messages %}   <!-- Because 'messages' returns a tuple, we need to unpack it. -->
+
+                {% if category == 'danger' %}   <!-- If the category is 'danger', execute following code:. -->
+
+                    <div class="alert alert-{{category}}" role="alert">   <!-- Auto-style our message as Bootstrap alert. -->
+
+                        {{ message }}
+
+                    </div>   <!-- Displays the danger alert message to our current user. -->
+
+                {% endif %}
+
+                {% if category == 'warning' %}   <!-- If the category is 'warning', execute following code:. -->
+
+                    <div class="alert alert-{{category}}" role="alert">   <!-- Auto-style our message as Bootstrap alert. -->
+
+                        {{ message }}
+
+                    </div>   <!-- Displays the warning alert message to our current user. -->
+
+                {% endif %}
+
+                {% if category == 'success' %}   <!-- If the category is 'success', execute following code:. -->
+
+                    <div class="alert alert-{{category}}" role="alert">   <!-- Auto-style our message as Bootstrap alert. -->
+
+                        {{ message }}
+
+                    </div>   <!-- Displays the success alert message to our current user. -->
+
+                {% endif %}
+
+                {% if category == 'primary' %}   <!-- If the category is any standard message, execute following code:. -->
+
+                    <div class="alert alert-{{category}}" role="alert">   <!-- Auto-style our message as Bootstrap alert. -->
+
+                        {{ message }}
+
+                    </div>   <!-- Displays the standard alert message to our current user. -->
+
+                {% endif %}
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+</div>

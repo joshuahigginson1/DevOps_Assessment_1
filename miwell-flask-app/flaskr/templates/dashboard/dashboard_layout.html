@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+    <!-- The HTML layout template for our patient and psychiatrist dashboard. -->
+
     <head>
 
         <meta charset="UTF-8">
@@ -9,13 +11,9 @@
 
     </head>
 
+    {% include 'flashing_interface.html' %}   <!-- Adds our 'message flash' interface to the top of our dashboard. -->
 
-    <nav>
-
-        {% include 'dashboard/psych_dash/psych_home_nav.html' %}
-        <p> % block nav %                      % endblock % </p>
-
-    </nav>
+    {% include 'dashboard/dashboard_nav_logic.html' %}   <!-- Adds our nav bar dashboard logic. -->
 
 
     <body>
