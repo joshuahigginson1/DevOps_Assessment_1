@@ -9,7 +9,6 @@ from flask_login import UserMixin  # Provides useful methods for managing the us
 # Parent Class --------------------------------------------------------------------------------
 
 class CommonUser(db.Model):
-
     __abstract__ = True  # An abstract class states that this class should NOT be mapped to a table within our database.
 
     email = db.Column(db.String(50), unique=True, nullable=False)
@@ -19,11 +18,6 @@ class CommonUser(db.Model):
     phone_number = db.Column(db.String(20), nullable=False)
     postcode = db.Column(db.String(10), nullable=False)
     user_authentication = db.Column(db.String(20), nullable=False)
-
-# Flask-Login Method Override ---------------------------------------------------------------
-
-    def get_id(self):  # Returns the email address as user ID in order to satisfy Flask-Login's requirements.
-        return self.email
 
 
 # Child Classes -----------------------------------------------------------------------------
@@ -36,9 +30,19 @@ class Patient(UserMixin, CommonUser):  # Creates the schema for a 'User table' w
     username = db.Column(db.String(50), primary_key=True, unique=True, nullable=False)
     medical_conditions = db.Column(db.String(500))
 
+    # Flask-Login Method Override ---------------------------------------------------------------
+
+    def get_id(self):  # Returns the username as user ID in order to satisfy Flask-Login's requirements.
+        return self.username
+
 
 class Psychiatrist(UserMixin, CommonUser):
     __tablename__ = 'registered_psychiatrists'
 
-    bacp_number = db.Column(db.Integer(), primary_key=True, unique=True, nullable=False)
+    bacp_number = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
     psychiatrist_bio = db.Column(db.String(500))
+
+    # Flask-Login Method Override ---------------------------------------------------------------
+
+    def get_id(self):  # Returns the bacp_number as user ID in order to satisfy Flask-Login's requirements.
+        return self.bacp_number

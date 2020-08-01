@@ -13,11 +13,11 @@ from flaskr.register.models import Patient, Psychiatrist  # Import our database 
 class PatientRegistrationForm(FlaskForm):  # Creates a new child class, inheriting from parent 'FlaskForm'.
 
     username = StringField('User Name', [
-        Length(min=5, max=50, message='Please enter a valid username. It is currently too long.'),
+        Length(min=5, max=50, message='Please enter a different username.'),
         DataRequired(message='Please enter a username.')])
 
     email = StringField('Email Address', [
-        Length(min=2, max=100, message='Please enter a valid email address. It is currently too long.'),
+        Length(min=2, max=100, message='Please enter a valid email address.'),
         Email(message='Invalid email address.'),
         DataRequired(message='Please enter an email address.')])
 
@@ -48,7 +48,7 @@ class PatientRegistrationForm(FlaskForm):  # Creates a new child class, inheriti
     medical_conditions = StringField('Medical Conditions', [
         Length(max=500, message='There is a maximum of 500 characters for this field.')])
 
-    recaptcha = RecaptchaField()
+    # recaptcha = RecaptchaField()
 
     submit = SubmitField('Register Now!')
 
@@ -66,7 +66,7 @@ class PatientRegistrationForm(FlaskForm):  # Creates a new child class, inheriti
 class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting from parent 'FlaskForm'.
 
     email = StringField('Email Address', [
-        Length(min=2, max=100, message='Please enter a valid email address. It is currently too long.'),
+        Length(min=2, max=100, message='Please enter a valid email address.'),
         Email(message='Invalid email address.'),
         DataRequired(message='Please enter an email address.')])
 
@@ -86,7 +86,7 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
         Length(min=2, max=80, message='Please enter a last name between 2 and 80 characters.'),
         DataRequired(message='Please enter a last name.')])
 
-    bacp_number = IntegerField('16 Digit BACP Number', [
+    bacp_number = StringField('16 Digit BACP Number', [
         Length(min=16, max=16, message='Please enter a valid 16 Digit BACP Number.'),
         DataRequired(message='You must be a certified BACP psychiatrist to register with our service.')])
 
@@ -102,7 +102,7 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
         Length(max=500, message='Please keep your psychiatrist bio under 500 characters.'),
         DataRequired(message='Please write a short bio. This will help your patients to connect.')])
 
-    recaptcha = RecaptchaField()
+    # recaptcha = RecaptchaField()
 
     submit = SubmitField('Register Now!')
 

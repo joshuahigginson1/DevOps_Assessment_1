@@ -39,7 +39,7 @@ def homepage():
 
         # If there is a patient account, and the two hashed passwords match, then execute the following code:
 
-        if patient_account_check and check_password_hash(patient_account_check.password, login_form.password.data):
+        if patient_account_check and check_password_hash(patient_account_check.hashed_password, login_form.password.data):
 
             login_user(patient_account_check, remember=login_form.remember.data)
             return redirect(url_for('dashboard_bp.dashboard'))
@@ -48,7 +48,7 @@ def homepage():
 
         # Else if there is a psychiatrist account, and the two hashed passwords match, then execute the following code:
 
-        elif psych_account_check and check_password_hash(psych_account_check.password, login_form.password.data):
+        elif psych_account_check and check_password_hash(psych_account_check.hashed_password, login_form.password.data):
 
             login_user(psych_account_check, remember=login_form.remember.data)
             return redirect(url_for('dashboard_bp.dashboard'))
