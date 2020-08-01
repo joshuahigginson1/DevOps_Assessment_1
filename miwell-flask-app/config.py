@@ -14,8 +14,6 @@ load_dotenv(path.join(basedir, '.env'))
 class Config(object):
     # General Config
 
-    DEBUG = False
-    TESTING = False
     FLASK_APP = 'wsgi.py'
 
     # Flask Config from Environment Variables
@@ -34,7 +32,6 @@ class Config(object):
     RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY')
     RECAPTCHA_PRIVATE_KEY = environ.get('RECAPTCHA_PRIVATE_KEY')
 
-
     # Static Assets Config
 
     STATIC_FOLDER = 'static'
@@ -49,13 +46,25 @@ class Config(object):
     # ARGON2_SALT_LENGTH
     # ARGON2_ENCODING
 
+
 class ProductionConfig(Config):
-    pass
+    FLASK_ENV = 'production'
+
+    SECRET_KEY = environ.get('PRODUCTION_SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = environ.get('PRODUCTION_DATABASE_URI')
 
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    FLASK_ENV = 'development'
+
+    SECRET_KEY = environ.get('DEV_SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = environ.get('DEV_DATABASE_URI')
 
 
 class TestingConfig(Config):
     TESTING = True
+    FLASK_ENV = 'testing'
+
+    SECRET_KEY = environ.get('TEST_SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = environ.get('TEST_DATABASE_URI')
