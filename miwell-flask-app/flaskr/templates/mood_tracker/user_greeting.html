@@ -4,8 +4,13 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    <title>{{ title }}</title>
+
+    <link rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_meditation.ico') }}">
+
 </head>
 
 {% include 'flashing_interface.html' %}   <!-- Adds our 'message flash' interface to the top of our greetings page. -->

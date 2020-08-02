@@ -1,0 +1,35 @@
+{% extends "main/main_layout/main_site_layout.html" %}
+
+
+<!-- HTML for an error code. -->
+
+{% block head %}
+
+    <title>{{ title }}</title>   <!-- Displays a page title within your browser. -->
+
+{% endblock %}
+
+
+{% block body %}
+
+    <h1>{{ random_error_remark }}</h1>   <!-- Displays random error remark as bold header. -->
+
+    <p>
+        {% for line in error_response %}
+
+            {{ line }}
+            <br>
+
+        {% endfor %}
+
+    </p>   <!-- Displays error code solutions as paragraph text. -->
+
+    <br>
+
+    <img src="{{ url_for('static', filename='error_handling/error_photos/' + random_error_photo) }}">   <!-- Displays random error photo. -->
+
+    <br>
+
+    <a href="{{ url_for('main_bp.homepage') }}">Go Back.</a>
+
+{% endblock %}

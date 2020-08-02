@@ -7,7 +7,7 @@ Blueprint Task: Write what the blueprint does HERE.
 # Imports --------------------------------------------------------------------------------
 
 from flask import Blueprint, render_template
-from flask import current_app as app
+
 
 # from flask_login import login_user, current_user, logout_user, login_required
 
@@ -16,7 +16,8 @@ from flask import current_app as app
 mood_tracker_bp = Blueprint(
     'mood_tracker_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.
     __name__,
-    template_folder='templates'
+    template_folder='templates',
+    static_folder='static'
 )
 
 

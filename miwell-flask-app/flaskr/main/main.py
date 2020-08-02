@@ -10,12 +10,12 @@ from flaskr.auth.forms import LoginForm  # Imports our Login Form.
 
 from flask_argon2 import check_password_hash  # Imports Argon2 to check password hash against our database.
 
+
 # Blueprint Configuration -----------------------------------------------------------------
 
 main_bp = Blueprint(
     'main_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.
-    __name__,
-    template_folder='templates'
+    __name__
 )
 
 

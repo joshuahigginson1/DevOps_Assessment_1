@@ -15,7 +15,7 @@ from flaskr.register.models import Psychiatrist, Patient  # Imports our Psychiat
 auth_bp = Blueprint(
     'auth_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.
     __name__,
-    template_folder='templates'
+    template_folder='templates/auth'
 )
 
 

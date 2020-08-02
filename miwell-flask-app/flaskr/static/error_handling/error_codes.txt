@@ -1,0 +1,78 @@
+The following file contains a list of error code responses. Note the specific way we tell python when to start and stop reading each error message, using <>.
+
+<400>
+Error Code: 400 - Bad Request
+
+The 400 status code, or Bad Request error, means a HTTP request sent to our server has an invalid syntax.
+
+400  Troubleshooting:
+- Your session cookie may be corrupt. Try clearing the browser’s cache and cookies.
+- Non-Conformant HHTP request, due to a faulty browser. Try using a different broswer.
+- Non-Conformant HHTP request, due to human error when manually forming HTTP requests.
+<br 400>
+
+<401>
+Error Code: 401 - Unauthorised
+
+The 401 status code, or an Unauthorised error, means that the user trying to access the resource which has not been authenticated correctly.
+
+401 Troubleshooting:
+- You must provide valid credentials in order to be able to view the protected resource.
+- This error will continue to persist until you have entered a  valid username and password.
+<br 401>
+
+<404>
+Error Code: 404 - Page Not Found
+
+The 404 status code, or a Not Found error, means that the user is able to communicate with the server. Hoorah.
+HOWEVER, you cannot access the file or resource in which you have requested. Bugger.
+
+404 Troubleshooting:
+- Did you type in the wrong URL?
+- The URL or file resource may have been moved ordeleted since you last logged in. Sorry.
+<br 404>
+
+<500>
+Error Code: 500 - Internal Server Error
+
+The 500 status code, or Internal Server Error, means that our server cannot process your HTTP request for an unknown reason.
+This error is probably not your fault. Sorry.
+
+500 Troubleshooting:
+- This most common cause for this error is server misconfiguration, or missing file packages.
+<br 500>
+
+<502>
+Error Code: 502 - Bad Gateway
+
+The 502 status code, or Bad Gateway error, means that the server that ths web app is running on is a proxy server.
+It is not receiving a valid response from the backend servers, which should ACTUALLY be fulfilling the request.
+
+502 Troubleshooting:
+- Check that the backend servers, where your HTTP requests are being forwarded to, are healthy.
+- Check that the reverse proxy is configured properly.
+- Check that the network connection between the backend servers and proxy servers are healthy.
+- Check that the firewall is allowing the traffic between the backend server, and the proxy server.
+<br 502>
+
+<503>
+Error Code: 503 - Service Unavailable
+
+The 503 status code, or Service Unavailable error, means that the server is overloaded or under maintenance.
+Don't panic. This error implies that the service should become available shortly.
+
+503 Troubleshooting:
+- Check that the WSGI server has enough CPU or memory resources in order to handle all of the incoming requests.
+- Check that Gunicorn has enough workers configured in order to leverage the CPU, to handle more requests.
+<br 503>
+
+<504>
+Error Code: 504 - Gateway Timeout
+
+The 504 status code, or Gateway Timeout error, means that the proxy server is not receiving a response from the backend servers, within the allowed time period.
+
+504 Troubleshooting:
+- The network connection between the servers is poor.
+- The backend server that is fulfilling the request is too slow due to poor performance.
+- The gateway or proxy server’s timeout duration is too short.
+<br 504>

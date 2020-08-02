@@ -49,6 +49,7 @@ def create_app():  # Initialises the core application.
         from .mood_tracker import mood_tracker
         from .dashboard import dashboard
         from .auth import auth
+        from .error_handling import error_handling
 
         # from .bp_folder1 import blueprint_name1
         # from .bp_folder2 import blueprint_name2

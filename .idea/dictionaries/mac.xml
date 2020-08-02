@@ -2,6 +2,7 @@
   <dictionary name="mac">
     <words>
       <w>bacp</w>
+      <w>skippable</w>
       <w>sqlalchemy</w>
     </words>
   </dictionary>

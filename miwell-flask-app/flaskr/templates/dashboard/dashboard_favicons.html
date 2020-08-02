@@ -1,0 +1,26 @@
+<!-- Switches the favicon dependent on user authentication. -->
+
+<!-- Displays patient favicon if user = patient. -->
+
+{% if current_user.user_authentication == 'Patient' %}
+
+    <link rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_meditation.ico') }}">
+
+{% endif %}
+
+<!-- Displays psychiatrist favicon if user = psychiatrist. -->
+
+{% if current_user.user_authentication == 'Psychiatrist' %}
+
+    <link rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_guru.ico') }}">
+
+
+{% endif %}
+
+<!-- Displays default icon if a user accesses the dashboard without having signed in. -->
+
+{% if current_user.user_authentication != 'Psychiatrist' and current_user.user_authentication != 'Patient' %}
+
+    <link rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_ying_yang.ico') }}">
+
+{% endif %}

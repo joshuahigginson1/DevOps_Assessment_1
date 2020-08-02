@@ -18,12 +18,12 @@ class Config(object):
 
     # Flask Config from Environment Variables
 
-    SECRET_KEY = environ.get('SECRET_KEY')
+    SECRET_KEY = environ.get('DEV_SECRET_KEY')
     # FLASK_ENV = environ.get('FLASK_ENV')
 
     # SQL-Alchemy Database Config
 
-    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = environ.get('DEV_DATABASE_URI')
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

@@ -13,13 +13,13 @@ from flask_argon2 import generate_password_hash
 
 from flask_login import current_user
 
+
 # Blueprint Configuration -----------------------------------------------------------------
 
 
 register_bp = Blueprint(
     'register_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.
-    __name__,
-    template_folder='templates'
+    __name__
 )
 
 
