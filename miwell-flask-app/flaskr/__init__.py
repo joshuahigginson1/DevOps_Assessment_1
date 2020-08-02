@@ -10,6 +10,8 @@ from flask_argon2 import Argon2  # Better password hash generator than BCrypt.
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+import config  # Imports our config.py file
+
 # Globally Accessible Libraries ---------------------------------------------------------
 
 # Setting plugins as global variables outside of create_app() makes them  accessible to other parts of our application. 
@@ -22,13 +24,13 @@ argon2 = Argon2()
 
 # Functions -----------------------------------------------------------------------------
 
-def create_app():  # Initialises the core application.
+def create_app(app_config=config.DevelopmentConfig):  # Initialises the core application.
 
     # Create our Flask app object.
     app = Flask(__name__, instance_relative_config=False)
 
     # State that it should be configured using a class called Config, in a file named config.py.
-    app.config.from_object('config.Config')
+    app.config.from_object(app_config)
 
     # Initialise our Globally Accessible Libraries
     db.init_app(app)

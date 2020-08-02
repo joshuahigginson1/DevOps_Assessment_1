@@ -34,7 +34,7 @@ def dashboard():
 @login_required
 def user_progress():
 
-    print(current_user.user_authentication)
+    # print(current_user.user_authentication) FOR MANUAL DEBUGGING.
 
     return render_template(
         'dashboard/user_dash/user_progress.html',

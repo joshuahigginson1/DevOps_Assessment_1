@@ -17,12 +17,13 @@ This in turn imports, and starts our entire app.
 
 from flaskr import create_app  # imports our app object from ./flask-app/flaskr/__init__.py
 
-# Define Variables -----------------------------------------------------------------------
+import config  # imports our config.py file.
 
-app = create_app()
+# Initialise our App Instance ------------------------------------------------------------
 
-# Execute Code ---------------------------------------------------------------------------
+app = create_app(config.DevelopmentConfig)
 
+# Run our App ----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

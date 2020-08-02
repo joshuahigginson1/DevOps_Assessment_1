@@ -8,8 +8,7 @@ Blueprint Task: Write what the blueprint does HERE.
 
 from flask import Blueprint, render_template
 
-
-# from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required
 
 # Blueprint Configuration -----------------------------------------------------------------
 
@@ -26,5 +25,5 @@ mood_tracker_bp = Blueprint(
 def user_greeting():
     return render_template(
         'mood_tracker/user_greeting.html',
-        title='~ Greetings! ~'
+        title=f'Hi! ~ MiWell'
     )
