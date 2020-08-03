@@ -1,4 +1,4 @@
-# The OLD __init__.py serves double duty. It will contain the application factory.
+# The init_test_cases.py serves double duty. It will contain the application factory.
 # It also tells Python that the 'flaskr' directory should be treated as a package.
 
 

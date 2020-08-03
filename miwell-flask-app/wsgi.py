@@ -15,7 +15,7 @@ This in turn imports, and starts our entire app.
 
 # Imports --------------------------------------------------------------------------------
 
-from flaskr import create_app  # imports our app object from ./flask-app/flaskr/OLD __init__.py
+from flaskr import create_app  # imports our app object from ./flask-app/flaskr/init_test_cases.py
 
 import config  # imports our config.py file.
 

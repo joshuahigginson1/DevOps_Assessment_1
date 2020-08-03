@@ -2,7 +2,7 @@
 
 # Imports --------------------------------------------------------------------------------
 
-from flaskr import db  # import our database instance, stored as 'variable' in our OLD __init__.py file.
+from flaskr import db  # import our database instance, stored as 'variable' in our init_test_cases.py file.
 from flask_login import UserMixin  # Provides useful methods for managing the users or our app.
 
 

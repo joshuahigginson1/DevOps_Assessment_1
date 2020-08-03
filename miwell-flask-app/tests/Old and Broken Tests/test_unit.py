@@ -15,7 +15,7 @@ import unittest
 import flask_testing
 import selenium
 
-# Here, we import our default test objects from ./flask-app/tests/OLD __init__.py
+# Here, we import our default test objects from ./flask-app/tests/init_test_cases.py
 from tests import DefaultIntegrationTestClass
 
 import config  # Imports our app config.py file.

@@ -16,7 +16,7 @@
 import unittest
 
 
-# Here, we import our default test objects from ./flask-app/tests/OLD __init__.py
+# Here, we import our default test objects from ./flask-app/tests/init_test_cases.py
 
 
 # Create our integration Tests ----------------------------------------------------------------------------
