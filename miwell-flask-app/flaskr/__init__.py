@@ -1,4 +1,4 @@
-# The __init__.py serves double duty. It will contain the application factory.
+# The OLD __init__.py serves double duty. It will contain the application factory.
 # It also tells Python that the 'flaskr' directory should be treated as a package.
 
 
@@ -9,8 +9,6 @@ from flask import Flask
 from flask_argon2 import Argon2  # Better password hash generator than BCrypt.
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-
-import config  # Imports our config.py file
 
 # Globally Accessible Libraries ---------------------------------------------------------
 
@@ -24,13 +22,24 @@ argon2 = Argon2()
 
 # Functions -----------------------------------------------------------------------------
 
-def create_app(app_config):  # Initialises the core application.
+def create_app():  # Initialises the core application.
 
     # Create our Flask app object.
+
     app = Flask(__name__, instance_relative_config=False)
 
-    # State that it should be configured using a class called Config, in a file named config.py.
-    app.config.from_object(app_config)
+    # Here, we set our config variables, dependent on the FLASK_APP $sh shell environment variable.
+
+    if app.config['ENV'] == 'production':
+        app.config.from_object('config.ProductionConfig')  # <filename>.<modulename>
+
+    elif app.config['ENV'] == 'testing':
+        app.config.from_object('config.TestingConfig')  # <filename>.<modulename>
+
+    else:
+        app.config.from_object('config.DevelopmentConfig')
+
+    print(f"The connected database is: {app.config['DB_NAME']}")  # For Debugging Purposes.
 
     # Initialise our Globally Accessible Libraries
     db.init_app(app)
@@ -53,10 +62,6 @@ def create_app(app_config):  # Initialises the core application.
         from .auth import auth
         from .error_handling import error_handling
 
-        # from .bp_folder1 import blueprint_name1
-        # from .bp_folder2 import blueprint_name2
-        # from .bp_folder3 import blueprint_name3
-
         # Next, we register Blueprints.
         # Blueprints are "registered" by calling register_blueprint() on our app object.
 
@@ -65,10 +70,6 @@ def create_app(app_config):  # Initialises the core application.
         app.register_blueprint(auth.auth_bp)
         app.register_blueprint(mood_tracker.mood_tracker_bp)
         app.register_blueprint(dashboard.dashboard_bp)
-
-        # app.register_blueprint(blueprint_module_name.blueprint_name1)
-        # app.register_blueprint(blueprint_module_name.blueprint_name2)
-        # app.register_blueprint(blueprint_module_name.blueprint_name3)
 
         # Flask-Login needs to know the view function which  handles login functionality.
         # 'login' is the endpoint name that you would use in a url_for() call, to get the URL.

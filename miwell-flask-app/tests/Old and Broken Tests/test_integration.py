@@ -1,4 +1,6 @@
-# This script manages the unit testing for <DEFAULT>.
+"""# This script manages the integration testing for <DEFAULT>.
+
+# Our script must start with the prefix 'test_', like in Pytest.
 
 # Here is the sequence of how the functional tests should run:
 
@@ -12,26 +14,17 @@
 
 # Import our suite of testing tools.
 import unittest
-import flask_testing
-import selenium
 
-# Here, we import our default test objects from ./flask-app/tests/__init__.py
-from tests import DefaultIntegrationTestClass
 
-import config  # Imports our app config.py file.
+# Here, we import our default test objects from ./flask-app/tests/OLD __init__.py
 
 
 # Create our integration Tests ----------------------------------------------------------------------------
 
-class UnitTestTemplate(DefaultIntegrationTestClass):  # Create a new integration test class.
+class IntegrationTestTemplate(DefaultUnitTestClass):  # Create a new integration test class.
 
     # We have already defined our set up and tear down methods. We don't need to worry about creating them again.
     # Each test must be defined with the starting prefix 'test_'. Just like in PyTest.
-
-    def test_typing_in_email_box(self):  # Define a new test.
-        email_element = self.driver.find_element_by_name("email")
-        email_element.send_keys("Hello World I'm Not Typing This.")
-
 
 # Run our Test Script ---------------------------------------------------------------------------------------
 
@@ -40,4 +33,5 @@ class UnitTestTemplate(DefaultIntegrationTestClass):  # Create a new integration
 
 
 if __name__ == '__main__':
-    unittest.main(port=5000)
+    unittest.main(host='0.0.0.0', port=5000)
+"""

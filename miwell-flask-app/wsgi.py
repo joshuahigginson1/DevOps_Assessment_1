@@ -15,15 +15,15 @@ This in turn imports, and starts our entire app.
 
 # Imports --------------------------------------------------------------------------------
 
-from flaskr import create_app # imports our app object from ./flask-app/flaskr/__init__.py
+from flaskr import create_app  # imports our app object from ./flask-app/flaskr/OLD __init__.py
 
 import config  # imports our config.py file.
 
-# Initialise our App Instance ------------------------------------------------------------
+# Initialise our App Instances ------------------------------------------------------------
 
-app = create_app(config.DevelopmentConfig)
+app = create_app()
 
-# Run our App ----------------------------------------------------------------------------
+# Run our App -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000)  # Runs an app instance on localhost port 5000.
