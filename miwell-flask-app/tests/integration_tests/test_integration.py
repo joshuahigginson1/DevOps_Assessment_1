@@ -18,21 +18,19 @@ import flask_testing
 import selenium
 
 # Here, we import our default test objects from ./flask-app/tests/__init__.py
-from tests import DefaultIntegrationTestClass
+from tests import DefaultUnitTestClass
 
 import config  # Imports our app config.py file.
 
 
 # Create our integration Tests ----------------------------------------------------------------------------
 
-class IntegrationTestTemplate(DefaultIntegrationTestClass):  # Create a new integration test class.
+class IntegrationTestTemplate(DefaultUnitTestClass):  # Create a new integration test class.
 
     # We have already defined our set up and tear down methods. We don't need to worry about creating them again.
     # Each test must be defined with the starting prefix 'test_'. Just like in PyTest.
 
-    def test_example(self):  # Define a new test.
-        # Our test code goes here.
-        pass
+
 
 
 # Run our Test Script ---------------------------------------------------------------------------------------

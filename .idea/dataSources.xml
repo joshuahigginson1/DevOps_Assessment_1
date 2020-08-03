@@ -7,5 +7,17 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/miwell_dev_database</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="miwell_test_database@localhost" uuid="efb571d7-f35e-42d6-8024-02bb2fbbd860">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/miwell_test_database</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="@localhost" uuid="6a271e83-0970-48e0-845f-58abd51368be">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+    </data-source>
   </component>
 </project>

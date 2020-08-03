@@ -68,3 +68,8 @@ class TestingConfig(Config):
 
     SECRET_KEY = environ.get('TEST_SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = environ.get('TEST_DATABASE_URI')
+
+    # Selenium Config
+    LIVESERVER_PORT = 0  # Set to 0 to have the OS pick the port.
+    LIVESERVER_TIMEOUT = 10
+

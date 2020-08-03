@@ -24,7 +24,7 @@ argon2 = Argon2()
 
 # Functions -----------------------------------------------------------------------------
 
-def create_app(app_config=config.DevelopmentConfig):  # Initialises the core application.
+def create_app(app_config):  # Initialises the core application.
 
     # Create our Flask app object.
     app = Flask(__name__, instance_relative_config=False)
