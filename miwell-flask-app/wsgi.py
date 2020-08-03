@@ -21,7 +21,7 @@ import config  # imports our config.py file.
 
 # Initialise our App Instances ------------------------------------------------------------
 
-app = initialise_app()
+app = initialise_app('development')
 
 # Run our App -----------------------------------------------------------------------------
 
