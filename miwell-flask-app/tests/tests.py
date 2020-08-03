@@ -4,47 +4,58 @@ import unittest
 
 from flask_testing import TestCase
 
-from app import create_app, db
-from app.models import Employee
+from flaskr import initialise_app, db
+from flaskr.register.models import Patient, Psychiatrist
+
+from flask_argon2 import generate_password_hash  # For generating password hashes.
 
 
 class TestBase(TestCase):
 
     def create_app(self):
-
         # pass in test configurations
         config_name = 'testing'
-        app = create_app(config_name)
+        app = initialise_app(config_name)
         app.config.update(
-            SQLALCHEMY_DATABASE_URI='mysql://dt_admin:dt2016@localhost/dreamteam_test'
+            SQLALCHEMY_DATABASE_URI="mysql+pymysql://root:W33Y15nITj*I&k97@localhost:3306/miwell_test_database"
         )
         return app
 
-    def setUp(self):
-        """
-        Will be called before every test
-        """
+    def setUp(self):  # Will be called before every test.
 
-        db.create_all()
+        db.create_all()  # Creates our database schema.
 
-        # create test admin user
-        admin = Employee(username="admin", password="admin2016", is_admin=True)
+        test_patient = Patient(  # Create a test patient.
+            username='test_patient',
+            hashed_password=generate_password_hash("test_patient"),
+            email='test_patient@patient.com',
+            first_name='Test',
+            last_name='Patient',
+            phone_number='01234567891',
+            postcode='CV21 M12',
+            medical_conditions='I am a test patient with no medical conditions.',
+            user_authentication="Patient")
 
-        # create test non-admin user
-        employee = Employee(username="test_user", password="test2016")
+        test_psychiatrist = Psychiatrist(  # Create a test psychiatrist.
+            bacp_number='1234567812345678',
+            hashed_password=generate_password_hash("test_psychiatrist"),
+            email='test_psychiatrist@psychiatrist.com',
+            first_name='Test',
+            last_name='Psychiatrist',
+            phone_number='10987654321',
+            postcode='NN6 7TL',
+            psychiatrist_bio='I am a test psychiatrist with no real psychiatric knowledge.',
+            user_authentication="Psychiatrist")
 
-        # save users to database
-        db.session.add(admin)
-        db.session.add(employee)
-        db.session.commit()
+        db.session.add(test_patient)
+        db.session.add(test_psychiatrist)
+        db.session.commit()  # Saves our new users to the database.
 
-    def tearDown(self):
-        """
-        Will be called after every test
-        """
+    def tearDown(self):  # Called after every test.
 
         db.session.remove()
         db.drop_all()
+
 
 if __name__ == '__main__':
     unittest.main()
