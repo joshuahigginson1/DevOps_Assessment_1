@@ -85,7 +85,7 @@ class TestingConfig(Config):
 
     # Selenium Config
 
-    LIVESERVER_PORT = 0  # Set to 0 to have the OS pick the port.
+    LIVESERVER_PORT = 8943  # Set to 0 to have the OS pick the port.
     LIVESERVER_TIMEOUT = 10
 
 
