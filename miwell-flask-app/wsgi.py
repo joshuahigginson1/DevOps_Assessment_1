@@ -15,13 +15,13 @@ This in turn imports, and starts our entire app.
 
 # Imports --------------------------------------------------------------------------------
 
-from flaskr import create_app  # imports our app object from ./flask-app/flaskr/init_test_cases.py
+from flaskr import initialise_app  # imports our app object from ./flask-app/flaskr/init_test_cases.py
 
 import config  # imports our config.py file.
 
 # Initialise our App Instances ------------------------------------------------------------
 
-app = create_app()
+app = initialise_app()
 
 # Run our App -----------------------------------------------------------------------------
 

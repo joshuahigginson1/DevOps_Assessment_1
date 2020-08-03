@@ -22,18 +22,18 @@ argon2 = Argon2()
 
 # Functions -----------------------------------------------------------------------------
 
-def create_app():  # Initialises the core application.
+def initialise_app(config_name):  # Initialises the core application.
 
-    # Create our Flask app object.
+    # Creates our Flask app object.
 
     app = Flask(__name__, instance_relative_config=False)
 
     # Here, we set our config variables, dependent on the FLASK_APP $sh shell environment variable.
 
-    if app.config['ENV'] == 'production':
+    if config_name == 'production':
         app.config.from_object('config.ProductionConfig')  # <filename>.<modulename>
 
-    elif app.config['ENV'] == 'testing':
+    elif config_name == 'testing':
         app.config.from_object('config.TestingConfig')  # <filename>.<modulename>
 
     else:

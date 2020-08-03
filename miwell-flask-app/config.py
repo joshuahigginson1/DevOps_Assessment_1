@@ -89,3 +89,12 @@ class TestingConfig(Config):
     LIVESERVER_TIMEOUT = 10
 
 
+# It is good practice to specify configurations for different environments.
+# Below, we consolidate these configuration names into a dictionary.
+
+app_config = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+    'testing': TestingConfig
+}
+
