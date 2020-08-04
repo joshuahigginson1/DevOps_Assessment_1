@@ -22,6 +22,12 @@ argon2 = Argon2()
 
 # Functions -----------------------------------------------------------------------------
 
+def 
+
+
+
+
+
 def initialise_app(config_name):  # Initialises the core application.
 
     # Creates our Flask app object.
