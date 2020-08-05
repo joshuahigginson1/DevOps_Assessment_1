@@ -1,0 +1,77 @@
+<div class='form'>
+
+    <form method='POST' action=''>
+
+        {{ login_form.hidden_tag() }}  <! -- CSRF Protection Tag -->
+
+
+            <div class='form_group'>
+
+                {{ login_form.email.label }}
+                {{ login_form.email }}
+
+                {% if login_form.email.errors %}
+
+                    <div class='error'>
+
+                        {% for error in login_form.email.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Email -->
+
+        <br>
+        <br>
+
+            <div class='form_group'>
+
+                {{ login_form.password.label }}
+                {{ login_form.password }}
+
+                {% if login_form.password.errors %}
+
+                    <div class='error'>
+
+                        {% for error in login_form.password.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Password -->
+
+        <br>
+        <br>
+
+            <div class='form_remember_me'>
+
+                {{ login_form.remember.label }}
+                {{ login_form.remember }}
+
+            </div>  <! -- Remember Me Checkbox -->
+
+        <br>
+        <br>
+
+            <div class='form_submit_button'>
+
+                {{ login_form.submit }}
+
+            </div>  <! -- Submit Button -->
+
+        <br>
+        <br>
+
+    </form>
+
+</div>

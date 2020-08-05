@@ -1,0 +1,17 @@
+<!-- The logic for displaying a personalised nav bar, dependent on the current logged in user. -->
+
+<!-- Displays patient nav bar if user = patient. -->
+
+{% if current_user.user_authentication == 'Patient' %}
+
+    {% include 'dashboard/user_dash/user_home_nav.html' %}
+
+{% endif %}
+
+<!-- Displays psychiatrist nav bar if user = psychiatrist. -->
+
+{% if current_user.user_authentication == 'Psychiatrist' %}
+
+    {% include 'dashboard/psych_dash/psych_home_nav.html' %}
+
+{% endif %}

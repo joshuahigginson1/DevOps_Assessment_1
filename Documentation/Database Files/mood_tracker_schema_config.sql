@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS feelings_table (
 );
 
 /* Create the therapy_table if it does not already exist. This stores the
-automatic positive mindset tasks set by a psychiatrist. */
+automatic positive mindset patient_tasks set by a psychiatrist. */
 
 CREATE TABLE IF NOT EXISTS therapy_table (
 

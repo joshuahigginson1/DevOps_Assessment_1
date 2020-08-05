@@ -11,12 +11,14 @@
 
     <h2>Register with MiWell!</h2>
 
-        {% include "register/register_form.html" %}
+        {% include "register/patient_register_form.html" %}
 
     <br>
 
         <a href="{{ url_for('main_bp.homepage') }}">Already Registered?</a>
 
     <br>
+
+        <a href="{{ url_for('register_bp.register_psychiatrist')}}">Register as a Psychiatrist.</a>
 
 {% endblock %}

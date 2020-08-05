@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- HTML containing the layout for our main site. -->
+
     <head>
 
         <meta charset="UTF-8">
 
-        {% block head %}{% endblock %}
+        {% block head %} {% endblock %}
+
+        <link rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_ying_yang.ico') }}">
 
     </head>
 
-    <nav>
+    {% include 'flashing_interface.html' %}
 
-        {% include 'main/main_layout/main_nav.html' %}
-
-    </nav>
+    {% include 'main/main_layout/main_nav.html' %}
 
 
     <body>
 
-        {% block body %}{% endblock %}
+        {% block body %} {% endblock %}
 
     </body>
 
 
-    <footer>
-
         {% include 'footer.html' %}
-
-    </footer>
-
 
 </html>

@@ -3,11 +3,11 @@
 # Imports -------------------------------------------------------------------------------------------------
 
 from flask import Blueprint, render_template
-from flask import current_app as app
 
-# from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import current_user, login_required
 
 # Blueprint Configuration --------------------------------------------------------------------------------
+
 
 dashboard_bp = Blueprint(
     'dashboard_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.
@@ -19,9 +19,8 @@ dashboard_bp = Blueprint(
 # Shared Routes ------------------------------------------------------------------------------------------
 
 @dashboard_bp.route('/dashboard', methods=['GET'])
-# @login_required
+@login_required
 def dashboard():
-    # If current_user.psych (is True), feed them a different nav bar and homepage contents.
 
     return render_template(
         'dashboard/dashboard_layout.html',
@@ -32,8 +31,11 @@ def dashboard():
 # User Dashboard ---------------------------------------------------------------------------------------
 
 @dashboard_bp.route('/dashboard/your_progress', methods=['GET'])
-# @login_required
+@login_required
 def user_progress():
+
+    # print(current_user.user_authentication) FOR MANUAL DEBUGGING.
+
     return render_template(
         'dashboard/user_dash/user_progress.html',
         title=' Your Progress ~ MiWell'
@@ -41,7 +43,7 @@ def user_progress():
 
 
 @dashboard_bp.route('/dashboard/your_tools', methods=['GET'])
-# @login_required
+@login_required
 def user_tools():
     return render_template(
         'dashboard/user_dash/user_tools.html',
@@ -52,7 +54,7 @@ def user_tools():
 # Psychiatrist Dashboard ------------------------------------------------------------------------------
 
 @dashboard_bp.route('/dashboard/my_patients', methods=['GET'])
-# @login_required
+@login_required
 def my_patients():
     return render_template(
         'dashboard/psych_dash/my_patients.html',
@@ -61,7 +63,7 @@ def my_patients():
 
 
 @dashboard_bp.route('/dashboard/patient_tools', methods=['GET'])
-# @login_required
+@login_required
 def patient_tools():
     return render_template(
         'dashboard/psych_dash/patient_tools.html',

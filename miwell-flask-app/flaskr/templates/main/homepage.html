@@ -1,5 +1,7 @@
 {% extends "main/main_layout/main_site_layout.html" %}
 
+<!-- HTML containing the 'home page' information for our main site. -->
+
 {% block head %}
 
     <title>{{ title }}</title>
@@ -9,13 +11,13 @@
 
 {% block body %}
 
-    <h2>Welcome to MiWell!</h2>
+    <h1>Welcome to MiWell!</h1>
 
-        {% include "auth/main_login.html" %}
+        {% include "auth/main_login_form.html" %}  <!-- Imports our login form. -->
 
     <br>
 
-        <a href="{{ url_for('register_bp.register') }}">Or register!</a>
+        <a href="{{ url_for('register_bp.register_patient') }}">Or register!</a>
 
         <a href="{{ url_for('mood_tracker_bp.user_greeting') }}">Skip to User Greeting</a>
 
