@@ -49,13 +49,15 @@ class LiveServerTestCase(unittest.TestCase):
             cls.server_thread.start()  # Runs our test_app on a new thread.
 
             cls.client.get(cls.root_url)  # Takes us to the root URL.
-            print(f"The currently set root url is: {self.root_url}")
+            print(f"The currently set root url is: {cls.root_url}")
 
             time.sleep(1)  # Give the server a second to ensure it is up, before running any tests prematurely.
 
     def setUp(self):
         if not self.client:
             self.skipTest('Our web browser is currently not available!')
+
+        print("\n ---------------- START TEST ---------------- \n")
 
     def test_server_is_up_and_running(self):
 
@@ -68,6 +70,7 @@ class LiveServerTestCase(unittest.TestCase):
         self.assertEqual(page_status_code, 200)  # Our page status code should equal 200 if it is functional.
 
     def tearDown(self):
+        print("\n ---------------- END TEST ---------------- \n")
         pass
 
     @classmethod
