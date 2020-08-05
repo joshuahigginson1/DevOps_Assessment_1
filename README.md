@@ -64,6 +64,36 @@ Workforce shortages in mental health are affecting the ability for staff to prov
 
 ## Testing
 
+### Issues with Flask-Testing.
+
+_This section of the documentation covers my experience with the Flask-Testing module, why I ultimately chose to scrap the LiveServerTestCase class, and how I designed my own multi-threaded test framework._
+
+Test_client() is a _lightweight browser emulation_ that comes prebuilt into flask. This makes it easier for developers to test their programs without having to write their own.
+However, this client cannot _fully_ emulate the environment of an application running within a browser.
+
+There are a number of things that it will **not** do. The test_client() browser cannot execute JavaScript code, which makes it impossible to fully test an interactive UI. 
+Any code that is included within a http response will be returned without having been executed.
+
+For this project, I wanted to ensure that my functional tests were running in a ‘true-to-life' production environment.
+
+This is why I chose to run my functional tests on a use a real web browser, hat is connected to our application, running on a real web server. 
+
+### UI Testing with Selenium.
+
+Selenium is a web browser automation tool that supports the most popular web browsers, across Windows, MacOS and Linux.
+
+>> Permission to name this testing framework the “Mi-Guel” test framework.
+>> I found my solution after reading Miguel Grinberg’s Flask Web Development (2nd edition). 
+
+Selenium requires a 'web driver' to run tests within a web browser.
+
+>> Additional credit goes to the ‘GOAT’: TDD with Python (2nd edition), written by Harry J.W. Percival.
+
+
+
+
+
+
 ## Project Management
 
 ## Project Review
