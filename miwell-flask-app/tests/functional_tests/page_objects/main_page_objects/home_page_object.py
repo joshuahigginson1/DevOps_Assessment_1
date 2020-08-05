@@ -4,7 +4,6 @@
 
 from tests.functional_tests.page_objects.common_page_objects import CommonPageObject, MainNavBar
 
-
 # Page Objects --------------------------------------------------------------------------------------------
 
 

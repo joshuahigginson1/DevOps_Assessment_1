@@ -1,14 +1,10 @@
 # Contains the common objects found across our web app.
 
-# Imports ------------------------------------
-
 # Page Objects -------------------------------
 
 
 class CommonPageObject(object):
     # Define global class variables. These can be accessed by any function within our class using 'self.<variable>'
-
-    page_title = "Blank"
 
     def __init__(self, test):  # The page object is initialised with an object that represents the current test.
         self.test = test
