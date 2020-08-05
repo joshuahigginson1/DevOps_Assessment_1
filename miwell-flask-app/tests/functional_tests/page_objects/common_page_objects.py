@@ -6,41 +6,44 @@
 class CommonPageObject(object):
     # Define global class variables. These can be accessed by any function within our class using 'self.<variable>'
 
-    def __init__(self, test):  # The page object is initialised with an object that represents the current test.
-        self.test = test
+    def __init__(self, client):  # The page object is initialised with an object that represents the current test.
+        self.client = client
 
     # This gives us the ability to make assertions and access the webdriver via self.test.client.
 
-    def get_test_title(self):
-        return self.test.client.title
+    def get_page_response(self):
+        return self.client.last_request.response.status_code
 
-    def get_test_footer(self):
-        return self.test.client.find_element_by_xpath('/html/body/footer/footer/h6')
+    def get_page_title(self):
+        return self.client.title
+
+    def get_page_footer(self):
+        return self.client.find_element_by_xpath('/html/body/footer/footer/h6')
 
 
 class MainNavBar:
     def get_home_button(self):
         button_label = "Home"
-        return self.test.client.find_element_by_xpath('/html/body/nav/a[1]')
+        return self.client.find_element_by_xpath('/html/body/nav/a[1]')
 
     def get_about_button(self):
         button_label = "About"
-        return self.test.client.find_element_by_xpath('/html/body/nav/a[2]')
+        return self.client.find_element_by_xpath('/html/body/nav/a[2]')
 
 
 class UserNavBar:
 
     def get_dashboard_button(self, driver):
         button_label = "Dashboard"
-        return self.test.client.find_element_by_xpath('/html/body/nav/a[1]')
+        return self.client.find_element_by_xpath('/html/body/nav/a[1]')
 
     def get_logout_button(self):
         button_label = "Log Out"
-        return self.test.client.find_element_by_xpath('/html/body/nav/a[4]')
+        return self.client.find_element_by_xpath('/html/body/nav/a[4]')
 
     def get_settings_button(self):
         button_label = "Settings"
-        return self.test.client.find_element_by_xpath('/html/body/nav/a[5]')
+        return self.client.find_element_by_xpath('/html/body/nav/a[5]')
 
 
 class PatientNavBar(UserNavBar):
