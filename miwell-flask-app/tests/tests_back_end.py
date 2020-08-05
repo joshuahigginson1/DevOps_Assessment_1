@@ -7,18 +7,17 @@ import os
 from flask import url_for, abort
 from flask_testing import TestCase
 
-from flaskr import initialise_app, db
+from flaskr import create_app, db
 from flaskr.register.models import Patient, Psychiatrist
 
 from flask_argon2 import generate_password_hash  # For generating password hashes.
 
 
-class TestBase(TestCase):
+class BackEndTestCase(TestCase):
 
     def create_app(self):
         # pass in test configurations
-        config_name = 'testing'
-        app = initialise_app(config_name)
+        app = create_app('testing')
         app.config.update(
             SQLALCHEMY_DATABASE_URI="mysql+pymysql://root:W33Y15nITj*I&k97@localhost:3306/miwell_test_database"
         )

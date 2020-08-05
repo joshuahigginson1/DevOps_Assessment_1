@@ -22,13 +22,7 @@ argon2 = Argon2()
 
 # Functions -----------------------------------------------------------------------------
 
-def 
-
-
-
-
-
-def initialise_app(config_name):  # Initialises the core application.
+def create_app(config_name):  # Initialises the core application.
 
     # Creates our Flask app object.
 
@@ -76,6 +70,7 @@ def initialise_app(config_name):  # Initialises the core application.
         app.register_blueprint(auth.auth_bp)
         app.register_blueprint(mood_tracker.mood_tracker_bp)
         app.register_blueprint(dashboard.dashboard_bp)
+        app.register_blueprint(error_handling.error_handling_bp)
 
         # Flask-Login needs to know the view function which  handles login functionality.
         # 'login' is the endpoint name that you would use in a url_for() call, to get the URL.

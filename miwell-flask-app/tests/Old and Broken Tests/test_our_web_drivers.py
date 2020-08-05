@@ -10,13 +10,7 @@
 
 # Imports ------------------------------------------------------------------------------------
 from selenium import webdriver
-import unittest
-import os
 import time
-
-from flask_testing import LiveServerTestCase  # Import our base TestCase.
-
-from flaskr import db, create_app as new_app  # imports our global objects from flaskr/__init__.py
 
 # Create the Default Unit Test Class ------------------------------------------------------------------------
 

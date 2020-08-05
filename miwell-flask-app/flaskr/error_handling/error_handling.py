@@ -2,7 +2,7 @@
 
 # Imports --------------------------------------------------------------------------------
 
-from flask import render_template, Blueprint, current_app as app
+from flask import render_template, Blueprint, current_app, abort, request
 
 import os  # For walking the file system, in particular in our generate_error_photo function.
 
@@ -103,38 +103,65 @@ def error_page(error_code):
 
 
 # Errors ----------------------------------------------------------------------------------
-@app.errorhandler(400)
+
+@current_app.errorhandler(400)
 def page_400(error):
     return error_page(400)
 
 
-@app.errorhandler(401)
+@current_app.errorhandler(401)
 def page_401(error):
     return error_page(401)
 
 
-@app.errorhandler(403)
+@current_app.errorhandler(403)
 def page_403(error):
     return error_page(403)
 
 
-@app.errorhandler(404)
+@current_app.errorhandler(404)
 def page_404(error):
     return error_page(404)
 
 
-@app.errorhandler(500)
+@current_app.errorhandler(500)
 def page_500(error):
     return error_page(500)
 
-@app.errorhandler(502)
+
+@current_app.errorhandler(502)
 def page_502(error):
     return error_page(502)
 
-@app.errorhandler(503)
+
+@current_app.errorhandler(503)
 def page_503(error):
     return error_page(503)
 
-@app.errorhandler(504)
+
+@current_app.errorhandler(504)
 def page_504(error):
     return error_page(504)
+
+
+# Routes ----------------------------------------------------------------------------------
+
+
+# In our custom test framework, we need to define a method for shutting down our server without having to press CTRL+C.
+# We can do this by calling a function within the WSGI environment named 'werkzeug.server.shutdown.'
+
+@error_handling_bp.route('/shutdown')
+def server_shutdown():
+    if not current_app.testing:  # If the app isn't in a test configuration, then...
+        abort(404)  # Refuse access to this route. Here, we 'pretend' that there is no url for our app called /shutdown.
+
+    shutdown = request.environ.get('werkzeug.server.shutdown')
+
+    # If we cannot get the function from our WGSI environ, raise a runtime error.
+    # The runtime error is used to indicate a specific error that doesn't fall into an other error category.
+
+    if shutdown is None:
+        raise RuntimeError("There function named 'werkzeug.server.shutdown' in the WSGI environment:")
+
+    shutdown()  # If everything else is in order, shutdown the server using werkzeug.server.shutdown.
+    return 'Shutting down the test server...'

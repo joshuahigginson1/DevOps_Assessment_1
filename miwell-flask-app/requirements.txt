@@ -16,7 +16,6 @@ urllib3==1.25.10
 
 Flask-Argon2==0.1.5.1
 
-Flask-Testing==0.8.0
 Selenium==3.141.0
 
 PyMySQL==0.10.0

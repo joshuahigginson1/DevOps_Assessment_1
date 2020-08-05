@@ -3,7 +3,7 @@
 import unittest
 import urllib3
 
-from flask_testing import LiveServerTexstCase
+from flask_testing import LiveServerTestCase
 from selenium import webdriver
 
 from flaskr import initialise_app, db
@@ -17,9 +17,10 @@ class TestBase(LiveServerTestCase):
     def create_app(self):
         config_name = 'testing'
         app = initialise_app(config_name)
-        app.config.update(
-            SQLALCHEMY_DATABASE_URI="mysql+pymysql://root:W33Y15nITj*I&k97@localhost:3306/miwell_test_database",
-            LIVESERVER_PORT=8943  # Change the port that the liveserver listens on.
+        with app.app_context():
+            app.config.update(
+                SQLALCHEMY_DATABASE_URI="mysql+pymysql://root:W33Y15nITj*I&k97@localhost:3306/miwell_test_database",
+                LIVESERVER_PORT=8943  # Change the port that the liveserver listens on.
         )
         return app
 
@@ -27,7 +28,6 @@ class TestBase(LiveServerTestCase):
         """Setup the test driver and create test users"""
         self.driver = webdriver.Safari()
         self.driver.get(self.get_server_url())
-
         db.session.commit()  # Commits anything that is currently left in our session stage to the database.
         db.drop_all()  # Drops the database schema.
         db.create_all()  # Creates our database schema.
@@ -62,8 +62,9 @@ class TestBase(LiveServerTestCase):
         self.driver.quit()
 
     def test_server_is_up_and_running(self):
-        response = urllib3.urlopen(self.get_server_url())
-        self.assertEqual(response.code, 200)
+        with self.app.app_context():
+            response = urllib3.urlopen(self.get_server_url())
+            self.assertEqual(response.code, 200)
 
 
 if __name__ == '__main__':
