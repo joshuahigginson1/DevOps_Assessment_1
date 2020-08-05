@@ -1,8 +1,6 @@
-from flask import url_for
-from selenium import webdriver
-import unittest
+from seleniumwire import webdriver
 
-from urllib3 import response
+import unittest
 
 from flaskr import create_app, db
 import threading
@@ -27,7 +25,7 @@ class LiveServerTestCase(unittest.TestCase):
     def setUpClass(cls):
 
         try:
-            cls.client = webdriver.Safari()
+            cls.client = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver")
 
         except:
             pass
@@ -59,7 +57,7 @@ class LiveServerTestCase(unittest.TestCase):
         if cls.client:
             # Stop our flask server, and close our browser.
 
-            cls.client.get(url_for('error_handling_bp.server_s'))
+            cls.client.get('http://localhost:5000/shutdown')
             cls.client.quit()  # .quit() is used to exit the browser, end the session, tabs, pop-ups.
 
             cls.server_thread.join(timeout=5)  # Closes the thread running our test_app.
@@ -86,5 +84,5 @@ class LiveServerTestCase(unittest.TestCase):
 
 class TestConnections(LiveServerTestCase):
     def test_server_is_up_and_running(self):
-        self.client.get(url_for('main_bp.homepage'))
-        self.assertEqual(response.code, 200)
+        response = self.client.get('http://localhost:5000/')
+        self.assertEqual(self.client.last_request.response.status_code, 200)
