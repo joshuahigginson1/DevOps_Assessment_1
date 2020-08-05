@@ -15,6 +15,8 @@ class Config(object):  # General Config
 
     FLASK_APP = 'wsgi.py'
 
+    ENV = 'Production'
+
     DEBUG = False
     TESTING = False
 
@@ -28,7 +30,7 @@ class Config(object):  # General Config
     # Security Config
 
     SESSION_COOKIE_SECURE = True
-
+    WTF_CSRF_ENABLED = True
     SECRET_KEY = environ.get('PRODUCTION_SECRET_KEY')
 
     # ARGON2_TIME_COST
@@ -52,6 +54,8 @@ class DevelopmentConfig(Config):
 
     DEBUG = True
 
+    ENV = 'Development'
+
     # Database and SQL Alchemy Config
 
     DB_NAME = 'miwell_dev_database'
@@ -62,6 +66,7 @@ class DevelopmentConfig(Config):
     # Security Config
 
     SESSION_COOKIE_SECURE = False
+    WTF_CSRF_ENABLED = False
 
     SECRET_KEY = environ.get('DEV_SECRET_KEY')
 
@@ -69,6 +74,8 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
 
     TESTING = True
+
+    ENV = 'Testing'
 
     # Database and SQL Alchemy Config
 
@@ -80,13 +87,9 @@ class TestingConfig(Config):
     # Security Config
 
     SESSION_COOKIE_SECURE = False
+    WTF_CSRF_ENABLED = False
 
     SECRET_KEY = environ.get('TEST_SECRET_KEY')
-
-    # Selenium Config
-
-    LIVESERVER_PORT = 8943  # Set to 0 to have the OS pick the port.
-    LIVESERVER_TIMEOUT = 10
 
 
 # It is good practice to specify configurations for different environments.

@@ -4,59 +4,17 @@ import unittest
 
 import os
 
+import time
+
 from flask import url_for, abort
 from flask_testing import TestCase
 
 from flaskr import create_app, db
 from flaskr.register.models import Patient, Psychiatrist
 
+from tests.CustomLiveServerTestCase import LiveServerTestCase
+
 from flask_argon2 import generate_password_hash  # For generating password hashes.
-
-
-class BackEndTestCase(TestCase):
-
-    def create_app(self):
-        # pass in test configurations
-        app = create_app('testing')
-        app.config.update(
-            SQLALCHEMY_DATABASE_URI="mysql+pymysql://root:W33Y15nITj*I&k97@localhost:3306/miwell_test_database"
-        )
-        return app
-
-    def setUp(self):  # Will be called before every test.
-
-        db.create_all()  # Creates our database schema.
-
-        test_patient = Patient(  # Create a test patient.
-            username='test_patient',
-            hashed_password=generate_password_hash("test_patient"),
-            email='test_patient@patient.com',
-            first_name='Test',
-            last_name='Patient',
-            phone_number='01234567891',
-            postcode='CV21 M12',
-            medical_conditions='I am a test patient with no medical conditions.',
-            user_authentication="Patient")
-
-        test_psychiatrist = Psychiatrist(  # Create a test psychiatrist.
-            bacp_number='1234567812345678',
-            hashed_password=generate_password_hash("test_psychiatrist"),
-            email='test_psychiatrist@psychiatrist.com',
-            first_name='Test',
-            last_name='Psychiatrist',
-            phone_number='10987654321',
-            postcode='NN6 7TL',
-            psychiatrist_bio='I am a test psychiatrist with no real psychiatric knowledge.',
-            user_authentication="Psychiatrist")
-
-        db.session.add(test_patient)
-        db.session.add(test_psychiatrist)
-        db.session.commit()  # Saves our new users to the database.
-
-    def tearDown(self):  # Called after every test.
-
-        db.session.remove()
-        db.drop_all()
 
 
 # Test 1 - Test our models. ----------------------------------------------------------------------------
@@ -64,7 +22,7 @@ class BackEndTestCase(TestCase):
 # The first class has methods to test that each of the models in the app are working as expected.
 # This is done by querying the database to check that the correct number of records exist in each table.
 
-class TestModels(TestBase):
+class TestModels(LiveServerTestCase):
 
     def test_patient_model(self):  # Test number of records in our Patient table.
         fields_count = Patient.query.count()
@@ -81,7 +39,7 @@ class TestModels(TestBase):
 # For non-restricted views, such as the homepage and the login page, the 200 OK code should be returned
 # For restricted views that require authenticated access, a 302 Found code is returned.
 
-class TestPages(TestBase):
+class TestPages(LiveServerTestCase):
 
     def test_homepage_view(self):  # Test that homepage is accessible without a login.
 
@@ -112,7 +70,7 @@ class TestPages(TestBase):
 
 # The third class has methods to ensure that the error pages are shown when the respective error occurs.
 
-class TestErrorPages(TestBase):
+class TestErrorPages(LiveServerTestCase):
 
     def test_403_forbidden(self):
         http_response = self.client.get('/403')

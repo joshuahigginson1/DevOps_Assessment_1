@@ -4,6 +4,8 @@
 
 from flask import render_template, Blueprint, current_app, abort, request
 
+from time import sleep
+
 import os  # For walking the file system, in particular in our generate_error_photo function.
 
 import random  # For randomly selecting error photos and error remarks.
@@ -152,7 +154,7 @@ def page_504(error):
 
 @error_handling_bp.route('/shutdown')
 def server_shutdown():
-    if not current_app.testing:  # If the app isn't in a test configuration, then...
+    if not current_app.config['ENV'] == 'Testing':  # If the app isn't in a test configuration, then...
         abort(404)  # Refuse access to this route. Here, we 'pretend' that there is no url for our app called /shutdown.
 
     shutdown = request.environ.get('werkzeug.server.shutdown')
@@ -161,7 +163,7 @@ def server_shutdown():
     # The runtime error is used to indicate a specific error that doesn't fall into an other error category.
 
     if shutdown is None:
-        raise RuntimeError("There function named 'werkzeug.server.shutdown' in the WSGI environment:")
+        raise RuntimeError("No function named 'werkzeug.server.shutdown' in the WSGI environment:")
 
     shutdown()  # If everything else is in order, shutdown the server using werkzeug.server.shutdown.
     return 'Shutting down the test server...'
