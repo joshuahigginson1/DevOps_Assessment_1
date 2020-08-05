@@ -32,6 +32,8 @@ Add more badges here.
   - [CI Pipeline](#ci-pipeline)
   - [Front End Development](#front-end-development)
 - [Testing](#testing)
+ - [Unit Testing](#unit-testing)
+ - [Functional Testing](#functional-testing)
 - [Project Management](#project-management)
 - [Project Review](#project-review)
   - [Risk Assessment](#risk-assessment)
@@ -66,6 +68,45 @@ Workforce shortages in mental health are affecting the ability for staff to prov
 
 ## Testing
 
+
+
+
+### Unit Testing
+
+
+
+
+
+
+
+### Functional Testing
+
+
+
+
+
+#### My approach to functional testing.
+After an afternoon of research into functional testing, I finally decided to settle on the use of a **Page-Object Model** approach to unit testing.
+
+>> The Page-Object model is one of many approaches to structuring test code.
+>> Each page of our web application is associated with it's own **'page class'.**
+>> 'Page classes' contain a reference to every _functional_ element of code as a **'elements'.**
+>> Our tests can then utilise the methods of this page object class whenever they need to simulate interaction with the UI.
+
+I chose this approach for a few specific reasons:
+1. My application code is already organised into blueprints. It makes sense that my test elements are organised in a similar way.
+
+2. If I were to add a UI to my app later down the line, I wouldn't have to rewrite every test. Only change the way in which the 'page class' references the UI.
+
+3. I hate having to repeat code.
+
+
+
+
+
+
+
+
 ### Issues with Flask-Testing.
 
 _This section of the documentation covers my experience with the Flask-Testing module, why I ultimately chose to scrap the LiveServerTestCase class, and how I designed my own multi-threaded test framework._
@@ -90,6 +131,9 @@ Selenium is a web browser automation tool that supports the most popular web bro
 Selenium requires a 'web driver' to run tests within a web browser.
 
 >> Additional credit goes to the ‘GOAT’: TDD with Python (2nd edition), written by Harry J.W. Percival.
+
+
+
 
 
 
