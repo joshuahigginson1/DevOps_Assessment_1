@@ -24,8 +24,16 @@ settings_bp = Blueprint(
 # Routes ----------------------------------------------------------------------------------
 @settings_bp.route('/dashboard/acc_settings', methods=['GET'])
 # @login_required
+def patient_acc_settings():
+    return render_template(
+        'dashboard/user_dash/acc_settings.html',
+        title='Settings ~ MiWell'
+    )
 
-def settings():
+
+@settings_bp.route('/dashboard/acc_settings', methods=['GET'])
+# @login_required
+def psychiatrist_acc_settings():
     return render_template(
         'dashboard/user_dash/acc_settings.html',
         title='Settings ~ MiWell'

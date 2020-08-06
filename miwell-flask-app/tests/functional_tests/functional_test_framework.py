@@ -1,9 +1,10 @@
 # Imports -----------------------------------------------------------------------------------------------------
 
-import flask
 from seleniumwire import webdriver
 
 import unittest
+
+from tests.functional_tests.page_objects.common_page_objects import CommonPageObject
 
 from flaskr import create_app, db
 import threading
@@ -14,6 +15,7 @@ import time
 
 class LiveServerTestCase(unittest.TestCase):
     client = None
+    root_url = 'http://localhost:5000'  # WE MUST CHANGE THIS VARIABLE MANUALLY DEPENDING ON THE HOST AND WE ARE USING.
 
     @classmethod  # At the very start of the tests, we must set up a Class.
     def setUpClass(cls):
@@ -39,15 +41,14 @@ class LiveServerTestCase(unittest.TestCase):
             # Anything between the app_context.push() and the app_context.pop() method will be considered to run...
             # ...within a 'app_context()' with statement.
 
-            cls.root_url = 'http://localhost:5000'  # WE MUST CHANGE THIS VARIABLE MANUALLY DEPENDING ON THE HOST AND WE ARE USING.
-
             db.create_all()  # Creates our database.
-
-            cls.url_root = flask.request.base_url  # Sets the root url for the currently running server.
 
             # Configures our app to run in a new thread.
             cls.server_thread = threading.Thread(name="TestInstance", target=cls.test_app.run)
             cls.server_thread.start()  # Runs our test_app on a new thread.
+
+            cls.client.get(cls.root_url)  # Takes us to the root URL.
+            print(f"The currently set root url is: {cls.root_url}")
 
             time.sleep(1)  # Give the server a second to ensure it is up, before running any tests prematurely.
 
@@ -56,10 +57,16 @@ class LiveServerTestCase(unittest.TestCase):
             self.skipTest('Our web browser is currently not available!')
 
     def test_server_is_up_and_running(self):
-        print(f"the currently set root url is: {self.url_root}")
-        self.assertEqual(self.client.last_request.response.status_code, 200)
+
+        # Ignore PEP3. We want to call our class method from CommonPageObject with class instance of LiveServerTestCase.
+
+        page_status_code = CommonPageObject.get_page_response(self)  # Set status code by calling 'get_page_response'.
+
+        self.assertEqual(page_status_code, 200)  # Our page status code should equal 200 if it is functional.
 
     def tearDown(self):
+        time.sleep(1)  # Give the server a second before tearing down any tests prematurely.
+        print("\n ---------------- NEXT TEST ---------------- \n")
         pass
 
     @classmethod

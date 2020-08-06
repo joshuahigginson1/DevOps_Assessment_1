@@ -25,5 +25,5 @@ mood_tracker_bp = Blueprint(
 def user_greeting():
     return render_template(
         'mood_tracker/user_greeting.html',
-        title=f'Hi! ~ MiWell'
+        title='Greetings! ~ MiWell'
     )

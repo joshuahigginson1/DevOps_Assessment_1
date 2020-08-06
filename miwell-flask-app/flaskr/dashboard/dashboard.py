@@ -62,10 +62,10 @@ def my_patients():
     )
 
 
-@dashboard_bp.route('/dashboard/patient_tools', methods=['GET'])
+@dashboard_bp.route('/dashboard/psychiatrist_tools', methods=['GET'])
 @login_required
-def patient_tools():
+def psychiatrist_tools():
     return render_template(
-        'dashboard/psych_dash/patient_tools.html',
-        title=' Patient Tools ~ MiWell'
+        'dashboard/psych_dash/psychiatrist_tools.html',
+        title=' psychiatrist Tools ~ MiWell'
     )
