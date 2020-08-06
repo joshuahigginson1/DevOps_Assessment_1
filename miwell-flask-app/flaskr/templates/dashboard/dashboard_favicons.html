@@ -4,7 +4,7 @@
 
 {% if current_user.user_authentication == 'Patient' %}
 
-    <link rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_meditation.ico') }}">
+    <link class='favicon' name='patient' rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_meditation.ico') }}">
 
 {% endif %}
 
@@ -12,7 +12,7 @@
 
 {% if current_user.user_authentication == 'Psychiatrist' %}
 
-    <link rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_guru.ico') }}">
+    <link class='favicon' name='psychiatrist' rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_guru.ico') }}">
 
 
 {% endif %}
@@ -21,6 +21,6 @@
 
 {% if current_user.user_authentication != 'Psychiatrist' and current_user.user_authentication != 'Patient' %}
 
-    <link rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_ying_yang.ico') }}">
+    <link class='favicon' name='ying-yang' rel="shortcut icon" type='image/x-icon' href="{{ url_for('static', filename='favicon/favicon_ying_yang.ico') }}">
 
 {% endif %}

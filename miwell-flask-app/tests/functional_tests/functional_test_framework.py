@@ -65,6 +65,7 @@ class LiveServerTestCase(unittest.TestCase):
         self.assertEqual(page_status_code, 200)  # Our page status code should equal 200 if it is functional.
 
     def tearDown(self):
+        time.sleep(1)  # Give the server a second before tearing down any tests prematurely.
         print("\n ---------------- NEXT TEST ---------------- \n")
         pass
 
