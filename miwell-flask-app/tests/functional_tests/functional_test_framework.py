@@ -15,6 +15,7 @@ import time
 
 class LiveServerTestCase(unittest.TestCase):
     client = None
+    root_url = 'http://localhost:5000'  # WE MUST CHANGE THIS VARIABLE MANUALLY DEPENDING ON THE HOST AND WE ARE USING.
 
     @classmethod  # At the very start of the tests, we must set up a Class.
     def setUpClass(cls):
@@ -40,8 +41,6 @@ class LiveServerTestCase(unittest.TestCase):
             # Anything between the app_context.push() and the app_context.pop() method will be considered to run...
             # ...within a 'app_context()' with statement.
 
-            cls.root_url = 'http://localhost:5000'  # WE MUST CHANGE THIS VARIABLE MANUALLY DEPENDING ON THE HOST AND WE ARE USING.
-
             db.create_all()  # Creates our database.
 
             # Configures our app to run in a new thread.
@@ -57,20 +56,16 @@ class LiveServerTestCase(unittest.TestCase):
         if not self.client:
             self.skipTest('Our web browser is currently not available!')
 
-        print("\n ---------------- START TEST ---------------- \n")
-
     def test_server_is_up_and_running(self):
 
         # Ignore PEP3. We want to call our class method from CommonPageObject with class instance of LiveServerTestCase.
 
         page_status_code = CommonPageObject.get_page_response(self)  # Set status code by calling 'get_page_response'.
 
-        print(f"The last HTTP code request was: { page_status_code }!")
-
         self.assertEqual(page_status_code, 200)  # Our page status code should equal 200 if it is functional.
 
     def tearDown(self):
-        print("\n ---------------- END TEST ---------------- \n")
+        print("\n ---------------- NEXT TEST ---------------- \n")
         pass
 
     @classmethod
