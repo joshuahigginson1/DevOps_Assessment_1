@@ -2,12 +2,12 @@
 
 # Imports -------------------------------------------------------------------------------------------------
 
-from tests.functional_tests.page_objects.common_page_objects import CommonPageObject, MainNavBar
+from tests.functional_tests.page_objects.common_page_objects import CommonPageObject, PatientNavBar
 
 # Page Objects --------------------------------------------------------------------------------------------
 
 
-class PatientRegisterPageObject(CommonPageObject, MainNavBar):
+class PatientRegisterPageObject(CommonPageObject, PatientNavBar):
     # Default Page Variables.
 
     username = 'DefaultPatient'
@@ -260,12 +260,12 @@ class PatientRegisterPageObject(CommonPageObject, MainNavBar):
     def get_already_registered_button(self):
         get_button_element = self.client.find_element_by_xpath('/html/body/a[1]')
 
-        submit_button_attributes = {
+        already_registered_button_attributes = {
             'button label': get_button_element.get_attribute('innerHTML'),
             'button element': get_button_element
         }
 
-        return submit_button_attributes
+        return already_registered_button_attributes
 
     def click_already_registered_button(self):
         get_already_registered_button_element = self.get_already_registered_button()['button element']
@@ -278,7 +278,6 @@ class PatientRegisterPageObject(CommonPageObject, MainNavBar):
             'button label': get_button_element.get_attribute('innerHTML'),
             'button element': get_button_element
         }
-
         return register_as_psychiatrist_button_attributes
 
     def click_register_as_psychiatrist_button(self):
