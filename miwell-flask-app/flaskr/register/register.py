@@ -9,6 +9,9 @@ from flaskr import db
 from flaskr.register.forms import PatientRegistrationForm, PsychRegistrationForm
 from flaskr.register.models import Patient, Psychiatrist
 
+from flaskr.assign_patient_to_psychiatrist.models import PatientPsychiatristAssign
+from flaskr.assign_patient_to_psychiatrist.assign_patient_to_psychiatrist import psychiatrist_assign_function
+
 from flask_argon2 import generate_password_hash
 
 from flask_login import current_user
@@ -33,6 +36,14 @@ def register_patient():
     patient_form = PatientRegistrationForm()
 
     if patient_form.validate_on_submit():  # If the submitted form passes validation, then...
+
+        available_psychiatrist = psychiatrist_assign_function()  # Attempt to assign a psychiatrist to this patient.
+
+        # if our query returns no psychiatrists, flash a danger alert to our user & take them back to the homepage.
+        if available_psychiatrist is None:
+            flash('Error! Could not currently register you with a psychiatrist. Please try again tomorrow.', 'danger')
+
+            return redirect(url_for('main_bp.homepage'))
 
         # Search for any patients within the database that have an identical email or username.
 
@@ -59,6 +70,13 @@ def register_patient():
             )  # Translates WTForm data to a Patient object, ready for use with SQL-Alchemy.
 
             db.session.add(patient)  # Adds our new patient object to the MySQL database.
+
+            assigned_psychiatrist = PatientPsychiatristAssign(
+                patient_username=patient_form.username.data,
+                psychiatrist_bacp_number=available_psychiatrist
+            )  # Assigns a new psychiatrist to our new user.
+
+            db.session.add(assigned_psychiatrist)
             db.session.commit()
 
             flash('Congratulations, you are now a registered user!', 'success')
