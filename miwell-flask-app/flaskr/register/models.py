@@ -23,33 +23,37 @@ class CommonUser(db.Model):
 # Child Classes -----------------------------------------------------------------------------
 
 class Psychiatrist(UserMixin, CommonUser):
-    __tablename__ = 'psychiatrist_table'
+    __tablename__ = 'psychiatrist'
 
     bacp_number = db.Column(db.String(16), primary_key=True, unique=True, nullable=False)
     psychiatrist_bio = db.Column(db.String(500))
 
-    # One psychiatrist can have many patients. We model this with the function db.relationship.
+    # Relationships ------------------------------------------------------------------------
 
-    patients = db.relationship('Patient', backref='personal_psychiatrist')  # Models the one to many relationship.
+    patients = db.relationship('Patient', back_populates='psychiatrist')  # Models the one to many relationship.
 
-    # Flask-Login Method Override ---------------------------------------------------------------
+    # Class Method Override ---------------------------------------------------------------
 
-    def get_id(self):  # Returns the bacp_number as user ID in order to satisfy Flask-Login's requirements.
+    def get_id(self):  # Returns the bacp_number as our primary 'id'.
         return self.bacp_number
+
 
 class Patient(UserMixin, CommonUser):  # Creates the schema for a 'User table' within our database.
 
-    __tablename__ = 'patient_table'  # Sets SQL database table name.
+    __tablename__ = 'patient'  # Sets SQL database table name.
 
     username = db.Column(db.String(50), primary_key=True, unique=True, nullable=False)
     medical_conditions = db.Column(db.String(500))
+    requires_urgent_help = db.Column(db.Boolean, nullable=False)  # If set to True, we get urgent help for our patient.
 
-    # Models the fact that a patient can only ever have one psychiatrist.
+    # Relationships ------------------------------------------------------------------------
 
-    psychiatrist_id = db.Column(db.String(16), db.ForeignKey('psychiatrist_table.bacp_number'))
+    psychiatrist_id = db.Column(db.String(16), db.ForeignKey('psychiatrist.id'))
+    psychiatrist = db.relationship('Psychiatrist', back_populates='patients')
 
-    # Flask-Login Method Override ---------------------------------------------------------------
+    feelings = db.relationship('PatientFeelings', back_populates='patient')
 
-    def get_id(self):  # Returns the username as user ID in order to satisfy Flask-Login's requirements.
+    # Class Method Override ---------------------------------------------------------------
+
+    def get_id(self):  # Returns the username as our user's primary 'id'.
         return self.username
-

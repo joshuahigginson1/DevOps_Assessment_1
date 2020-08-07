@@ -58,6 +58,7 @@ def register_patient():
                 postcode=patient_form.postcode.data,
                 medical_conditions=patient_form.medical_conditions.data,
                 user_authentication="Patient",
+                requires_urgent_help=False,
                 psychiatrist_id=available_psychiatrist  # Back-Ref.
             )  # Translates WTForm data to a Patient object, ready for use with SQL-Alchemy.
 

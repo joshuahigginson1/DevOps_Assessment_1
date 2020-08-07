@@ -19,95 +19,90 @@
 
 <h1 style="text-align: center;">Welcome {{ current_user.first_name }}!</h1>  <!-- Welcomes the current user by first name. -->
 
-<p style="text-align: center;">How are you feeling today?</p>
-
 <br>
 
-<form action='' method='POST'>  <!-- DETERMINES THE START OF OUR FORM IN WTFORMS -->
+<form action='' method='POST' style="text-align: center;">  <!-- DETERMINES THE START OF OUR FORM IN WTFORMS -->
 
     <p>form.hidden_tag()</p>  <!-- CSRF PROTECTION -->
 
-    <div>
+    <div class="row">
 
-        <h5 style="text-align: center;">Mood</h5>
+        <h5 style="text-align: center;">How is your mental health today?</h5>
 
-        <p style="text-align: center;">
+        <div class="column">
 
-            {% for feeling in mood_form.feelings %}
-                <tr>
-                    <td>{{ feeling }}</td>
-                    <td>{{ feeling.label }}</td>
-                </tr>
+            {% for feeling in mood_form.current_feeling %}
+
+                {{ feeling }} - {{ feeling.label }}
+
             {% endfor %}
 
-        </p>
+        </div>
 
     </div>   <!-- FIRST ROW OF BUTTONS -->
 
     <br>
 
-    <div>
+    <div class="row">
 
         <h5 style="text-align: center;">How are you feeling compared to yesterday?</h5>
 
-        <p style="text-align: center;">
+        <div class="column">
 
-            {% for prog in mood_form.progress %}
-                <tr>
-                    <td>{{ prog }}</td>
-                    <td>{{ prog.label }}</td>
-                </tr>
+            {% for feeling in mood_form.feeling_comparison %}
+
+                    {{ feeling }} - {{ feeling.label }}
+
             {% endfor %}
 
-        </p>
+        </div>
 
     </div>   <!-- SECOND ROW OF BUTTONS -->
 
     <br>
 
-    <div>
+    <div class="row">
 
-        <h5 style="text-align: center;">Behaviour</h5>
+        <h5 style="text-align: center;">How are you feeling compared to yesterday?</h5>
 
-        <p style="text-align: center;">
+        <div class="column">
 
-            <input id="sad" name="row3" type="checkbox" />
-            <label for="sad">Sad Emoji</label>
+            {% for behaviour in mood_form.behaviours %}
 
-            <input id="happy" name="row3" type="checkbox" />
-            <label for="happy">Happy Emoji</label>
+                    {{ feeling }} - {{ feeling.label }}
 
-            <input id="panic" name="row3" type="checkbox" />
-            <label for="panic">Panicking Emoji</label>
+            {% endfor %}
 
-            <input id="laugh" name="row3" type="checkbox" />
-            <label for="laugh">Laughing Emoji</label>
-
-        </p>
+        </div>
 
     </div>   <!-- THIRD ROW OF BUTTONS -->
 
     <br>
 
-    <p style="text-align: center;">
+    <div class="form-control form-control-lg">
 
-        <label for="fname">Anything else?</label>
-        <input id="fname" name="fname" type="text">
+            {{ mood_form.patient_comment }} - {{ mood_form.patient_comment.label }}
 
-    </p>  <!-- TWITTER STYLE TEXT BOX -->
+    </div>  <!-- TWITTER STYLE TEXT BOX -->
 
-    <p style="text-align: right;">
-
+    <div class="btn">
 
                 {{ mood_form.submit }}
 
-
-    </p>  <!-- SUBMIT BUTTON -->
+    </div>  <!-- SUBMIT BUTTON -->
 
 
 </form>
 
-<a href="{{ url_for('dashboard_bp.dashboard') }}">skip to dashboard</a>
+<br>
+
+<p style="text-align: center;">
+
+    <a href="{{ url_for('dashboard_bp.dashboard') }}">😓 Or skip today's evaluation. 😓</a>
+
+</p>
+
+
 
 
 
