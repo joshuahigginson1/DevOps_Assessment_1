@@ -33,23 +33,12 @@
 
         <p style="text-align: center;">
 
-            <input id="sad" name="row1" type="radio" />
-            <label for="sad">1</label>
-
-            <input id="happy" name="row1" type="radio" />
-            <label for="happy">2</label>
-
-            <input id="panic" name="row1" type="radio" />
-            <label for="panic">3</label>
-
-            <input id="laugh" name="row1" type="radio" />
-            <label for="laugh">4</label>
-
-            <input id="sad" name="row1" type="radio" />
-            <label for="sad">5</label>
-
-            <input id="sad" name="row1" type="radio" />
-            <label for="sad">6</label>
+            {% for feeling in mood_form.feelings %}
+                <tr>
+                    <td>{{ feeling }}</td>
+                    <td>{{ feeling.label }}</td>
+                </tr>
+            {% endfor %}
 
         </p>
 
@@ -63,14 +52,12 @@
 
         <p style="text-align: center;">
 
-            <input id="worse" name="row2" type="radio" />
-            <label for="worse">Worse than yesterday.</label>
-
-            <input id="same" name="row2" type="radio" />
-            <label for="same">The same as yesterday.</label>
-
-            <input id="better" name="row2" type="radio" />
-            <label for="better">Better than yesterday.</label>
+            {% for prog in mood_form.progress %}
+                <tr>
+                    <td>{{ prog }}</td>
+                    <td>{{ prog.label }}</td>
+                </tr>
+            {% endfor %}
 
         </p>
 
@@ -111,7 +98,9 @@
 
     <p style="text-align: right;">
 
-        <input type="submit" value="Submit">
+
+                {{ mood_form.submit }}
+
 
     </p>  <!-- SUBMIT BUTTON -->
 

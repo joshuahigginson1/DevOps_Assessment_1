@@ -61,7 +61,7 @@ def create_app(config_name):  # Initialises the core application.
         from .dashboard import dashboard
         from .auth import auth
         from .error_handling import error_handling
-        from .assign_patient_to_psychiatrist import assign_patient_to_psychiatrist, models
+        from flaskr.register import assign_patient_to_psychiatrist
 
         # Next, we register Blueprints.
         # Blueprints are "registered" by calling register_blueprint() on our app object.

@@ -10,6 +10,8 @@ from flask import Blueprint, render_template
 
 from flask_login import login_user, current_user, logout_user, login_required
 
+from flaskr.mood_tracker.forms import MoodForm
+
 # Blueprint Configuration -----------------------------------------------------------------
 
 mood_tracker_bp = Blueprint(
@@ -19,11 +21,24 @@ mood_tracker_bp = Blueprint(
     static_folder='static'
 )
 
+mood_form = MoodForm()
+
+if mood_form.validate_on_submit():
+
+
+
+
+
+
+
+
+# Forms -----------------------------------------------------------------------------------
 
 # Routes ----------------------------------------------------------------------------------
-@mood_tracker_bp.route('/user_greeting', methods=['GET'])
+@mood_tracker_bp.route('/user_greeting', methods=['GET', 'POST'])
 def user_greeting():
     return render_template(
         'mood_tracker/user_greeting.html',
-        title='Greetings! ~ MiWell'
+        title='Greetings! ~ MiWell',
+        form=mood_form
     )

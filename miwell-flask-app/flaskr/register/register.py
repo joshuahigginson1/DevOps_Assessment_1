@@ -9,8 +9,7 @@ from flaskr import db
 from flaskr.register.forms import PatientRegistrationForm, PsychRegistrationForm
 from flaskr.register.models import Patient, Psychiatrist
 
-from flaskr.assign_patient_to_psychiatrist.models import PatientPsychiatristAssign
-from flaskr.assign_patient_to_psychiatrist.assign_patient_to_psychiatrist import psychiatrist_assign_function
+from flaskr.register.assign_patient_to_psychiatrist import psychiatrist_assign_function
 
 from flask_argon2 import generate_password_hash
 
@@ -66,17 +65,11 @@ def register_patient():
                 phone_number=patient_form.phone_number.data,
                 postcode=patient_form.postcode.data,
                 medical_conditions=patient_form.medical_conditions.data,
-                user_authentication="Patient"
+                user_authentication="Patient",
+                psychiatrist_id=available_psychiatrist  # Back-Ref.
             )  # Translates WTForm data to a Patient object, ready for use with SQL-Alchemy.
 
             db.session.add(patient)  # Adds our new patient object to the MySQL database.
-
-            assigned_psychiatrist = PatientPsychiatristAssign(
-                patient_username=patient_form.username.data,
-                psychiatrist_bacp_number=available_psychiatrist
-            )  # Assigns a new psychiatrist to our new user.
-
-            db.session.add(assigned_psychiatrist)
             db.session.commit()
 
             flash('Congratulations, you are now a registered user!', 'success')
@@ -135,7 +128,7 @@ def register_psychiatrist():
             db.session.add(psychiatrist)  # Adds our new psychiatrist object to the MySQL database.
             db.session.commit()
 
-            flash('Congratulations, you are now a registered psychiatrist!')
+            flash('Congratulations, you are now a registered psychiatrist!', 'success')
             return redirect(url_for('main_bp.homepage'))
 
         elif existing_patient_email:  # If there is an existing patient email, then...

@@ -5,6 +5,7 @@
 from flask_wtf import FlaskForm, RecaptchaField  # Import our Flask Form.
 from wtforms import StringField, IntegerField, PasswordField, SubmitField  # Import our field types.
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError  # Import our validators.
+from wtforms_validators import Integer
 from flaskr.register.models import Patient, Psychiatrist  # Import our database models.
 
 # Classes --------------------------------------------------------------------------------
@@ -78,7 +79,8 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
 
     bacp_number = StringField('16 Digit BACP Number', [
         Length(min=16, max=16, message='Please enter a valid 16 Digit BACP Number.'),
-        DataRequired(message='You must be a certified BACP psychiatrist to register with our service.')])
+        DataRequired(message='You must be a certified BACP psychiatrist to register with our service.'),
+        Integer(message='The BACP Number can only consist of numbers!')])
 
     phone_number = StringField('Phone Number', [
         Length(min=11, max=13, message='Please enter a valid phone number.'),

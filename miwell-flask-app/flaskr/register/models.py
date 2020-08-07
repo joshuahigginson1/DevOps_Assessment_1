@@ -22,27 +22,34 @@ class CommonUser(db.Model):
 
 # Child Classes -----------------------------------------------------------------------------
 
+class Psychiatrist(UserMixin, CommonUser):
+    __tablename__ = 'psychiatrist_table'
+
+    bacp_number = db.Column(db.String(16), primary_key=True, unique=True, nullable=False)
+    psychiatrist_bio = db.Column(db.String(500))
+
+    # One psychiatrist can have many patients. We model this with the function db.relationship.
+
+    patients = db.relationship('Patient', backref='personal_psychiatrist')  # Models the one to many relationship.
+
+    # Flask-Login Method Override ---------------------------------------------------------------
+
+    def get_id(self):  # Returns the bacp_number as user ID in order to satisfy Flask-Login's requirements.
+        return self.bacp_number
 
 class Patient(UserMixin, CommonUser):  # Creates the schema for a 'User table' within our database.
 
-    __tablename__ = 'registered_patients'  # Sets SQL database table name.
+    __tablename__ = 'patient_table'  # Sets SQL database table name.
 
     username = db.Column(db.String(50), primary_key=True, unique=True, nullable=False)
     medical_conditions = db.Column(db.String(500))
+
+    # Models the fact that a patient can only ever have one psychiatrist.
+
+    psychiatrist_id = db.Column(db.String(16), db.ForeignKey('psychiatrist_table.bacp_number'))
 
     # Flask-Login Method Override ---------------------------------------------------------------
 
     def get_id(self):  # Returns the username as user ID in order to satisfy Flask-Login's requirements.
         return self.username
 
-
-class Psychiatrist(UserMixin, CommonUser):
-    __tablename__ = 'registered_psychiatrists'
-
-    bacp_number = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
-    psychiatrist_bio = db.Column(db.String(500))
-
-    # Flask-Login Method Override ---------------------------------------------------------------
-
-    def get_id(self):  # Returns the bacp_number as user ID in order to satisfy Flask-Login's requirements.
-        return self.bacp_number

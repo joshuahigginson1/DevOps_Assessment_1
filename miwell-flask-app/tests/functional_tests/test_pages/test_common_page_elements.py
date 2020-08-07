@@ -6,7 +6,7 @@ from flask import url_for
 from tests.functional_tests.page_objects.common_page_objects import CommonPageObject, MainNavBar, PatientNavBar, \
     PsychiatristNavBar
 
-from tests.functional_tests.functional_test_framework import LiveServerTestCase
+from tests.functional_test_framework import LiveServerTestCase
 
 
 # Helper Functions ----------------------------------------------------------------------

@@ -17,6 +17,13 @@
 
     {% include 'dashboard/dashboard_nav_logic.html' %}   <!-- Adds our nav bar dashboard logic. -->
 
+    <div class="container">
+
+        <h3>Welcome, you are a: {{ current_user.user_authentication }}</h3>
+
+    </div>
+
+
     <body>
 
         {% block body %}{% endblock %}
