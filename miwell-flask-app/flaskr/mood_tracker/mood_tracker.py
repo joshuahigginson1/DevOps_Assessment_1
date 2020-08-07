@@ -70,14 +70,14 @@ def user_greeting():
                 # AND date_id=current_date_utc
                 # LIMIT 1
 
-                feels_id_qry_pt1 = db.session.query(PatientFeelings.feelings_id)
-                feels_id_qry_pt2 = feels_id_qry_pt1.filter_by(patient_id=current_user.username, date_id=current_date_utc)
+                query_feelings_id = db.session.query(PatientFeelings.feelings_id).\
+                    filter_by(patient_id=current_user.username, date_id=current_date_utc)
 
-                print('\n------------------------------------- START SQL RAW QUERY -------------------------------------\n')
-                print(feels_id_qry_pt2)  # Outputs the raw SQL query to our terminal.
-                print('\n------------------------------------- END SQL RAW QUERY -------------------------------------\n')
+                print('\n-------------------------------- START SQL RAW QUERY --------------------------------\n')
+                print(query_feelings_id)  # Outputs the raw SQL query to our terminal.
+                print('\n-------------------------------- END SQL RAW QUERY --------------------------------\n')
 
-                (output_feeling_id, ) = feels_id_qry_pt2.first()  # Unpack tuple.
+                (output_feeling_id, ) = query_feelings_id.first()  # Unpack tuple.
 
                 return output_feeling_id
 
