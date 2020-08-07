@@ -48,7 +48,7 @@ class Patient(UserMixin, CommonUser):  # Creates the schema for a 'User table' w
 
     # Relationships ------------------------------------------------------------------------
 
-    psychiatrist_id = db.Column(db.String(16), db.ForeignKey('psychiatrist.id'))
+    psychiatrist_id = db.Column(db.String(16), db.ForeignKey('psychiatrist.bacp_number'))
     psychiatrist = db.relationship('Psychiatrist', back_populates='patients')
 
     feelings = db.relationship('PatientFeelings', back_populates='patient')

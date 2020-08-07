@@ -79,4 +79,4 @@ def psychiatrist_assign_function():
 
     print(f'\nThe chosen psychiatrist is: {chosen_psychiatrist}.\n')
 
-    return abort(404)
+    return chosen_psychiatrist

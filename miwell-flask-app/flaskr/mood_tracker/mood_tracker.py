@@ -1,8 +1,5 @@
-"""
-This file is a template for creating and configuring a blueprint within Flask.
 
-Blueprint Task: Write what the blueprint does HERE.
-"""
+# This blueprint stores the logic for our mood tracker.
 
 # Imports --------------------------------------------------------------------------------
 
@@ -24,30 +21,14 @@ mood_tracker_bp = Blueprint(
     'mood_tracker_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.
     __name__,
     template_folder='templates',
-    static_folder='static'
-)
+    static_folder='static')
+
 
 # Routes ----------------------------------------------------------------------------------
 
 @mood_tracker_bp.route('/user_greeting', methods=['GET', 'POST'])
 @login_required
 def user_greeting():
-    # Helper Methods -----------------------------------------
-
-    def has_user_posted_today():
-
-        date_now = datetime.datetime.utcnow().date()  # Get today's date.
-
-        # Here, we look for any posts in patient feelings, that were submitted on today's date.
-
-        any_posts_today = db.session.query(PatientFeelings).filter_by(date_submitted_utc=date_now).first()
-
-        if any_posts_today:  # If the user has posted today, then we take them straight to the dashboard.
-            flash('Greetings! Your mood has already been tracked for today!', 'primary')
-            return redirect(url_for('dashboard_bp.dashboard'))
-
-        else:  # Otherwise, ignore.
-            pass
 
     # Forms --------------------------------------------------
 
@@ -55,37 +36,66 @@ def user_greeting():
 
     # Execute Code -------------------------------------------
 
-    has_user_posted_today()  # Check to see if user has posted today.
+    # Check to see if user has posted today.
 
-    if mood_form.validate_on_submit():  # If the mood form is successfully posted:
+    date_right_now = datetime.datetime.utcnow().date()  # Get's today's date at the exact moment.
 
-        current_date_utc = datetime.datetime.utcnow().date()  # Set once to avoid time conflict between two tables.
+    # Here, we look for any posts in patient feelings, that were submitted on today's date.
 
-        new_feeling = PatientFeelings(
-            patient_id=current_user.username,  # Patient ID equal to current user's username.
-            current_feeling=mood_form.current_feeling.data,
-            feeling_comparison=mood_form.feeling_comparison.data,
-            date_submitted_utc=current_date_utc,  # Date equal to today's date.
-            patient_comment=mood_form.patient_comment.data,
-            psychiatrist_comment=None
-        )
+    any_posts_today = db.session.query(PatientFeelings.patient_id).filter_by(date_id=date_right_now).first()
 
-        db.session.add(new_feeling)  # Adds new feeling to feelings table.
+    if not any_posts_today:  # Otherwise, ignore.
 
-        for behaviour in mood_form.behaviours:  # Adds a new database entry for each behaviour in our form.
+        if mood_form.validate_on_submit():  # If the mood form is successfully posted:
 
-            new_behaviour = PatientBehaviours(
+            current_date_utc = datetime.datetime.utcnow().date() # Set once to avoid time conflict between two tables.
 
-                date_submitted_utc=current_date_utc,
+            new_feeling = PatientFeelings(
                 patient_id=current_user.username,  # Patient ID equal to current user's username.
-                behaviour=behaviour
+                current_feeling=mood_form.current_feeling.data,
+                feeling_comparison=mood_form.feeling_comparison.data,
+                date_id=current_date_utc,  # Date equal to today's date.
+                patient_comment=mood_form.patient_comment.data,
+                psychiatrist_comment=None
             )
 
-            db.session.add(new_behaviour)
+            db.session.add(new_feeling)  # Adds new feeling to session.
+            db.session.commit()  # Commits session to database.
 
-        db.session.commit()  # Commits the data to our database.
+            # Get the feeling ID of the current feeling, from the current patient.
+            def get_feeling_id():
+                # SELECT feelings_id
+                # FROM patient_feelings
+                # WHERE patient_id=current_user.username
+                # AND date_id=current_date_utc
+                # LIMIT 1
 
-        flash('Your mood has been tracked for today. Thank you.', 'primary')
+                feels_id_qry_pt1 = db.session.query(PatientFeelings.feelings_id)
+                feels_id_qry_pt2 = feels_id_qry_pt1.filter_by(patient_id=current_user.username, date_id=current_date_utc)
+
+                print('\n------------------------------------- START SQL RAW QUERY -------------------------------------\n')
+                print(feels_id_qry_pt2)  # Outputs the raw SQL query to our terminal.
+                print('\n------------------------------------- END SQL RAW QUERY -------------------------------------\n')
+
+                (output_feeling_id, ) = feels_id_qry_pt2.first()  # Unpack tuple.
+
+                return output_feeling_id
+
+            for behaviour in mood_form.behaviours:  # Adds a new database entry for each behaviour in our form.
+
+                new_behaviour = PatientBehaviours(
+                    feelings_id=get_feeling_id(),
+                    behaviour=behaviour.data
+                )
+
+                db.session.add(new_behaviour)
+                db.session.commit()
+
+            flash('Your mood has been tracked for today. Thank you.', 'primary')
+            return redirect(url_for('dashboard_bp.dashboard'))
+
+    elif any_posts_today:  # If the user has posted today, then we take them straight to the dashboard.
+        flash('Greetings! Your mood has already been tracked for today!', 'primary')
         return redirect(url_for('dashboard_bp.dashboard'))
 
     return render_template(
