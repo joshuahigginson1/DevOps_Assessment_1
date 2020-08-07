@@ -21,13 +21,6 @@ mood_tracker_bp = Blueprint(
     static_folder='static'
 )
 
-mood_form = MoodForm()
-
-if mood_form.validate_on_submit():
-
-
-
-
 
 
 
@@ -37,6 +30,20 @@ if mood_form.validate_on_submit():
 # Routes ----------------------------------------------------------------------------------
 @mood_tracker_bp.route('/user_greeting', methods=['GET', 'POST'])
 def user_greeting():
+
+
+
+    mood_form = MoodForm()
+
+    if mood_form.validate_on_submit():
+        mood_form =
+
+
+
+
+
+
+
     return render_template(
         'mood_tracker/user_greeting.html',
         title='Greetings! ~ MiWell',

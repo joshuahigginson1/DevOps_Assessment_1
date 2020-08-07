@@ -53,6 +53,23 @@ class PatientRegistrationForm(FlaskForm):  # Creates a new child class, inheriti
 
     submit = SubmitField('Register Now!')
 
+    # Custom Validators ---------------------------------------------------------------------
+
+    # Search for any patients within the database that have an identical username or email.
+
+    def validate_existing_username(self, username):
+        patient_username = Patient.query.filter_by(username=username.data).first()
+
+        if patient_username is not None:
+            raise ValidationError('A psychiatrist has already registered with this BACP number.')
+
+    def validate_existing_email(self, email):
+        psych_email = Psychiatrist.query.filter_by(email=email.data).first()
+        patient_email = Patient.query.filter_by(email=email.data).first()
+
+        if psych_email is not None and patient_email is not None:
+            raise ValidationError('An account already exists with the current email address.')
+
 
 class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting from parent 'FlaskForm'.
 
@@ -97,3 +114,20 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
     # recaptcha = RecaptchaField()
 
     submit = SubmitField('Register Now!')
+
+    # Custom Validators ---------------------------------------------------------------------
+
+    # Search for any psychiatrists within the database that have an identical BACP number or email.
+
+    def validate_existing_bacp(self, bacp_number):
+        psychiatrist_bacp = Psychiatrist.query.filter_by(bacp_number=bacp_number.data).first()
+
+        if psychiatrist_bacp is not None:
+            raise ValidationError('A psychiatrist has already registered with this BACP number.')
+
+    def validate_existing_email(self, email):
+        psych_email = Psychiatrist.query.filter_by(email=email.data).first()
+        patient_email = Patient.query.filter_by(email=email.data).first()
+
+        if psych_email is not None and patient_email is not None:
+            raise ValidationError('An account already exists with the current email address.')

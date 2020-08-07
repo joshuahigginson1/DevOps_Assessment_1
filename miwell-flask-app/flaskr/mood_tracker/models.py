@@ -8,14 +8,13 @@ from flaskr import db  # import our database instance, stored as 'variable' in o
 from flask_login import UserMixin  # Provides useful methods for managing the users or our app.
 
 
-
-
 # Classes --------------------------------------------------------------------------------
 
-class Users(db.Model):  # Creates the schema for a 'Users table' within our database.
-    id = db.Column(db.Integer, primary_key=True)
-    patient_id = db.Column(db.String(500), nullable=False, unique=True)
-    psychiatrist_id = db.Column(db.String(500), nullable=False)
+class PatientMood(db.Model):  # Creates the schema for a 'Mood Table' within our database.
+    __tablename__ = 'mood_table'
+    id = db.Column(db.Integer, primary_key=True)  # Auto Increment an id.
+    patient_id = db.Column(db.ForeignKey())
+
 
     def __repr__(self):  # Define the self representation of our data.
         return ''.join(['UserID: ', str(self.id), '\r\n', 'Email: ', self.email])
