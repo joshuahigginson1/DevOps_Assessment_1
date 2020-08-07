@@ -26,7 +26,7 @@ settings_bp = Blueprint(
 # @login_required
 def patient_acc_settings():
     return render_template(
-        'dashboard/user_dash/acc_settings.html',
+        'dashboard/patient_dash/acc_settings.html',
         title='Settings ~ MiWell'
     )
 
@@ -35,6 +35,6 @@ def patient_acc_settings():
 # @login_required
 def psychiatrist_acc_settings():
     return render_template(
-        'dashboard/user_dash/acc_settings.html',
+        'dashboard/patient_dash/acc_settings.html',
         title='Settings ~ MiWell'
     )

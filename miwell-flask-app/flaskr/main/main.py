@@ -42,7 +42,7 @@ def homepage():
 
             login_user(patient_account_check, remember=login_form.remember.data)
             flash('Signed in successfully!', 'success')  # Displays message to user.
-            return redirect(url_for('dashboard_bp.dashboard'))
+            return redirect(url_for('mood_tracker_bp.user_greeting'))
 
             # Next iteration of sprint, we need to redirect the patient to a greetings page, where they fill out mood.
 

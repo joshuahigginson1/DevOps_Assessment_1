@@ -155,7 +155,7 @@ def page_504(error):
 @error_handling_bp.route('/shutdown')
 def server_shutdown():
     if not current_app.config['ENV'] == 'Testing':  # If the app isn't in a test configuration, then...
-        abort(404)  # Refuse access to this route. Here, we 'pretend' that there is no url for our app called /shutdown.
+        return error_page(404)  # Refuse access. Here, we 'pretend' that there is no url for our app called /shutdown.
 
     shutdown = request.environ.get('werkzeug.server.shutdown')
 

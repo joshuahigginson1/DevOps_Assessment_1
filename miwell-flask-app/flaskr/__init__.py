@@ -61,6 +61,7 @@ def create_app(config_name):  # Initialises the core application.
         from .dashboard import dashboard
         from .auth import auth
         from .error_handling import error_handling
+        from flaskr.register import assign_patient_to_psychiatrist
 
         # Next, we register Blueprints.
         # Blueprints are "registered" by calling register_blueprint() on our app object.
@@ -72,7 +73,7 @@ def create_app(config_name):  # Initialises the core application.
         app.register_blueprint(dashboard.dashboard_bp)
         app.register_blueprint(error_handling.error_handling_bp)
 
-        # Flask-Login needs to know the view function which  handles login functionality.
+        # Flask-Login needs to know the view function which handles login functionality.
         # 'login' is the endpoint name that you would use in a url_for() call, to get the URL.
 
         login_manager.login_view = 'main_bp.homepage'

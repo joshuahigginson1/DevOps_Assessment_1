@@ -15,121 +15,159 @@
 
 {% include 'flashing_interface.html' %}   <!-- Adds our 'message flash' interface to the top of our greetings page. -->
 
-<body>
-
 <h1 style="text-align: center;">Welcome {{ current_user.first_name }}!</h1>  <!-- Welcomes the current user by first name. -->
 
-<p style="text-align: center;">How are you feeling today?</p>
+<form action='' method='POST' style="text-align: center;">  <!-- DETERMINES THE START OF OUR FORM IN WTFORMS -->
 
-<br>
+    {{ form.hidden_tag() }}  <!-- CSRF PROTECTION -->
 
-<form action='' method='POST'>  <!-- DETERMINES THE START OF OUR FORM IN WTFORMS -->
+    <div class="row">
 
-    <p>form.hidden_tag()</p>  <!-- CSRF PROTECTION -->
+        <h5 style="text-align: center;">{{ form.current_feeling.description }}</h5>
 
-    <div>
+        <div class="column">
 
-        <h5 style="text-align: center;">Mood</h5>
+            {% for feeling in form.current_feeling %}
 
-        <p style="text-align: center;">
+                {{ feeling }} {{ feeling.label }}
 
+            {% endfor %}
 
-            <input id="sad" name="row1" type="radio" />
-            <label for="sad">1</label>
+            {% if form.current_feeling.errors %}
 
-            <input id="happy" name="row1" type="radio" />
-            <label for="happy">2</label>
+                    <br> <br>
 
-            <input id="panic" name="row1" type="radio" />
-            <label for="panic">3</label>
+                    <div class='error'>
 
-            <input id="laugh" name="row1" type="radio" />
-            <label for="laugh">4</label>
+                        {% for error in form.current_feeling.errors %}
 
-            <input id="sad" name="row1" type="radio" />
-            <label for="sad">5</label>
+                            <span>{{ error }}</span>
 
-            <input id="sad" name="row1" type="radio" />
-            <label for="sad">6</label>
+                        {% endfor %}
 
-        </p>
+                    </div>
+
+            {% endif %}
+
+        </div>
 
     </div>   <!-- FIRST ROW OF BUTTONS -->
 
     <br>
 
-    <div>
+    <div class="row">
 
-        <h5 style="text-align: center;">How are you feeling compared to yesterday?</h5>
+        <h5 style="text-align: center;">{{ form.feeling_comparison.description }}</h5>
 
-        <p style="text-align: center;">
+        <div class="column">
 
-            <input id="worse" name="row2" type="radio" />
-            <label for="worse">Worse than yesterday.</label>
+            {% for feeling in form.feeling_comparison %}
 
-            <input id="same" name="row2" type="radio" />
-            <label for="same">The same as yesterday.</label>
+                    {{ feeling }} {{ feeling.label }}
 
-            <input id="better" name="row2" type="radio" />
-            <label for="better">Better than yesterday.</label>
+            {% endfor %}
 
-        </p>
+                {% if form.feeling_comparison.errors %}
+
+                    <br> <br>
+
+                    <div class='error'>
+
+                        {% for error in form.feeling_comparison.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+            {% endif %}
+
+        </div>
 
     </div>   <!-- SECOND ROW OF BUTTONS -->
 
     <br>
 
-    <div>
+    <div class="row">
 
-        <h5 style="text-align: center;">Behaviour</h5>
+        <h5 style="text-align: center;">{{ form.behaviours.description }}</h5>
 
-        <p style="text-align: center;">
+        <div class="column">
 
-            <input id="sad" name="row3" type="checkbox" />
-            <label for="sad">Sad Emoji</label>
+            {% for behaviour in form.behaviours %}
 
-            <input id="happy" name="row3" type="checkbox" />
-            <label for="happy">Happy Emoji</label>
+            <span style="padding: 10px"> {{ behaviour }} {{ behaviour.label }} </span>
 
-            <input id="panic" name="row3" type="checkbox" />
-            <label for="panic">Panicking Emoji</label>
+            {% endfor %}
 
-            <input id="laugh" name="row3" type="checkbox" />
-            <label for="laugh">Laughing Emoji</label>
+            {% if form.behaviours.errors %}
 
-        </p>
+                    <br>
+
+                    <div class='error'>
+
+                        {% for error in form.behaviours.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+            {% endif %}
+
+        </div>
 
     </div>   <!-- THIRD ROW OF BUTTONS -->
 
+    <br> <br>
+
+    <div style="text-align: center;" class="form-control form-control-lg">
+
+        {{ form.patient_comment.label }}
+
+        <br> <br>
+
+        {{ form.patient_comment }}
+
+                    {% if form.patient_comment.errors %}
+
+                    <br> <br>
+
+                    <div class='error'>
+
+                        {% for error in form.patient_comment.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+            {% endif %}
+
+    </div>  <!-- TWITTER STYLE TEXT BOX -->
+
+    <br>
     <br>
 
-    <p style="text-align: center;">
+    <div class="btn">
 
-        <label for="fname">Anything else?</label>
-        <input id="fname" name="fname" type="text">
+                {{ form.submit }}
 
-    </p>  <!-- TWITTER STYLE TEXT BOX -->
-
-    <p style="text-align: right;">
-
-        <input type="submit" value="Submit">
-
-    </p>  <!-- SUBMIT BUTTON -->
+    </div>  <!-- SUBMIT BUTTON -->
 
 
 </form>
 
-<a href="{{ url_for('dashboard_bp.dashboard') }}">skip to dashboard</a>
+<br>
 
+<p style="text-align: center;">
 
+    <a href="{{ url_for('dashboard_bp.dashboard') }}">😓 Or skip today's evaluation. 😓</a>
 
-
-
-
-
-
-
-
+</p>
 
 </body>
 </html>
