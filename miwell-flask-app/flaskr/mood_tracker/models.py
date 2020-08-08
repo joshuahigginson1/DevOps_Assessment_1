@@ -18,6 +18,8 @@ class PatientFeelings(db.Model):  # Represents how the user is feeling on a fixe
     feeling_comparison = db.Column(db.String(8), nullable=False)  # Better or worse than yesterday.
     patient_comment = db.Column(db.String(200))
     psychiatrist_comment = db.Column(db.String(200))  # Psychs leave their comment in this section.
+    date_patient_updated = db.Column(db.Date)
+    date_psychiatrist_updated = db.Column(db.Date)
 
     # Relationships ------------------------------------------------------------------------
 

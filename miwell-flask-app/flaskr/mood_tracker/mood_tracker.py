@@ -1,5 +1,5 @@
 
-# This blueprint stores the logic for our mood tracker.
+# This blueprint stores the logic for our mood tracker functionality.
 
 # Imports --------------------------------------------------------------------------------
 
@@ -23,6 +23,8 @@ mood_tracker_bp = Blueprint(
     template_folder='templates',
     static_folder='static')
 
+
+# Logic -----------------------------------------------------------------------------------
 
 # Routes ----------------------------------------------------------------------------------
 
