@@ -4,9 +4,8 @@ After=network.target
 
 [Service]
 User=miwell-admin
-
-# give group ownership to the www-data group so that Apache can communicate easily with Gunicorn.
 Group=www-data
+# give group ownership to the www-data group so that Apache can communicate easily with Gunicorn.
 
 # Define the working directory and set the environmental file.
 
@@ -16,7 +15,7 @@ Environment="PATH=/opt/miwell-flask-app/venv/bin"
 
 EnvironmentFile=/opt/miwell-flask-app/.env
 
-ExecStart=/bin/sh -c 'cd /opt/miwell-flask-app && . ./venv/bin/activate && gunicorn --config gunicorn_config.py wsgi:app'
+ExecStart=/opt/miwell-flask-app/venv/bin/gunicorn --config gunicorn_config.py wsgi:app
 
 [Install]
 WantedBy=multi-user.target
