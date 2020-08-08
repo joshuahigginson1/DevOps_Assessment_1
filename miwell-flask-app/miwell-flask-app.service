@@ -7,11 +7,17 @@ User=miwell-admin
 # Define the working directory and set the environmental file.
 
 WorkingDirectory=/opt/miwell-flask-app
+EnvironmentFile=/opt/miwell-flask-app/.env
 
 Environment="PATH=/opt/miwell-flask-app/venv/bin"
-ExecStartPre=/bin/bash -c 'cd /opt/miwell-flask-app'
-ExecstartPre=/bin/bash -c '. ./venv/bin/activate'
-ExecStart=/bin/bash -c 'gunicorn --workers 4 --bind 0.0.0.0:5000 wsgi:app'
+
+ExecStart=/bin/sh \
+    -c 'cd /opt/miwell-flask-app && \
+    . ./venv/bin/activate && \
+    gunicorn --workers=4 --bind=0.0.0.0:5000 wsgi:app'
+
+
+
 
 [Install]
 WantedBy=multi-user.target
