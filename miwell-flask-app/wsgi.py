@@ -24,4 +24,4 @@ app = create_app('development')
 # Run our App -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(host='localhost', port=5000)  # Runs an app instance on localhost port 5000.
+    app.run()  # Runs an app instance.
