@@ -13,9 +13,7 @@ Group=www-data
 WorkingDirectory=/opt/miwell-flask-app
 EnvironmentFile=/opt/miwell-flask-app/miwell-hosted.env
 ExecStart=/bin/sh \
-    -c 'cd /opt/miwell-flask-app && \
-    . ./venv/bin/activate && \
-    . ./venv/bin/gunicorn --workers 4 --bind unix:app.sock -m 007 wsgi:app'
+    -c 'cd /opt/miwell-flask-app && . ./venv/bin/activate && gunicorn --workers 4 --bind unix:app.sock -m 007 wsgi:app'
 
 [Install]
 WantedBy=multi-user.target
