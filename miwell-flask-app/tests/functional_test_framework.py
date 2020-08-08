@@ -1,4 +1,5 @@
 # Imports -----------------------------------------------------------------------------------------------------
+from os import environ
 
 from seleniumwire import webdriver
 
@@ -15,13 +16,14 @@ import time
 
 class LiveServerTestCase(unittest.TestCase):
     client = None
-    root_url = 'http://localhost:5000'  # WE MUST CHANGE THIS VARIABLE MANUALLY DEPENDING ON THE HOST AND WE ARE USING.
+    root_url = environ.get('ROOT_URL')
+    webdriver_exe_path = environ.get('WEBDRIVER_EXE_PATH')
 
     @classmethod  # At the very start of the tests, we must set up a Class.
     def setUpClass(cls):
 
         try:
-            cls.client = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver")  # DEPENDENT ON RUN ENVIRON.
+            cls.client = webdriver.Chrome(executable_path=cls.webdriver_exe_path)  # DEPENDENT ON RUN ENVIRON.
 
         except:
             pass

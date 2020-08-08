@@ -17,8 +17,6 @@ This in turn imports, and starts our entire app.
 
 from flaskr import create_app  # imports our app object from ./flask-app/flaskr/init_test_cases.py
 
-import config  # imports our config.py file.
-
 # Initialise our App Instances ------------------------------------------------------------
 
 app = create_app('development')

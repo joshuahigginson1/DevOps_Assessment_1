@@ -1,0 +1,21 @@
+[Unit]
+Description=Run the MiWell flask app as a systemd service with gunicorn & NGINX.
+
+[Service]
+User=miwell-admin
+
+# give group ownership to the www-data group so that Nginx can communicate easily with Gunicorn.
+
+Group=www-data
+
+# Define the working directory and set the PATH environmental variable.
+
+WorkingDirectory=/opt/miwell-flask-app
+EnvironmentFile=/opt/miwell-flask-app/.env
+ExecStart=/bin/sh \
+    -c 'cd /opt/miwell-flask-app && \
+    . ./venv/bin/activate && \
+    gunicorn --workers=4 --bind=unix:miwell_app.sock -m 007 wsgi:app'
+
+[Install]
+WantedBy=multi-user.target
