@@ -71,8 +71,6 @@ class MoodForm(FlaskForm):  # For patients to enter their mood within the system
 
 class MoodReview(FlaskForm):
 
-    is_
-
     psychiatrist_comment = TextAreaField('Your Comment:', [
         Length(max=200, message='Please keep your message under 200 characters.')])
 

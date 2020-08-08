@@ -1,0 +1,10 @@
+server {
+    listen 80;
+    server_name www.miwellness.co.uk;
+}
+
+location / {
+  include proxy_params;
+  proxy_pass /opt/miwell-flask-app/app.sock;
+    }
+}
