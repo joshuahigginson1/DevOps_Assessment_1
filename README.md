@@ -16,7 +16,7 @@ _Created for QA Consulting by Joshua Higginson_
 
 
 ![GitHub](https://img.shields.io/github/license/joshuahigginson1/DevOps_Assessment_1?style=flat-square)
-![Coffee](https://img.shields.io/badge/Coffee%20Consumed-%E2%98%95%20%2023%20Cups%20%20%E2%98%95-yellow?style=flat-square)
+![Coffee](https://img.shields.io/badge/Coffee%20Consumed-%E2%98%95%20%2029%20Cups%20%20%E2%98%95-yellow?style=flat-square)
 
 Add more badges here.
 
