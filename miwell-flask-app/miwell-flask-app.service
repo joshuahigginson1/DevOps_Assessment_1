@@ -9,15 +9,10 @@ User=miwell-admin
 WorkingDirectory=/opt/miwell-flask-app
 EnvironmentFile=/opt/miwell-flask-app/.env
 
-Environment="PATH=/opt/miwell-flask-app/venv/bin"
-
 ExecStart=/bin/sh \
     -c 'cd /opt/miwell-flask-app && \
     . ./venv/bin/activate && \
-    gunicorn --workers=4 --bind=0.0.0.0:5000 wsgi:app'
-
-
-
+    gunicorn --workers=4 --bind=0.0.0.0:5000 app:app'
 
 [Install]
 WantedBy=multi-user.target
