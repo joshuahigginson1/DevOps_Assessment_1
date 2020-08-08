@@ -22,20 +22,20 @@ class MultiCheckboxField(SelectMultipleField):
 # Classes --------------------------------------------------------------------------------
 
 
-class MoodForm(FlaskForm):  # Creates a child class called 'NewForm', inheriting from parent 'FlaskForm'.
+class MoodForm(FlaskForm):  # For patients to enter their mood within the system.
 
     current_feeling = RadioField(description='How is your mental health today?',
                                  coerce=int,  # A tag to ensure that our validation works for RadioFields.
-                                 choices=[(1, '1 - Excruciatingly bad.'),
-                                          (2, '2 - '),
-                                          (3, "3 - It's been better."),
-                                          (4, '4 - '),
-                                          (5, "5 - My mental health hasn't affected me today."),
-                                          (6, '6 - '),
-                                          (7, "7 - I'm feeling positive."),
-                                          (8, '8 - '),
-                                          (9, '9 - '),
-                                          (10, '10 - On top of the world.')],
+                                 choices=[(1, 'Excruciatingly bad.'),
+                                          (2, '2'),
+                                          (3, "It's been better."),
+                                          (4, '4'),
+                                          (5, "My mental health hasn't affected me today."),
+                                          (6, '6'),
+                                          (7, "I'm feeling really positive."),
+                                          (8, '8'),
+                                          (9, '9'),
+                                          (10, 'On top of the world.')],
 
                                  validators=[DataRequired()])
 
@@ -67,3 +67,13 @@ class MoodForm(FlaskForm):  # Creates a child class called 'NewForm', inheriting
         Length(max=200, message='Please keep your message under 200 characters.')])
 
     submit = SubmitField('Complete Evaluation')
+
+
+class MoodReview(FlaskForm):
+
+    is_
+
+    psychiatrist_comment = TextAreaField('Your Comment:', [
+        Length(max=200, message='Please keep your message under 200 characters.')])
+
+    submit = SubmitField('Submit Review.')

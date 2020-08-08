@@ -1,11 +1,8 @@
 # This script contains the logic which pairs a patient to a psychiatrist upon registration.
 
 # Imports -------------------------------------------------------------------------------------
-from os import abort
 
 from sqlalchemy import func
-
-from operator import itemgetter
 
 from flaskr import db
 from flaskr.register.models import Psychiatrist, Patient
