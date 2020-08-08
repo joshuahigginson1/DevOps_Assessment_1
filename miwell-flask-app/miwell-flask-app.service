@@ -11,7 +11,7 @@ Group=www-data
 # Define the working directory and set the PATH environmental variable.
 
 WorkingDirectory=/opt/miwell-flask-app
-EnvironmentFile=/opt/miwell-flask-app/.env
+EnvironmentFile=/opt/miwell-flask-app/hosted.env
 ExecStart=/bin/sh \
     -c 'cd /opt/miwell-flask-app && \
     . ./venv/bin/activate && \
