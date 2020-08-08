@@ -16,7 +16,7 @@ Environment="PATH=/opt/miwell-flask-app/venv/bin"
 
 EnvironmentFile=/opt/miwell-flask-app/miwell-hosted.env
 
-ExecStart=/opt/miwell-flask-app/venv/bin/gunicorn --config gunicorn_config.py wsgi:app
+ExecStart=/bin/bash /opt/miwell-flask-app/venv/bin/gunicorn --config gunicorn_config.py wsgi:app
 
 [Install]
 WantedBy=multi-user.target
