@@ -8,7 +8,7 @@ User=miwell-admin
 
 Group=www-data
 
-# Define the working directory and set the PATH environmental variable.
+# Define the working directory and set the environmental file.
 
 WorkingDirectory=/opt/miwell-flask-app/
 EnvironmentFile=/opt/miwell-flask-app/miwell-hosted.env
@@ -19,3 +19,4 @@ ExecStart=/bin/sh \
 
 [Install]
 WantedBy=multi-user.target
+
