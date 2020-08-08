@@ -62,6 +62,49 @@ Workforce shortages in mental health are affecting the ability for staff to prov
 
 ### Database Structure
 
+
+
+
+
+
+
+#### Dynamically assigning patients with a new psychiatrist. 
+
+After updating the relationships within my tables, my next task was to dynamically assign a psychiatrist to our patients upon registration.
+I thought that the best way of doing this would be to perform an outer join on the psychiatrist and patient tables.
+
+In theory, I could then use the aggregate function COUNT() in order to calculate each psychiatrist's workload.
+
+**Note: In _theory_. The following code did not make it's way into the final project.**
+
+We assign the patient with the psychiatrist with the _least number of other patients_ assigned to them.
+
+` SELECT psy.bacp_number, COUNT(pat.username) `  
+` FROM psychiatrist psy `  
+` LEFT OUTER JOIN patient pat `  
+` ON psy.bacp_number=pat.psychiatrist_id `  
+` GROUP_BY psy.bacp_number; `
+
+**Unfortunately for us,** when we convert this code into SQLAlchemy syntax, we omit all 'null entries' within our join table.
+
+`psych_on_patients_join = db.session.query(Psychiatrist.bacp_number, func.count(Patient.username)).outerjoin(Psychiatrist, Psychiatrist.bacp_number == Patient.psychiatrist_id).group_by(Psychiatrist.bacp_number).first()`
+
+`(chosen_psychiatrist, patient_count) = psych_on_patients_join`
+
+This code would not include any of the psychiatrists with no previously assigned patients, aka, a ‘_null_ result’.
+
+##### The Fix
+
+My chosen fix for this issue was to ‘unpack’ a larger subset of our SQLAlchemy table into a _Python dictionary_.
+
+Once I had the data within python itself, it became far easier for me to manipulate the code with functions in Python.
+
+
+
+
+
+
+
 ### CI Pipeline
 
 ### Front End Development
@@ -101,12 +144,6 @@ I chose this approach for a few specific reasons:
 3. I hate having to repeat code.
 
 
-
-
-
-
-
-
 ### Issues with Flask-Testing.
 
 _This section of the documentation covers my experience with the Flask-Testing module, why I ultimately chose to scrap the LiveServerTestCase class, and how I designed my own multi-threaded test framework._
@@ -114,7 +151,7 @@ _This section of the documentation covers my experience with the Flask-Testing m
 Test_client() is a _lightweight browser emulation_ that comes prebuilt into flask. This makes it easier for developers to test their programs without having to write their own.
 However, this client cannot _fully_ emulate the environment of an application running within a browser.
 
-There are a number of things that it will **not** do. The test_client() browser cannot execute JavaScript code, which makes it impossible to fully test an interactive UI. 
+There are a number of things that it will **not** do. The test_client() browser cannot execute JavaScript code, which makes it impossible to fully test an interactive UI. 
 Any code that is included within a http response will be returned without having been executed.
 
 For this project, I wanted to ensure that my functional tests were running in a ‘true-to-life' production environment.
