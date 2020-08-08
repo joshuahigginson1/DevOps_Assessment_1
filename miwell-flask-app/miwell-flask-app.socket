@@ -1,0 +1,11 @@
+[Unit]
+Description= Gunicorn socket for my
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+
+# only the nginx daemon will need access to the socket
+User=www-data
+
+[Install]
+WantedBy=sockets.target
