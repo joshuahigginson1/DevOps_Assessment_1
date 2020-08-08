@@ -3,8 +3,9 @@
 import multiprocessing
 
 workers = multiprocessing.cpu_count() * 2 + 1  # Dynamically generates workers.
-bind = ['127.0.0.1:5000']  # Instructs gunicorn to listen to requests on local port 8000.
-umask = 0
+
+bind = 'unix:miwell-flask-app.sock'
+umask = 0o007
 reload = True
 
 # logging
