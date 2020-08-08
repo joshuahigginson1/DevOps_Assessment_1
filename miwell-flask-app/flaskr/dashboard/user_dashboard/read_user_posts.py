@@ -11,6 +11,10 @@ import db
 
 def return_user_posts(days_to_view):
 
+# On the homepage for example, we could show only the most recent day to view.
+
+
+
     for posts in returned_table:
 
         # First, we need to query our database.
