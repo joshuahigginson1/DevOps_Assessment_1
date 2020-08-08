@@ -4,7 +4,7 @@ import multiprocessing
 
 workers = multiprocessing.cpu_count() * 2 + 1  # Dynamically generates workers.
 
-bind = 'unix:miwell-flask-app.sock'
+bind = 'unix:/opt/miwell-flask-app/miwell-gunicorn-socket.sock'
 umask = 0o007
 reload = True
 
