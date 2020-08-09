@@ -63,7 +63,7 @@ def user_greeting():
 
                 danger_list = ['worse', 'same']  # A list of the feelings that indicate a patient needs help.
 
-                if new_feeling.feeling_comparison.data in danger_list and new_feeling.current_feeling < 3:
+                if new_feeling.feeling_comparison in danger_list and new_feeling.current_feeling < 3:
                     # If the patient has a mood of 3 or lower, we change the tag on their account to 'needs help'.
                     current_user.requires_urgent_help = True
                     db.session.commit()
