@@ -1,0 +1,207 @@
+<!-- Front End HTML to display our Flask update settings functionality. -->
+
+<div class='form'>
+
+    <form method='POST' action=''>
+
+        {{ form.hidden_tag() }}  <! -- CSRF Protection Tag -->
+
+            <div class='form_group'>
+
+                {{ form.email.label }}
+                {{ form.email }}
+
+                {% if form.email.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.email.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <!-- First Name -->
+
+        <br> <br>
+
+
+            <div class='form_group'>
+
+                {{ form.first_name.label }}
+                {{ form.first_name }}
+
+                {% if form.first_name.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.first_name.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <!-- First Name -->
+
+        <br> <br>
+
+            <div class='form_group'>
+
+                {{ form.last_name.label }}
+                {{ form.last_name }}
+
+                {% if form.last_name.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.last_name.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <!-- Last Name -->
+
+        <br> <br>
+
+            <div class='form_group'>
+
+                {{ form.postcode.label }}
+                {{ form.postcode }}
+
+                {% if form.postcode.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.postcode.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <!-- Postcode -->
+
+        <br> <br>
+
+            <div class='form_group'>
+
+                {{ form.phone_number.label }}
+                {{ form.phone_number }}
+
+                {% if form.phone_number.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.phone_number.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <!-- Phone Number -->
+
+        <br> <br>
+
+            <div class='form_group'>
+
+                {{ form.bio.label }}
+                {{ form.bio }}
+
+                {% if form.bio.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.bio.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <!-- Bio -->
+
+        <br> <br>
+
+
+            <div class='form_group'>
+
+                {{ form.validate_password.label }}
+                {{ form.validate_password }}
+
+                {% if form.validate_password.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.validate_password.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <!-- Validate Password -->
+
+        <br> <br>
+
+        <div class="column">
+
+                    {{ form.delete_aware }} {{ form.delete_aware.label }}
+
+                {% if form.delete_aware.errors %}
+
+                    <br> <br>
+
+                    <div class='error'>
+
+                        {% for error in form.delete_aware.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+
+                    </div>  <!-- Submit Button -->
+
+                {% endif %}
+
+        </div>
+
+        <br> <br>
+
+        <div class='form_submit_button'>
+
+            {{ form.submit }}
+
+        </div>  <!-- Submit Button -->
+
+        <br> <br>
+
+    </form>
+
+</div>

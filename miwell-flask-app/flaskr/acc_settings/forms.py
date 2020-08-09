@@ -1,123 +1,97 @@
-# Retrieve info from database.
+# A script which manages our account update and deletion forms.
+
+# Imports ------------------------------------------------------------------------
+
 from flask_login import current_user
+from flask_argon2 import check_password_hash
+from flaskr.register.models import Patient, Psychiatrist
+
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, BooleanField, StringField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, Email
-from flask_argon2 import check_password_hash
+from wtforms.validators import DataRequired, ValidationError, Email, Length, EqualTo
 
 
+# Forms -------------------------------------------------------------------------
+
+# A base form class, where other forms can inherit our custom validation.
+
+class AccountSettingFormBase(FlaskForm):
+
+    # Custom Validators ----------------------------------------------------------
+
+    def validate_password(self, validate_password):
+        # We don't want people accessing a logged in and making unauthorised changes to their account.
+        # If hashed password from database does not match, raise validation error.
+        if not check_password_hash(current_user.hashed_password, self.validate_password):
+            raise ValidationError('Please enter the correct password.')
+
+# Form to delete accounts.
+
+class DeleteAccountForm(AccountSettingFormBase):
+    enter_password = PasswordField('Enter Password', [
+        Length(min=8, max=35, message='Please enter a valid password.'),
+        EqualTo('confirm_password', message='Both passwords must match'),
+        DataRequired(message='Please enter a password.')])
+
+    confirm_password = PasswordField('Confirm Password', [
+        DataRequired(message='Please confirm your password.')])
+
+    delete_aware = BooleanField('Confirm Changes', [
+        DataRequired(message='You must check this box to confirm changes!')])
+
+    submit = SubmitField('Update')
 
 
+# Form to update user settings.
 
+class UpdateUserAccountForm(AccountSettingFormBase):
+    email = StringField('Email Address', [
+        Length(min=2, max=100, message='Please enter a valid email address.'),
+        Email(message='Invalid email address.'),
+        DataRequired(message='Please enter an email address.')])
 
+    first_name = StringField('First Name', [
+        Length(min=2, max=40, message='Please enter a first name between 2 and 40 characters.'),
+        DataRequired(message='Please enter a first name.')])
 
-class DeleteAccountForm(FlaskForm):
+    last_name = StringField('Last Name', [
+        Length(min=2, max=80, message='Please enter a last name between 2 and 80 characters.'),
+        DataRequired(message='Please enter a last name.')])
 
+    phone_number = StringField('Phone Number', [
+        Length(min=11, max=13, message='Please enter a valid phone number.'),
+        DataRequired(message='Please enter a phone number.')])
 
+    postcode = StringField('Postcode', [
+        Length(min=4, max=8, message='Please enter a valid UK postcode.'),
+        DataRequired(message='Please enter a postcode.')])
 
+    # We don't need to write two different forms, just make an if statement.
 
+    bio = StringField('bio', [
+        Length(max=500, message='There is a maximum of 500 characters for this field.')
+    ])
 
-class UserSettingFormBase(FlaskForm):
+    # Confirm Changes -----------------------------------------------------------
 
-    def validate_email(self, email, user_table):
+    validate_password = PasswordField('Validate Password', [
+        Length(min=8, max=35, message='Please enter a valid password.'),
+        DataRequired(message='Please enter a password.')])
+
+    delete_aware = BooleanField('Confirm Changes', [
+        DataRequired(message='You must check this box to confirm changes!')])
+
+    submit = SubmitField('Update')
+
+    # Custom Validators ----------------------------------------------------------
+
+    def validate_email(self, email):
 
         # here, we check to see that there are no duplicate emails within our database.
 
-        if email.data != current_user.email:
-            email = user_table.query.filter_by(email.email.data).first()
+        if self.email.data != current_user.email:
+            patient_email = Patient.query.filter_by(self.email.data).first()
+            psych_email = Psychiatrist.query.filter_by(self.email.data).first()
 
-            if email:  # If there is an email associated, then raise a validation error.
+            if psych_email or patient_email:  # If there is an email associated, then raise a validation error.
                 raise ValidationError('Error! Email is already in use!')
-
-    def validate_password(self, password):
-
-    # If hashed password from database does not match, raise validation error.
-        if not check_password_hash(current_user.hashed_password, password):
-            raise ValidationError('Please enter the correct password.')
-
-
-    def check_delete_aware(self):
-
-        if checkbox not True:
-            raise ValidationError('Please confirm the changes.')
-
-
-
-
-        pass
-
-
-class UpdatePatientAccountForm(FlaskForm):
-
-    first_name = StringField('First Name', [
-        DataRequired(),
-        Length
-
-
-    ])
-
-    last_name = StringField('Last Name', [
-
-
-
-
-
-
-    ])
-
-    email = StringField('Last Name', [
-
-        Email
-
-
-
-
-
-
-
-    ])
-
-    # require_password
-
-    validate_password(my_password)
-
-
-
-
-
-
-    submit = SubmitField('Update')
-
-
-
-# Read user settings.
-
-
-
-
-# Require old password verification.
-
-
-
-
-
-class UpdatePsychiatristAccountForm(FlaskForm):
-
-    first_name = StringField('First Name', [
-        DataRequired(),
-        Length
-
-
-    ])
-
-    last_name =
-
-    email =
-
-    # require_password
-
-    submit = SubmitField('Update')
-
-
-
-

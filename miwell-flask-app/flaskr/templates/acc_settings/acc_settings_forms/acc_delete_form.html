@@ -1,0 +1,90 @@
+<!-- Front End HTML to display our Flask delete account functionality. -->
+
+<div class='form'>
+
+    <form method='POST' action=''>
+
+        {{ form.hidden_tag() }}  <! -- CSRF Protection Tag -->
+
+            <div class='form_group'>
+
+                {{ form.enter_password.label }}
+                {{ form.enter_password }}
+
+                {% if form.enter_password.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.password.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Enter Password -->
+
+        <br> <br>
+
+            <div class='form_group'>
+
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password }}
+
+                {% if form.confirm_password.errors %}
+
+                    <div class='error'>
+
+                        {% for error in form.confirm_password.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>  <! -- Confirm Password -->
+
+        <br> <br>
+
+        <div class="column">
+
+                    {{ form.delete_aware }} {{ form.delete_aware.label }}
+
+                {% if form.delete_aware.errors %}
+
+                    <br> <br>
+
+                    <div class='error'>
+
+                        {% for error in form.delete_aware.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+
+                    </div>  <! -- Submit Button -->
+
+                {% endif %}
+
+        </div>
+
+        <br> <br>
+
+        <div class='form_submit_button'>
+
+            {{ form.submit }}
+
+        </div>  <! -- Submit Button -->
+
+        <br> <br>
+
+    </form>
+
+</div>
