@@ -13,7 +13,7 @@ from flaskr import db  # import our database instance, stored as 'variable' in o
 class PatientFeelings(db.Model):  # Represents how the user is feeling on a fixed scale.
     __tablename__ = 'patient_feelings'
     feelings_id = db.Column(db.Integer, primary_key=True)
-    date_id = db.Column(db.Date, unique=True)
+    date_id = db.Column(db.Date)
     current_feeling = db.Column(db.String(30), nullable=False)  # How the patient feels today.
     feeling_comparison = db.Column(db.String(8), nullable=False)  # Better or worse than yesterday.
     patient_comment = db.Column(db.String(200))

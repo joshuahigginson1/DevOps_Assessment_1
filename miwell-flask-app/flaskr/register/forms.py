@@ -2,10 +2,12 @@
 
 # Imports --------------------------------------------------------------------------------
 
-from flask_wtf import FlaskForm, RecaptchaField  # Import our Flask Form.
+from flask_wtf import FlaskForm  # Import our Flask Form.
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField  # Import our field types.
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError  # Import our validators.
 from wtforms_validators import Integer
+
+from flaskr import db
 from flaskr.register.models import Patient, Psychiatrist  # Import our database models.
 
 # Classes --------------------------------------------------------------------------------
@@ -57,17 +59,17 @@ class PatientRegistrationForm(FlaskForm):  # Creates a new child class, inheriti
 
     # Search for any patients within the database that have an identical username or email.
 
-    def validate_existing_username(self, username):
-        patient_username = Patient.query.filter_by(username=username.data).first()
+    def validate_username(self, username):
+        patient_username = db.session.query(Patient).filter(Patient.username == username.data).first()
 
-        if patient_username is not None:
+        if patient_username:
             raise ValidationError('A psychiatrist has already registered with this BACP number.')
 
-    def validate_existing_email(self, email):
-        psych_email = Psychiatrist.query.filter_by(email=email.data).first()
-        patient_email = Patient.query.filter_by(email=email.data).first()
+    def validate_email(self, email):
+        psych_email = db.session.query(Psychiatrist).filter(Psychiatrist.email == email.data).first()
+        patient_email = db.session.query(Patient).filter(Patient.email == email.data).first()
 
-        if psych_email is not None and patient_email is not None:
+        if psych_email or patient_email:
             raise ValidationError('An account already exists with the current email address.')
 
 
@@ -119,15 +121,17 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
 
     # Search for any psychiatrists within the database that have an identical BACP number or email.
 
-    def validate_existing_bacp(self, bacp_number):
-        psychiatrist_bacp = Psychiatrist.query.filter_by(bacp_number=bacp_number.data).first()
+    def validate_bacp_number(self, bacp_number):
+        psychiatrist_bacp = db.session.query(Psychiatrist).\
+            filter(Psychiatrist.bacp_number == bacp_number.data).first()
 
-        if psychiatrist_bacp is not None:
+        if psychiatrist_bacp:
             raise ValidationError('A psychiatrist has already registered with this BACP number.')
 
-    def validate_existing_email(self, email):
-        psych_email = Psychiatrist.query.filter_by(email=email.data).first()
-        patient_email = Patient.query.filter_by(email=email.data).first()
+    def validate_email(self, email):
 
-        if psych_email is not None and patient_email is not None:
+        psych_email = db.session.query(Psychiatrist).filter(Psychiatrist.email == email.data).first()
+        patient_email = db.session.query(Patient.email).filter_by(Patient.email == email.data).first()
+
+        if psych_email or patient_email:
             raise ValidationError('An account already exists with the current email address.')

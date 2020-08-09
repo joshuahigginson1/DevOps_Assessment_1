@@ -24,7 +24,7 @@ def generate_new_patient():  # Generates a valid new patient.
         'email': "TestPatient@Test.com",
         'first_name': "Test",
         'last_name': "Patient",
-        'phone_number':"11111111111",
+        'phone_number': "11111111111",
         'postcode':"L1 6DQ",
         'medical_conditions': "I am a Test.",
         'user_authentication': "Patient"
