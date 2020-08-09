@@ -49,14 +49,16 @@ def update_functionality(form):
 
 
 # Routes ----------------------------------------------------------------------------------
-@settings_bp.route('/dashboard/acc_settings', methods=['GET', 'POST'])
+@settings_bp.route('/dashboard/account_settings', methods=['GET', 'POST'])
 @login_required
-def acc_settings():
+def account_settings():
 
     update_form = UpdateUserAccountForm()  # Initialise our update user form.
 
-    flash("Successfully altered your settings!", "secondary")
-    return redirect(url_for('homepage_bp.homepage'))
+    if update_form.validate_on_submit():
+
+        flash("Successfully altered your settings!", "secondary")
+        return redirect(url_for('main_bp.homepage'))
 
     if current_user.user_authentication == "Patient":
 
@@ -77,6 +79,7 @@ def acc_settings():
 @settings_bp.route('/dashboard/acc_settings/acc_deletion', methods=['GET', 'POST'])
 @login_required
 def delete_account():
+
     delete_form = DeleteAccountForm()
 
     return render_template(

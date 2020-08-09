@@ -4,7 +4,7 @@
 
     <form method='POST' action=''>
 
-        {{ patient_form.hidden_tag() }}  <! -- CSRF Protection Tag -->
+        {{ form.hidden_tag() }}  <! -- CSRF Protection Tag -->
 
             <div class='form_group'>
 
@@ -143,8 +143,10 @@
 
             </div>  <!-- Bio -->
 
+        <br> <br>
 
-                    <div class='form_group'>
+
+            <div class='form_group'>
 
                 {{ form.validate_password.label }}
                 {{ form.validate_password }}

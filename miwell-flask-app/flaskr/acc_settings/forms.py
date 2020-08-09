@@ -10,25 +10,14 @@ from flask_wtf import FlaskForm
 from wtforms import PasswordField, BooleanField, StringField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Email, Length, EqualTo
 
+
 # Forms -------------------------------------------------------------------------
 
 # A base form class, where other forms can inherit our custom validation.
 
-
 class AccountSettingFormBase(FlaskForm):
 
     # Custom Validators ----------------------------------------------------------
-
-    def validate_email(self):
-
-        # here, we check to see that there are no duplicate emails within our database.
-
-        if self.email.data != current_user.email:
-            patient_email = Patient.query.filter_by(self.email.data).first()
-            psych_email = Psychiatrist.query.filter_by(self.email.data).first()
-
-            if psych_email or patient_email:  # If there is an email associated, then raise a validation error.
-                raise ValidationError('Error! Email is already in use!')
 
     def validate_password(self):
         # We don't want people accessing a logged in and making unauthorised changes to their account.
@@ -87,19 +76,13 @@ class UpdateUserAccountForm(AccountSettingFormBase):
 
     # We don't need to write two different forms, just make an if statement.
 
-    bio = None
+    bio = StringField('Medical Conditions', [
+        Length(max=500, message='There is a maximum of 500 characters for this field.')
+    ])
 
-    if current_user.user_authentication == "Patient":
-
-        bio = StringField('Medical Conditions', [
-            Length(max=500, message='There is a maximum of 500 characters for this field.')
-        ])
-
-    elif current_user.user_authentication == "Psychiatrist":
-
-        bio = StringField('Psychiatrist Bio', [
-            Length(max=500, message='There is a maximum of 500 characters for this field.')
-        ])
+    bio = StringField('Psychiatrist Bio', [
+        Length(max=500, message='There is a maximum of 500 characters for this field.')
+    ])
 
     # Confirm Changes -----------------------------------------------------------
 
@@ -110,3 +93,16 @@ class UpdateUserAccountForm(AccountSettingFormBase):
     delete_aware = BooleanField('Confirm Changes')
 
     submit = SubmitField('Update')
+
+    # Custom Validators ----------------------------------------------------------
+
+    def validate_email(self):
+
+        # here, we check to see that there are no duplicate emails within our database.
+
+        if self.email.data != current_user.email:
+            patient_email = Patient.query.filter_by(self.email.data).first()
+            psych_email = Psychiatrist.query.filter_by(self.email.data).first()
+
+            if psych_email or patient_email:  # If there is an email associated, then raise a validation error.
+                raise ValidationError('Error! Email is already in use!')
