@@ -35,10 +35,23 @@ def dashboard():
 
     elif current_user.user_authentication == 'Psychiatrist':
 
+
+
+
+
+
+
+
+
+
+
+
+
         return render_template(  # Returns our patient's personalised front end homepage.
             'dashboard/psych_dash/psych_dash.html',
             title=' Dashboard ~ MiWell',
-            current_user=current_user
+            current_user=current_user,
+            form=
         )
 
 
@@ -83,16 +96,12 @@ def my_patients():
         return error_page(404)
 
     elif current_user.user_authentication == 'Psychiatrist':
-        print(get_my_flagged())
-        print(get_my_patients())
-        print(get_my_moods())
-        print(get_my_flagged_moods())
-        print(get_moods_not_replied())
-        print(get_patient_mood('bobken', 1))
+        pass
 
 
 
-        print(get_my_flagged())
+
+
 
         return render_template(
             'dashboard/psych_dash/my_patients.html',

@@ -9,7 +9,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import current_user, login_required
 
 from flaskr import db
-from flaskr.mood_tracker.forms import MoodForm, MoodReview
+from flaskr.mood_tracker.forms import MoodForm
 
 from flaskr.mood_tracker.models import PatientFeelings, PatientBehaviours
 
@@ -42,7 +42,8 @@ def user_greeting():
 
     # Here, we look for any posts in patient feelings, that were submitted on today's date.
 
-    any_posts_today = db.session.query(PatientFeelings.patient_id).filter_by(patient_id=current_user.username).filter_by(date_id=date_right_now).first()
+    any_posts_today = db.session.query(PatientFeelings.patient_id).\
+        filter_by(patient_id=current_user.username).filter_by(date_id=date_right_now).first()
 
     if not any_posts_today:  # Otherwise, ignore.
 

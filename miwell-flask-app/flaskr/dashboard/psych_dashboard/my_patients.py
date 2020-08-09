@@ -47,7 +47,7 @@ def get_my_flagged_moods():  # Get all flagged moods.
 def get_moods_not_replied():  # Get all moods not replied to.
     my_patients = get_my_patients()
     moods_not_replied = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).\
-        filter_by(requires_urgent_help=True).filter_by(patient_id=my_patients.username).\
+        filter_by(patient_id=my_patients.username).\
         filter_by(PatientFeelings.date_psychiatrist_updated is None).all()
 
     return moods_not_replied
@@ -70,29 +70,63 @@ def get_patient_mood_by_date(patient, limit, date):
 
 # Methods --------------------------------------------------------------------------------
 
+    list_of_patients = get_moods_not_replied()
+    num_required_forms = 0
+
+    for counter, moods in enumerate(list_of_patients):
+        counter = MoodReview()
+
+        username = moods
+
+        num_required_forms += 1
+
+    while num_required_forms > 0:
+
+        if counter.validate_on_submit:
+            update_field = db.PatientFeelings.query.filter_by(feelings_id=counter.post_id).first()
+
+            # Get the user ID corresponding to this post.
+
+            patient_id = update_field.username
+
+            # Find the corresponding user, and set their 'in danger' box to safe.
+            update_safety = db.Patient.query.filter_by(username=patient_id).first()
+
+            update_field.psychiatrist_comment = counter.psychiatrist_comment
+            update_field.date_psychiatrist_updated = datetime.utcnow().date()
+            update_safety.requires_urgent_help = False
+
+            db.session.commit()
+
+            # Jinja Template must render form=psychiatrist_mood_review
+
 
 def psychiatrist_comment(post_id):
-    # Forms --------------------------------------------------
+        # Forms --------------------------------------------------
 
-    psychiatrist_mood_review = MoodReview()  # Initialises a new instance of our Mood Review Form.
+        psychiatrist_mood_review = MoodReview()  # Initialises a new instance of our Mood Review Form.
 
-    # Functions ----------------------------------------------
+        # Functions ----------------------------------------------
 
-    if psychiatrist_mood_review.validate_on_submit():
-        # Queries ----------------------------------------------
+        if psychiatrist_mood_review.validate_on_submit():
+            # Queries ----------------------------------------------
 
-        # Find the corresponding post ID from our table, and store the values.
-        update_field = db.PatientFeelings.query.filter_by(feelings_id=post_id).first()
+            # Find the corresponding post ID from our table, and store the values.
+            update_field = db.PatientFeelings.query.filter_by(feelings_id=post_id).first()
 
-        # Get the user ID corresponding to this post.
+            # Get the user ID corresponding to this post.
 
-        patient_id = update_field.username
+            patient_id = update_field.username
 
-        # Find the corresponding user, and set their 'in danger' box to safe.
-        update_safety = db.Patient.query.filter_by(username=patient_id).first
+            # Find the corresponding user, and set their 'in danger' box to safe.
+            update_safety = db.Patient.query.filter_by(username=patient_id).first
 
-        update_field.psychiatrist_comment = psychiatrist_mood_review.psychiatrist_comment
-        update_field.date_psychiatrist_updated = datetime.utcnow().date()
-        update_safety.requires_urgent_help = False
+            update_field.psychiatrist_comment = psychiatrist_mood_review.psychiatrist_comment
+            update_field.date_psychiatrist_updated = datetime.utcnow().date()
+            update_safety.requires_urgent_help = False
 
-        db.session.commit()
+            db.session.commit()
+
+            #Jinja Template must render form=psychiatrist_mood_review
+
+
