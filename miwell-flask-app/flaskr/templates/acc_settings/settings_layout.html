@@ -2,14 +2,4 @@
 
 {% extends "dashboard/dashboard_layout.html" %}
 
-{% block head %}
-
-    <title>{{ title }}</title>
-
-{% endblock %}
-
-{% block body %}
-
-    <h2>Change your account settings.</h2>
-
-{% endblock %}
+<a href="{{ url_for('settings_bp.delete_account') }}">Delete Your Account</a>

@@ -1,4 +1,6 @@
-{% extends "dashboard/dashboard_layout.html" %}
+<!-- Front end for Patient Settings. -->
+
+{% extends "acc_settings/settings_layout.html" %}
 
 {% block head %}
 
@@ -8,9 +10,8 @@
 
 {% block body %}
 
+    <h2>Change your user account settings.</h2>
 
-
-
-
+    {% include acc_settings/acc_settings_forms/acc_update_form.html %}
 
 {% endblock %}

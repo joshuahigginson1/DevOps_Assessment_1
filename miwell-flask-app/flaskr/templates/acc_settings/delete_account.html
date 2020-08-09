@@ -1,0 +1,17 @@
+<!-- Page for deleting account. -->
+
+{% extends "dashboard/dashboard_layout.html" %}
+
+{% block head %}
+
+    <title>{{ title }}</title>
+
+{% endblock %}
+
+{% block body %}
+
+    <h2>😭 Delete Your Account 😭 </h2>
+
+    {% include acc_settings/acc_settings_forms/acc_delete_form.html %}
+
+{% endblock %}

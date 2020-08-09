@@ -1,4 +1,4 @@
-<!-- Editing front end. -->
+<!-- Front end for Psych Settings. -->
 
 {% extends "acc_settings/settings_layout.html" %}
 
@@ -12,7 +12,6 @@
 
     <h2>Change your Psychiatrist account settings.</h2>
 
-
-{% include acc_update_form.html %}
+    {% include acc_settings/acc_settings_forms/acc_update_form.html %}
 
 {% endblock %}
