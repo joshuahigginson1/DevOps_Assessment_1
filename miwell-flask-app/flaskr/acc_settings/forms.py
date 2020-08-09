@@ -2,7 +2,7 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, BooleanField, StringField, SubmitField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired, ValidationError, Email
 from flask_argon2 import check_password_hash
 
 
@@ -56,27 +56,41 @@ class UpdatePatientAccountForm(FlaskForm):
 
     ])
 
-    last_name =
+    last_name = StringField('Last Name', [
 
-    email =
+
+
+
+
+
+    ])
+
+    email = StringField('Last Name', [
+
+        Email
+
+
+
+
+
+
+
+    ])
 
     # require_password
+
+    validate_password(my_password)
+
+
+
+
+
 
     submit = SubmitField('Update')
 
 
 
-
-
-
 # Read user settings.
-
-
-
-
-
-# update database.
-
 
 
 
