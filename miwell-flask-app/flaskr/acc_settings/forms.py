@@ -19,20 +19,11 @@ class AccountSettingFormBase(FlaskForm):
 
     # Custom Validators ----------------------------------------------------------
 
-    def validate_password(self):
+    def validate_password(self, validate_password):
         # We don't want people accessing a logged in and making unauthorised changes to their account.
         # If hashed password from database does not match, raise validation error.
         if not check_password_hash(current_user.hashed_password, self.validate_password):
             raise ValidationError('Please enter the correct password.')
-
-    def validate_delete_aware(self):
-
-        # We don't want the user to accidentally make changes without being aware of them. Here, we can implement
-        # logic for a checkbox.
-
-        if not self.delete_aware:
-            raise ValidationError('Please confirm your changes.')
-
 
 # Form to delete accounts.
 
@@ -45,7 +36,8 @@ class DeleteAccountForm(AccountSettingFormBase):
     confirm_password = PasswordField('Confirm Password', [
         DataRequired(message='Please confirm your password.')])
 
-    delete_aware = BooleanField('Confirm Changes')
+    delete_aware = BooleanField('Confirm Changes', [
+        DataRequired(message='You must check this box to confirm changes!')])
 
     submit = SubmitField('Update')
 
@@ -76,11 +68,7 @@ class UpdateUserAccountForm(AccountSettingFormBase):
 
     # We don't need to write two different forms, just make an if statement.
 
-    bio = StringField('Medical Conditions', [
-        Length(max=500, message='There is a maximum of 500 characters for this field.')
-    ])
-
-    bio = StringField('Psychiatrist Bio', [
+    bio = StringField('bio', [
         Length(max=500, message='There is a maximum of 500 characters for this field.')
     ])
 
@@ -90,13 +78,14 @@ class UpdateUserAccountForm(AccountSettingFormBase):
         Length(min=8, max=35, message='Please enter a valid password.'),
         DataRequired(message='Please enter a password.')])
 
-    delete_aware = BooleanField('Confirm Changes')
+    delete_aware = BooleanField('Confirm Changes', [
+        DataRequired(message='You must check this box to confirm changes!')])
 
     submit = SubmitField('Update')
 
     # Custom Validators ----------------------------------------------------------
 
-    def validate_email(self):
+    def validate_email(self, email):
 
         # here, we check to see that there are no duplicate emails within our database.
 

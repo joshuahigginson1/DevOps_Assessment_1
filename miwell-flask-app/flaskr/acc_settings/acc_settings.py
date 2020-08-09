@@ -10,7 +10,10 @@ from flaskr import db
 
 from flaskr.acc_settings.forms import UpdateUserAccountForm, DeleteAccountForm
 
+from flask_argon2 import generate_password_hash
+
 # Blueprint Configuration -----------------------------------------------------------------
+from flaskr.register.models import Patient, Psychiatrist
 
 settings_bp = Blueprint(
     'settings_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.
@@ -20,44 +23,44 @@ settings_bp = Blueprint(
 )
 
 
-def update_functionality(form):
-    # When our user first sends their first 'get' request, we to pre-populate their form with existing data.
-
-    if request.method == 'GET':
-        form.first_name.data = current_user.first_name
-        form.last_name.data = current_user.last_name
-        form.email.data = current_user.email
-
-        if current_user.user_authentication == 'Patient':
-            form.bio.data = current_user.medical_conditions
-
-        elif current_user.user_authentication == 'Psychiatrist':
-            form.bio.data = current_user.psych_bio
-
-    elif patient_update_form.validate_on_submit():  # If form successfully validates...
-        current_user.first_name = form.first_name.data
-        current_user.last_name = form.last_name.data
-        current_user.email = form.email.data
-
-        if current_user.user_authentication == 'Patient':
-            current_user.medical_conditions = form.bio.data
-
-        elif current_user.user_authentication == 'Psychiatrist':
-            current_user.psych_bio = form.bio.data
-
-        db.session.commit()  # ... Adds the changes to our database.
-
-
 # Routes ----------------------------------------------------------------------------------
 @settings_bp.route('/dashboard/account_settings', methods=['GET', 'POST'])
 @login_required
 def account_settings():
-
     update_form = UpdateUserAccountForm()  # Initialise our update user form.
 
-    if update_form.validate_on_submit():
+    if request.method == 'GET':  # Loads data into field on HTTP get request.
+        update_form.first_name.data = current_user.first_name
+        update_form.last_name.data = current_user.last_name
+        update_form.email.data = current_user.email
+        update_form.postcode.data = current_user.postcode
+        update_form.phone_number.data = current_user.phone_number
 
-        flash("Successfully altered your settings!", "secondary")
+        if current_user.user_authentication == 'Patient':
+            update_form.bio.label = 'Medical Conditions'
+            update_form.bio.data = current_user.medical_conditions
+
+        elif current_user.user_authentication == 'Psychiatrist':
+            update_form.bio.label = 'Psychiatrist Bio'
+            update_form.bio.data = current_user.psych_bio
+
+    elif update_form.validate_on_submit():  # Link current user info to our update form.
+
+        current_user.first_name = update_form.first_name.data
+        current_user.last_name = update_form.last_name.data
+        current_user.email = update_form.email.data
+        current_user.phone_number = update_form.phone_number.data
+        current_user.postcode = update_form.postcode.data
+
+        if current_user.user_authentication == 'Patient':
+            current_user.medical_conditions = update_form.bio.data
+
+        elif current_user.user_authentication == 'Psychiatrist':
+            current_user.psych_bio = update_form.bio.data
+
+        db.session.commit()  # ... Adds the changes to our database.
+
+        flash("You have successfully changed your settings!", "primary")
         return redirect(url_for('main_bp.homepage'))
 
     if current_user.user_authentication == "Patient":
@@ -79,11 +82,26 @@ def account_settings():
 @settings_bp.route('/dashboard/acc_settings/acc_deletion', methods=['GET', 'POST'])
 @login_required
 def delete_account():
-
     delete_form = DeleteAccountForm()
 
+    if delete_form.validate_on_submit():  # If delete form validation is successful...
+
+        # Here, we query the database for the primary ID our user.
+
+        if current_user.user_authentication == 'Patient':
+            account = Patient.query.get(current_user.username)
+
+        elif current_user.user_athentication == 'Psychiatrist':
+            account = Psychiatrist.query.get(current_user.bacp_number)
+
+        db.session.delete(account)
+        db.session.commit()  # ... Deletes the user from our database.
+
+        flash("Account Deleted. See you soon!", "danger")
+        return redirect(url_for('main_bp.homepage'))
+
     return render_template(
-        'acc_settings/patient_settings.html',
-        title='User Settings ~ MiWell',
+        'acc_settings/delete_account.html',
+        title='Delete Account ~ MiWell',
         form=delete_form
     )
