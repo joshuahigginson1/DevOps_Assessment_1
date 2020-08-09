@@ -11,6 +11,8 @@
 
 {% block body %}
 
-    <h2>This is a psychiatrist dashboard.</h2>
+    <h2>Welcome. These patients currently at high risk.</h2>
+
+    {% include "dashboard/psych_dash/flagged_patients.html" %}
 
 {% endblock %}

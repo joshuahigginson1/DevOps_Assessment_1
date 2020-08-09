@@ -17,45 +17,92 @@ from flaskr.register.models import Patient
 # Functions ------------------------------------------------------------------------------
 
 def get_my_patients():  # Here, we get all the patients assigned to a user.
-    my_patients = db.session.query(Patient.username).filter_by(psychiatrist_id=current_user.bacp_number).all()
 
-    return my_patients
+    my_patients_list = []
+
+    my_patients_raw = db.session.query(Patient.username).filter_by(psychiatrist_id=current_user.bacp_number).all()
+    # Returns usernames like this: [('joshua',), ('joshuahigginson12@gmail.com',), ('kriskringle',)]
+
+    for raw_tuples in my_patients_raw:  # We need to unpack this tuple.
+        (username,) = raw_tuples
+
+        my_patients_list.append(username)  # Append each username to a list of patients.
+
+    return my_patients_list  # Returns the list of patients.
 
 
 def get_my_flagged():  # Here, we get all the flagged patients assigned to a user.
-    my_flagged_patients_query = db.session.query(Patient.username).filter_by(psychiatrist_id=current_user.bacp_number).\
-        filter_by(requires_urgent_help=True).all()
 
-    return my_flagged_patients_query
+    my_flagged_list = []
+
+    my_flagged_raw = db.session.query(Patient.username).filter_by(psychiatrist_id=current_user.bacp_number). \
+        filter_by(requires_urgent_help=1).all()
+
+    # Returns usernames like this: [('joshua',), ('joshuahigginson12@gmail.com',), ('kriskringle',)]
+
+    for raw_tuples in my_flagged_raw:  # We need to unpack this tuple.
+        (username,) = raw_tuples
+
+        my_flagged_list.append(username)  # Append each username to a list of patients.
+
+    return my_flagged_list
 
 
 def get_my_moods():  # Get all moods.
     my_patients = get_my_patients()
-    my_patient_moods = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).\
-        filter_by(patient_id=my_patients).all()
+    my_patient_moods = db.session.query(PatientFeelings).filter(Patient.username.in_(my_patients)).all()
+
+    # Returns PatientFeelings objects, which can then be referenced later on in python with .feeling_id.
 
     return my_patient_moods
 
 
-def get_my_flagged_moods():  # Get all flagged moods.
+def get_my_flagged_moods_and_accounts():  # Get all flagged moods.
     flagged_patients = get_my_flagged()
-    flagged_moods = db.session.query(PatientFeelings).filter_by(patient_id=flagged_patients.username).all()
 
-    return flagged_moods
+    flagged_moods = db.session.query(PatientFeelings).filter(PatientFeelings.patient_id.in_(flagged_patients)).all()
+
+    get_patient_info = []
+    for moods in flagged_moods:
+        patient = db.session.query(Patient).filter(Patient.username == moods.patient_id).all()
+
+        # Python returns objects on their own, but in a list. We use index referencing to get it.
+
+        get_patient_info.append(patient[0])
+
+    # Returns PatientFeelings objects, which can then be referenced later on in python with .feeling_id.
+
+    return flagged_moods, get_patient_info
 
 
 def get_moods_not_replied():  # Get all moods not replied to.
-    my_patients = get_my_patients()
-    moods_not_replied = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).\
-        filter_by(patient_id=my_patients.username).\
-        filter_by(PatientFeelings.date_psychiatrist_updated is None).all()
 
-    return moods_not_replied
+    my_patients = get_my_patients()  # Returns all of the user's patients.
+
+    list_of_moods = []
+
+    for patient in my_patients:  # Returns all fields that have no comments in.
+        patient_feelings_sorted = db.session.query(PatientFeelings).filter_by(patient_id=patient). \
+            filter_by(psychiatrist_comment=None).all()
+
+        for feelings in patient_feelings_sorted:  # Get rid of empty fields.
+            if feelings:
+                list_of_moods.append(patient_feelings_sorted)
+
+    # Returns PatientFeelings objects, which can then be referenced later on in python with .feeling_id.
+
+    return list_of_moods
 
 
-# Here, we get all posts for a specific user.
+def get_details_from_username(username):
+    return db.session.query(Patient).filter_by(username=username)
+
+
+"""
+Didn't have enough time to fully implement this functionality.
+
 def get_patient_mood(patient_id, limit):
-    patient_mood = db.session.query(PatientFeelings).\
+    patient_mood = db.session.query(PatientFeelings).
         filter_by(PatientFeelings.patient_id == patient_id).limit(limit).all()
 
     return patient_mood
@@ -66,67 +113,37 @@ def get_patient_mood_by_date(patient, limit, date):
     mood_by_date = patient_mood.filter_by(PatientFeelings.date_id == date).all()
 
     return mood_by_date
+    
 
 
 # Methods --------------------------------------------------------------------------------
 
-    list_of_patients = get_moods_not_replied()
-    num_required_forms = 0
-
-    for counter, moods in enumerate(list_of_patients):
-        counter = MoodReview()
-
-        username = moods
-
-        num_required_forms += 1
-
-    while num_required_forms > 0:
-
-        if counter.validate_on_submit:
-            update_field = db.PatientFeelings.query.filter_by(feelings_id=counter.post_id).first()
-
-            # Get the user ID corresponding to this post.
-
-            patient_id = update_field.username
-
-            # Find the corresponding user, and set their 'in danger' box to safe.
-            update_safety = db.Patient.query.filter_by(username=patient_id).first()
-
-            update_field.psychiatrist_comment = counter.psychiatrist_comment
-            update_field.date_psychiatrist_updated = datetime.utcnow().date()
-            update_safety.requires_urgent_help = False
-
-            db.session.commit()
-
-            # Jinja Template must render form=psychiatrist_mood_review
-
-
 def psychiatrist_comment(post_id):
-        # Forms --------------------------------------------------
+    # Forms --------------------------------------------------
 
-        psychiatrist_mood_review = MoodReview()  # Initialises a new instance of our Mood Review Form.
+    psychiatrist_mood_review = MoodReview()  # Initialises a new instance of our Mood Review Form.
 
-        # Functions ----------------------------------------------
+    # Functions ----------------------------------------------
 
-        if psychiatrist_mood_review.validate_on_submit():
-            # Queries ----------------------------------------------
+    if psychiatrist_mood_review.validate_on_submit():
+        # Queries ----------------------------------------------
 
-            # Find the corresponding post ID from our table, and store the values.
-            update_field = db.PatientFeelings.query.filter_by(feelings_id=post_id).first()
+        # Find the corresponding post ID from our table, and store the values.
+        update_field = db.PatientFeelings.query.filter_by(feelings_id=post_id).first()
 
-            # Get the user ID corresponding to this post.
+        # Get the user ID corresponding to this post.
 
-            patient_id = update_field.username
+        patient_id = update_field.username
 
-            # Find the corresponding user, and set their 'in danger' box to safe.
-            update_safety = db.Patient.query.filter_by(username=patient_id).first
+        # Find the corresponding user, and set their 'in danger' box to safe.
+        update_safety = db.Patient.query.filter_by(username=patient_id).first
 
-            update_field.psychiatrist_comment = psychiatrist_mood_review.psychiatrist_comment
-            update_field.date_psychiatrist_updated = datetime.utcnow().date()
-            update_safety.requires_urgent_help = False
+        update_field.psychiatrist_comment = psychiatrist_mood_review.psychiatrist_comment
+        update_field.date_psychiatrist_updated = datetime.utcnow().date()
+        update_safety.requires_urgent_help = False
 
-            db.session.commit()
+        db.session.commit()
 
-            #Jinja Template must render form=psychiatrist_mood_review
+        # Jinja Template must render form=psychiatrist_mood_review
 
-
+"""

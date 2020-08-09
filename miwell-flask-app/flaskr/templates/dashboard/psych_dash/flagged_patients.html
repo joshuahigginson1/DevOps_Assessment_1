@@ -1,0 +1,44 @@
+<!-- Contains the logic to display all of our at risk patients -->
+
+{% for posts in flagged %}
+
+    <p>
+        {{ posts.patient_id }} - {{ posts.current_feeling }} - {{ posts.patient_comment }}
+    </p>
+
+    {% for account in accounts %}
+
+        {% if posts.patient_id == account.username %}
+
+            <p>
+
+                {{ account.username }} - Name: {{ account.first_name }} {{account.last_name}} Mobile: {{ account.phone_number }}
+
+            </p>
+
+
+                {% if account.medical_conditions != None %}
+
+                <h4>{{ account.first_name}}'s medical conditions:</h4>
+
+                <p>
+
+                {{ account.medical_conditions }}
+
+                </p>
+
+                {% endif %}
+
+        {% endif %}
+
+
+    {% endfor %}
+
+
+{% endfor %}
+
+
+
+
+
+

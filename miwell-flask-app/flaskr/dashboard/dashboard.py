@@ -6,8 +6,8 @@ from flask import Blueprint, render_template
 
 from flask_login import current_user, login_required
 
-from flaskr.dashboard.psych_dashboard.my_patients import get_my_flagged_moods, get_my_patients, get_my_flagged, \
-    get_my_moods, get_moods_not_replied, get_patient_mood
+from flaskr.dashboard.psych_dashboard.my_patients import get_moods_not_replied, get_my_flagged_moods_and_accounts
+
 from flaskr.error_handling.error_handling import error_page
 
 # Blueprint Configuration --------------------------------------------------------------------------------
@@ -35,23 +35,21 @@ def dashboard():
 
     elif current_user.user_authentication == 'Psychiatrist':
 
+        # We want to show only the flagged posts from users on the homepage.
 
+        flagged_moods, accounts = get_my_flagged_moods_and_accounts()
 
+        for account in accounts:
+            print(account)
 
-
-
-
-
-
-
-
-
+        # Use Jinja2 to render this info on screen.
 
         return render_template(  # Returns our patient's personalised front end homepage.
             'dashboard/psych_dash/psych_dash.html',
             title=' Dashboard ~ MiWell',
             current_user=current_user,
-            form=
+            flagged=flagged_moods,
+            accounts=accounts
         )
 
 
@@ -118,6 +116,29 @@ def psychiatrist_tools():
 
     elif current_user.user_authentication == 'Psychiatrist':
         pass
+
+    return render_template(
+        'dashboard/psych_dash/psychiatrist_tools.html',
+        title=' psychiatrist Tools ~ MiWell',
+        current_user=current_user
+    )
+
+
+@dashboard_bp.route('/dashboard/posts/<post_id>', methods=['GET', 'POST'])
+@login_required
+def post_review(post_id):
+
+    # An outside generator will create the url.
+
+
+    # According to the URL, we find the the post_id of our post in our table.
+
+
+    # We render this form using Jinja2 template.
+    # Our template will be different for users and psychiatrists, but essentially do the same thing.
+
+
+
 
     return render_template(
         'dashboard/psych_dash/psychiatrist_tools.html',
