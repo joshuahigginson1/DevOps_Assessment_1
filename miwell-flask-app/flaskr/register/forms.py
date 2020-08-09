@@ -3,7 +3,7 @@
 # Imports --------------------------------------------------------------------------------
 
 from flask_wtf import FlaskForm, RecaptchaField  # Import our Flask Form.
-from wtforms import StringField, IntegerField, PasswordField, SubmitField  # Import our field types.
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField  # Import our field types.
 from wtforms.validators import DataRequired, EqualTo, Length, Email, ValidationError  # Import our validators.
 from wtforms_validators import Integer
 from flaskr.register.models import Patient, Psychiatrist  # Import our database models.

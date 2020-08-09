@@ -3,7 +3,8 @@
 # Imports --------------------------------------------------------------------------------
 
 from flask_wtf import FlaskForm  # Import our Flask Form.
-from wtforms import SubmitField, RadioField, TextAreaField, SelectMultipleField, widgets  # Import our field types.
+from wtforms import SubmitField, RadioField, TextAreaField, SelectMultipleField, widgets, \
+    BooleanField  # Import our field types.
 from wtforms.validators import DataRequired, Length  # Import our validators.
 
 
@@ -73,5 +74,9 @@ class MoodReview(FlaskForm):
 
     psychiatrist_comment = TextAreaField('Your Comment:', [
         Length(max=200, message='Please keep your message under 200 characters.')])
+
+    is_patient_safe = BooleanField('Is patient safe?', [
+        DataRequired('Cannot continue with comment unless patient is in stable way. Immediately contact NHS.')
+    ])
 
     submit = SubmitField('Submit Review.')
