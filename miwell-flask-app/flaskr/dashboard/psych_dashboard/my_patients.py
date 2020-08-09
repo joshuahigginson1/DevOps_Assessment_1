@@ -1,4 +1,4 @@
-# Contains the code for managing psychatrist post comments.
+# Contains the code for managing psychiatrist post comments.
 
 # Imports --------------------------------------------------------------------------------
 
@@ -17,20 +17,22 @@ from flaskr.register.models import Patient
 # Functions ------------------------------------------------------------------------------
 
 def get_my_patients():  # Here, we get all the patients assigned to a user.
-    my_patients = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).all()
+    my_patients = db.session.query(Patient.username).filter_by(psychiatrist_id=current_user.bacp_number).all()
 
     return my_patients
 
 
 def get_my_flagged():  # Here, we get all the flagged patients assigned to a user.
-    my_flagged_patients_query = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).filter_by(requires_urgent_help=True).all()
+    my_flagged_patients_query = db.session.query(Patient.username).filter_by(psychiatrist_id=current_user.bacp_number).\
+        filter_by(requires_urgent_help=True).all()
 
     return my_flagged_patients_query
 
 
 def get_my_moods():  # Get all moods.
     my_patients = get_my_patients()
-    my_patient_moods = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).filter_by(patient_id=my_patients.username).all()
+    my_patient_moods = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).\
+        filter_by(patient_id=my_patients).all()
 
     return my_patient_moods
 
@@ -44,14 +46,17 @@ def get_my_flagged_moods():  # Get all flagged moods.
 
 def get_moods_not_replied():  # Get all moods not replied to.
     my_patients = get_my_patients()
-    moods_not_replied = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).filter_by(requires_urgent_help=True).filter_by(patient_id=my_patients.username).filter_by(PatientFeelings.date_psychiatrist_updated is None).all()
+    moods_not_replied = db.session.query(Patient).filter_by(psychiatrist_id=current_user.bacp_number).\
+        filter_by(requires_urgent_help=True).filter_by(patient_id=my_patients.username).\
+        filter_by(PatientFeelings.date_psychiatrist_updated is None).all()
 
     return moods_not_replied
 
 
 # Here, we get all posts for a specific user.
 def get_patient_mood(patient_id, limit):
-    patient_mood = db.session.query(PatientFeelings).filter_by(PatientFeelings.patient_id == patient_id).limit(limit).all()
+    patient_mood = db.session.query(PatientFeelings).\
+        filter_by(PatientFeelings.patient_id == patient_id).limit(limit).all()
 
     return patient_mood
 
@@ -87,7 +92,7 @@ def psychiatrist_comment(post_id):
         update_safety = db.Patient.query.filter_by(username=patient_id).first
 
         update_field.psychiatrist_comment = psychiatrist_mood_review.psychiatrist_comment
-        update_field.date_psychiatrist_updated = datetime.datetime.utcnow().date()
+        update_field.date_psychiatrist_updated = datetime.utcnow().date()
         update_safety.requires_urgent_help = False
 
         db.session.commit()

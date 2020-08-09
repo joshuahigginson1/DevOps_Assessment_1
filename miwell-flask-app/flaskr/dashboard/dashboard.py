@@ -6,7 +6,8 @@ from flask import Blueprint, render_template
 
 from flask_login import current_user, login_required
 
-from flaskr.dashboard.psych_dashboard.my_patients import get_my_flagged_moods, get_my_patients, get_my_flagged
+from flaskr.dashboard.psych_dashboard.my_patients import get_my_flagged_moods, get_my_patients, get_my_flagged, \
+    get_my_moods, get_moods_not_replied, get_patient_mood
 from flaskr.error_handling.error_handling import error_page
 
 # Blueprint Configuration --------------------------------------------------------------------------------
@@ -82,6 +83,14 @@ def my_patients():
         return error_page(404)
 
     elif current_user.user_authentication == 'Psychiatrist':
+        print(get_my_flagged())
+        print(get_my_patients())
+        print(get_my_moods())
+        print(get_my_flagged_moods())
+        print(get_moods_not_replied())
+        print(get_patient_mood('bobken', 1))
+
+
 
         print(get_my_flagged())
 
