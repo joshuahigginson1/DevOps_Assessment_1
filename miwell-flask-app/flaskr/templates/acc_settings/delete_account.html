@@ -1,7 +1,0 @@
-    validate_password = PasswordField('Validate Password', [
-        Length(min=8, max=35, message='Please enter a valid password.'),
-        DataRequired(message='Please enter a password.')])
-
-    delete_aware = BooleanField('Confirm Changes')
-
-    submit = SubmitField('Update')

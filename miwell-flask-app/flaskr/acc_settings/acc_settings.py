@@ -51,7 +51,8 @@ def update_functionality(form):
 # Routes ----------------------------------------------------------------------------------
 @settings_bp.route('/dashboard/acc_settings', methods=['GET', 'POST'])
 @login_required
-def patient_acc_settings():
+def acc_settings():
+
     update_form = UpdateUserAccountForm()  # Initialise our update user form.
 
     flash("Successfully altered your settings!", "secondary")
