@@ -1,4 +1,3 @@
-
 # This blueprint stores the logic for our mood tracker functionality.
 
 # Imports --------------------------------------------------------------------------------
@@ -31,7 +30,6 @@ mood_tracker_bp = Blueprint(
 @mood_tracker_bp.route('/user_greeting', methods=['GET', 'POST'])
 @login_required
 def user_greeting():
-
     # Forms --------------------------------------------------
 
     mood_form = MoodForm()  # Initialises a new instance of our Mood Form.
@@ -44,13 +42,14 @@ def user_greeting():
 
     # Here, we look for any posts in patient feelings, that were submitted on today's date.
 
-    any_posts_today = db.session.query(PatientFeelings.patient_id).filter_by(date_id=date_right_now).first()
+    any_posts_today = db.session.query(PatientFeelings.patient_id).\
+        filter_by(patient_id=current_user.username).filter_by(date_id=date_right_now).first()
 
     if not any_posts_today:  # Otherwise, ignore.
 
         if mood_form.validate_on_submit():  # If the mood form is successfully posted:
 
-            current_date_utc = datetime.datetime.utcnow().date() # Set once to avoid time conflict between two tables.
+            current_date_utc = datetime.datetime.utcnow().date()  # Set once to avoid time conflict between two tables.
 
             new_feeling = PatientFeelings(
                 patient_id=current_user.username,  # Patient ID equal to current user's username.
@@ -60,6 +59,17 @@ def user_greeting():
                 patient_comment=mood_form.patient_comment.data,
                 psychiatrist_comment=None
             )
+
+            def is_patient_safe():
+
+                danger_list = ['worse', 'same']  # A list of the feelings that indicate a patient needs help.
+
+                if new_feeling.feeling_comparison in danger_list and new_feeling.current_feeling < 3:
+                    # If the patient has a mood of 3 or lower, we change the tag on their account to 'needs help'.
+                    current_user.requires_urgent_help = True
+                    db.session.commit()
+
+            is_patient_safe()
 
             db.session.add(new_feeling)  # Adds new feeling to session.
             db.session.commit()  # Commits session to database.
@@ -72,14 +82,14 @@ def user_greeting():
                 # AND date_id=current_date_utc
                 # LIMIT 1
 
-                query_feelings_id = db.session.query(PatientFeelings.feelings_id).\
+                query_feelings_id = db.session.query(PatientFeelings.feelings_id). \
                     filter_by(patient_id=current_user.username, date_id=current_date_utc)
 
                 print('\n-------------------------------- START SQL RAW QUERY --------------------------------\n')
                 print(query_feelings_id)  # Outputs the raw SQL query to our terminal.
                 print('\n-------------------------------- END SQL RAW QUERY --------------------------------\n')
 
-                (output_feeling_id, ) = query_feelings_id.first()  # Unpack tuple.
+                (output_feeling_id,) = query_feelings_id.first()  # Unpack tuple.
 
                 return output_feeling_id
 
@@ -94,6 +104,7 @@ def user_greeting():
                 db.session.commit()
 
             flash('Your mood has been tracked for today. Thank you.', 'primary')
+
             return redirect(url_for('dashboard_bp.dashboard'))
 
     elif any_posts_today:  # If the user has posted today, then we take them straight to the dashboard.

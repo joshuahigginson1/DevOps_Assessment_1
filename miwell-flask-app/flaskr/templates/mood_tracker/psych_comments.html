@@ -1,0 +1,66 @@
+<!-- Front end for receiving info from psychiatrist. -->
+
+<form action='' method='POST' style="text-align: center;">  <!-- DETERMINES THE START OF OUR FORM IN WTFORMS -->
+
+    {{ form.hidden_tag() }}  <!-- CSRF PROTECTION -->
+
+    <br> <br>
+
+    <div style="text-align: center;" class="form-control form-control-lg">
+
+        {{ form.patient_comment.label }}
+
+        <br> <br>
+
+        {{ form.psychiatrist_comment }}
+
+                    {% if form.psychiatrist_comment.errors %}
+
+                    <br> <br>
+
+                    <div class='error'>
+
+                        {% for error in form.psychiatrist_comment.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+            {% endif %}
+
+        <br> <br>
+
+    </div>  <!-- TWITTER STYLE TEXT BOX -->
+
+            <div class="column">
+
+                {{ form.is_patient_safe }} {{ form.is_patient_safe.label }}
+
+                {% if form.is_patient_safe.errors %}
+
+                    <br> <br>
+
+                    <div class='error'>
+
+                        {% for error in form.form.is_patient_safe.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+
+                    </div>
+
+                {% endif %}
+
+        </div>  <!-- Validate Box -->
+
+    <br> <br>
+
+    <div class="btn">
+
+        {{ form.submit }}
+
+    </div>  <!-- SUBMIT BUTTON -->
