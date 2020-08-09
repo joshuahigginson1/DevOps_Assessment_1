@@ -8,14 +8,14 @@
 
             <div class='form_group'>
 
-                {{ patient_form.username.label }}
-                {{ patient_form.username }}
+                {{ form.email.label }}
+                {{ form.email }}
 
-                {% if patient_form.username.errors %}
+                {% if form.email.errors %}
 
                     <div class='error'>
 
-                        {% for error in patient_form.username.errors %}
+                        {% for error in form.email.errors %}
 
                             <span>{{ error }}</span>
 
@@ -25,21 +25,21 @@
 
                 {% endif %}
 
-            </div>  <! -- Username -->
+            </div>  <!-- First Name -->
 
-        <br>
-        <br>
+        <br> <br>
+
 
             <div class='form_group'>
 
-                {{ patient_form.email.label }}
-                {{ patient_form.email }}
+                {{ form.first_name.label }}
+                {{ form.first_name }}
 
-                {% if patient_form.email.errors %}
+                {% if form.first_name.errors %}
 
                     <div class='error'>
 
-                        {% for error in patient_form.email.errors %}
+                        {% for error in form.first_name.errors %}
 
                             <span>{{ error }}</span>
 
@@ -49,21 +49,20 @@
 
                 {% endif %}
 
-            </div>  <! -- Email -->
+            </div>  <!-- First Name -->
 
-        <br>
-        <br>
+        <br> <br>
 
             <div class='form_group'>
 
-                {{ patient_form.password.label }}
-                {{ patient_form.password }}
+                {{ form.last_name.label }}
+                {{ form.last_name }}
 
-                {% if patient_form.password.errors %}
+                {% if form.last_name.errors %}
 
                     <div class='error'>
 
-                        {% for error in patient_form.password.errors %}
+                        {% for error in form.last_name.errors %}
 
                             <span>{{ error }}</span>
 
@@ -73,21 +72,20 @@
 
                 {% endif %}
 
-            </div>  <! -- New Password -->
+            </div>  <!-- Last Name -->
 
-        <br>
-        <br>
+        <br> <br>
 
             <div class='form_group'>
 
-                {{ patient_form.confirm_password.label }}
-                {{ patient_form.confirm_password }}
+                {{ form.postcode.label }}
+                {{ form.postcode }}
 
-                {% if patient_form.confirm_password.errors %}
+                {% if form.postcode.errors %}
 
                     <div class='error'>
 
-                        {% for error in patient_form.confirm_password.errors %}
+                        {% for error in form.postcode.errors %}
 
                             <span>{{ error }}</span>
 
@@ -97,21 +95,20 @@
 
                 {% endif %}
 
-            </div>  <! -- Confirm Password -->
+            </div>  <!-- Postcode -->
 
-        <br>
-        <br>
+        <br> <br>
 
             <div class='form_group'>
 
-                {{ patient_form.first_name.label }}
-                {{ patient_form.first_name }}
+                {{ form.phone_number.label }}
+                {{ form.phone_number }}
 
-                {% if patient_form.first_name.errors %}
+                {% if form.phone_number.errors %}
 
                     <div class='error'>
 
-                        {% for error in patient_form.first_name.errors %}
+                        {% for error in form.phone_number.errors %}
 
                             <span>{{ error }}</span>
 
@@ -121,21 +118,20 @@
 
                 {% endif %}
 
-            </div>  <! -- First Name -->
+            </div>  <!-- Phone Number -->
 
-        <br>
-        <br>
+        <br> <br>
 
             <div class='form_group'>
 
-                {{ patient_form.last_name.label }}
-                {{ patient_form.last_name }}
+                {{ form.bio.label }}
+                {{ form.bio }}
 
-                {% if patient_form.last_name.errors %}
+                {% if form.bio.errors %}
 
                     <div class='error'>
 
-                        {% for error in patient_form.last_name.errors %}
+                        {% for error in form.bio.errors %}
 
                             <span>{{ error }}</span>
 
@@ -145,21 +141,19 @@
 
                 {% endif %}
 
-            </div>  <! -- Last Name -->
+            </div>  <!-- Bio -->
 
-        <br>
-        <br>
 
-            <div class='form_group'>
+                    <div class='form_group'>
 
-                {{ patient_form.phone_number.label }}
-                {{ patient_form.phone_number }}
+                {{ form.validate_password.label }}
+                {{ form.validate_password }}
 
-                {% if patient_form.phone_number.errors %}
+                {% if form.validate_password.errors %}
 
                     <div class='error'>
 
-                        {% for error in patient_form.phone_number.errors %}
+                        {% for error in form.validate_password.errors %}
 
                             <span>{{ error }}</span>
 
@@ -169,68 +163,42 @@
 
                 {% endif %}
 
-            </div>  <! -- Phone Number -->
+            </div>  <!-- Validate Password -->
 
-        <br>
-        <br>
+        <br> <br>
 
-            <div class='form_group'>
+        <div class="column">
 
-                {{ patient_form.postcode.label }}
-                {{ patient_form.postcode }}
+                    {{ form.delete_aware }} {{ form.delete_aware.label }}
 
-                {% if patient_form.postcode.errors %}
+                {% if form.delete_aware.errors %}
+
+                    <br> <br>
 
                     <div class='error'>
 
-                        {% for error in patient_form.postcode.errors %}
+                        {% for error in form.delete_aware.errors %}
 
                             <span>{{ error }}</span>
 
                         {% endfor %}
 
-                    </div>
+
+                    </div>  <!-- Submit Button -->
 
                 {% endif %}
 
-            </div>  <! -- Postcode -->
+        </div>
 
-        <br>
-        <br>
+        <br> <br>
 
-            <div class='form_group'>
+        <div class='form_submit_button'>
 
-                {{ patient_form.medical_conditions.label }}
-                {{ patient_form.medical_conditions }}
+            {{ form.submit }}
 
-                {% if patient_form.medical_conditions.errors %}
+        </div>  <!-- Submit Button -->
 
-                    <div class='error'>
-
-                        {% for error in patient_form.medical_conditions.errors %}
-
-                            <span>{{ error }}</span>
-
-                        {% endfor %}
-
-                    </div>
-
-                {% endif %}
-
-            </div>  <! -- Medical Conditions -->
-
-        <br>
-        <br>
-
-
-            <div class='form_submit_button'>
-
-                {{ form.submit }}
-
-            </div>  <! -- Submit Button -->
-
-        <br>
-        <br>
+        <br> <br>
 
     </form>
 
