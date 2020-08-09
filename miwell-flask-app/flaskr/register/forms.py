@@ -46,7 +46,7 @@ class PatientRegistrationForm(FlaskForm):  # Creates a new child class, inheriti
         Length(min=4, max=8, message='Please enter a valid UK postcode.'),
         DataRequired(message='Please enter a postcode.')])
 
-    medical_conditions = StringField('Medical Conditions', [
+    medical_conditions = TextAreaField('Medical Conditions', [
         Length(max=500, message='There is a maximum of 500 characters for this field.')])
 
     # recaptcha = RecaptchaField()
@@ -107,7 +107,7 @@ class PsychRegistrationForm(FlaskForm):  # Creates a new child class, inheriting
         Length(min=4, max=8, message='Please enter a valid UK postcode.'),
         DataRequired(message='Please enter a postcode.')])
 
-    psychiatrist_bio = StringField('Psychiatrist Bio', [
+    psychiatrist_bio = TextAreaField('Psychiatrist Bio', [
         Length(max=500, message='Please keep your psychiatrist bio under 500 characters.'),
         DataRequired(message='Please write a short bio. This will help your patients to connect.')])
 

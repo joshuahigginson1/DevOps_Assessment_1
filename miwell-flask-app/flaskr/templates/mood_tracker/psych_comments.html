@@ -1,0 +1,33 @@
+
+
+
+
+
+
+    {{ form.psychiatrist_comment }}
+
+                    {% if form.patient_comment.errors %}
+
+                    <br> <br>
+
+                    <div class='error'>
+
+                        {% for error in form.patient_comment.errors %}
+
+                            <span>{{ error }}</span>
+
+                        {% endfor %}
+
+                    </div>
+
+            {% endif %}
+
+    </div>  <!-- TWITTER STYLE TEXT BOX -->
+
+    <br> <br>
+
+    <div class="btn">
+
+                {{ form.submit }}
+
+    </div>  <!-- SUBMIT BUTTON -->
