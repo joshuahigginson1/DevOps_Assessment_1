@@ -1,17 +1,23 @@
-# Retrieve info from database.
+# A script which manages our account update and deletion forms.
+
+# Imports ------------------------------------------------------------------------
+
 from flask_login import current_user
+from flask_argon2 import check_password_hash
+from flaskr.register.models import Patient, Psychiatrist
+
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, BooleanField, StringField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Email, Length, EqualTo
-from flask_argon2 import check_password_hash
 
-# A base form class, where other forms can inherit extra helper methods.
-from flaskr.register.models import Patient, Psychiatrist
+# Forms -------------------------------------------------------------------------
+
+# A base form class, where other forms can inherit our custom validation.
 
 
 class AccountSettingFormBase(FlaskForm):
 
-    # Helper Methods --------------------------------------------------------------------------
+    # Custom Validators ----------------------------------------------------------
 
     def validate_email(self):
 

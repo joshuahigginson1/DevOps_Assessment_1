@@ -1,21 +1,16 @@
-"""
-This file is a template for creating and configuring a blueprint within Flask.
-
-This blueprint stores the code for displaying user and psych acc_settings, and editing an account.
-"""
+# This script manages the update and delete functionality.
 
 # Imports --------------------------------------------------------------------------------
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask import current_app as app
 
-# from flask_login import login_user, current_user, logout_user, login_required
-
-# Blueprint Configuration -----------------------------------------------------------------
 from flask_login import current_user, login_required
 
 from flaskr import db
-from flaskr.acc_settings.forms import UpdatePatientAccountForm, UpdatePsychiatristAccountForm
+
+from flaskr.acc_settings.forms import UpdateUserAccountForm, DeleteAccountForm
+
+# Blueprint Configuration -----------------------------------------------------------------
 
 settings_bp = Blueprint(
     'settings_bp',  # Name we want to assign to our Blueprint for Flask's internal routing purposes.
@@ -53,52 +48,38 @@ def update_functionality(form):
         db.session.commit()  # ... Adds the changes to our database.
 
 
-
-
 # Routes ----------------------------------------------------------------------------------
 @settings_bp.route('/dashboard/acc_settings', methods=['GET', 'POST'])
 @login_required
 def patient_acc_settings():
+    update_form = UpdateUserAccountForm()  # Initialise our update user form.
 
-    patient_update_form = UpdatePatientAccountForm()  # Initialise our update patient form.
+    flash("Successfully altered your settings!", "secondary")
+    return redirect(url_for('homepage_bp.homepage'))
 
-    update_functionality(patient_update_form)
-        flash("Successfully altered your settings!", "secondary")
-        return redirect(url_for('homepage_bp.homepage'))
+    if current_user.user_authentication == "Patient":
 
+        return render_template(
+            'acc_settings/patient_settings.html',
+            title='User Settings ~ MiWell',
+            form=update_form
+        )
 
-    )
-
-
-
-    return render_template(
-        'dashboard/patient_dash/acc_settings.html',
-        title='Settings ~ MiWell'
-    )
-
-
-
-
-
+    elif current_user.user_authentication == "Psychiatrist":
+        return render_template(
+            'acc_settings/psych_settings.html',
+            title='Psychiatrist Settings ~ MiWell',
+            form=update_form
+        )
 
 
-
-
-
-
-
-
-@settings_bp.route('/dashboard/acc_settings', methods=['GET'])
-# @login_required
-
-
-def psychiatrist_acc_settings():
-
-    psychiatrist_update_form = UpdatePsychiatristAccountForm()  # Initialise our update patient form.
-
-    update_functionality(psychiatrist_update_form)
+@settings_bp.route('/dashboard/acc_settings/acc_deletion', methods=['GET', 'POST'])
+@login_required
+def delete_account():
+    delete_form = DeleteAccountForm()
 
     return render_template(
-        'dashboard/patient_dash/acc_settings.html',
-        title='Settings ~ MiWell'
+        'acc_settings/patient_settings.html',
+        title='User Settings ~ MiWell',
+        form=delete_form
     )
