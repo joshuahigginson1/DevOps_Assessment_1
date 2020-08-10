@@ -33,8 +33,7 @@ _Created for QA Consulting by Joshua Higginson_
  - [Functional Testing](#functional-testing)
 - [Project Management](#project-management)
 - [Project Review](#project-review)
-  - [Known Issues](#known-issues)
-  - [Future Optimisation](#future-optimisation)
+  - [Known Issues and Future Optimisation](#known-issues-and-future-optimisations)
 - [Authors](#authors)
 
 ## Project Brief
@@ -154,11 +153,10 @@ When I was first introduced to SQL, I couldn't quite grasp the concept of ORM. N
 
 ### Database Structure
 
+There are three main facets to my database structure: Patients, Psychiatrists, and Feelings. I like to think of 'behaviours' as branching from the feelings table in order to provide extra functionality down the line.
+At the very start of my project, this ERD was a lot more sporadic, as I first failed to realise the concepts and importance of joins.
 
-
-
-
-
+![Database ERD](.README_images/c0c3479e.png)
 
 #### Dynamically assigning patients with a new psychiatrist. 
 
@@ -189,38 +187,61 @@ This code would not include any of the psychiatrists with no previously assigned
 
 My chosen fix for this issue was to ‘unpack’ a larger subset of our SQLAlchemy table into a _Python dictionary_.
 
-Once I had the data within python itself, it became far easier for me to manipulate the code with functions in Python.
-
-
-
-
-
+Once I had the data within python itself, it became far easier for me to manipulate the code with functions with Pythonic syntax.
 
 ### CI Pipeline
 
+![](.README_images/1cf9b1db.png)
+
+
+This image shows the integrated technologies of which I utilised in the creation of my flask web app.
+ 
+I chose to code primarily in PyCharm on my local machine rather than in VIM on a CLI for all of the obvious reasons:
+- Coding efficiency.
+- Project management and organisation.
+- Plugins.
+- The use of an integrated linter.
+- Database diagnostic tools.
+
+My PyCharm editor is integrated with a git SCM where I can make commits and push code straight from my IDE.
+
+GitHub is my preferred VCS Provider.
+
+I configured Jenkins as as a CI server, which automatically builds my flask application via an integrated GitHub webhook. 
+On a build success, Jenkins pushes my code to a GCP virtual machine and automatically runs my flask application as a systemd service.
+I am using Gunicorn as a WSGI. As a stretch goal, I also built the simplest of web servers with Nginx.
+
+
 ### Front End Development
+
+There really isn't much to talk about right now in terms of front-end development. I used a few HTML tags, notably on the user greeting page, to ensure that my data was clearly laid out.
+
+I also utilised Jinja2 logic in a number of places, most notably to '{% include %}' code from snippet files of HTML. 
+
+I used {% for %} loops to display repeated sets of information on my psychiatrist dashboard, and {% if %} statements when configuring my Flask message flashing functionality.
 
 ## Testing
 
 Alas, now is the time I put my hands up and admit, on 10th August 2020, I currently have **0% CODE COVERAGE.**
+...And I realise that this was a large percentage of the SFIA project specification. 
 
+I want to do my tests justice, and I still don't massively understand some of the core functionality behind unit testing in particular.
 
 ### Unit Testing
 
-
-
-
-
-
+My entire 'project time' budget was spent trying to get Selenium and integration tests functional.
+After we moved onto Linux and Systemd services, it was devastatingly clear that I had run out of time.
+It all comes back to story point estimation. 
+ 
+My plan was to revisit testing after my project was integrated to Jenkins, so that I would be able to automate my builds after they passed unit tests.
+It took me 100 manual Jenkins builds for my application to run as a systemd service with Jenkins as a CI server, and my application actually running without errors.
 
 ### Functional Testing
 
-
-
-
+That being said, although I have no unit tests to my name, I have the beginnings of a functional testing suite.
 
 #### My approach to functional testing.
-After an afternoon of research into functional testing, I finally decided to settle on the use of a **Page-Object Model** approach to unit testing.
+After an afternoon of research into functional testing, I decided that I wanted to write some tests which used a **Page-Object Model** approach.
 
 >> The Page-Object model is one of many approaches to structuring test code.
 >> Each page of our web application is associated with it's own **'page class'.**
@@ -228,19 +249,26 @@ After an afternoon of research into functional testing, I finally decided to set
 >> Our tests can then utilise the methods of this page object class whenever they need to simulate interaction with the UI.
 
 I chose this approach for a few specific reasons:
+
 1. My application code is already organised into blueprints. It makes sense that my test elements are organised in a similar way.
 
 2. If I were to add a UI to my app later down the line, I wouldn't have to rewrite every test. Only change the way in which the 'page class' references the UI.
 
 3. I hate having to repeat code.
 
+### UI Testing with Selenium.
+
+Selenium is a web browser automation tool that supports the most popular web browsers, across Windows, MacOS and Linux. It requires a 'web driver' to run tests within a web browser.
+
+When I first heard about Selenium, I got incredibly excited. I started thinking of all the ways it would speed up my development.
+Testing my apps by hand, I like to employ a 'fuzz' testing mindset - trying to do things outside of the normal realm  thought that if I could implement it into my own project.
 
 ### Issues with Flask-Testing.
 
-_This section of the documentation covers my experience with the Flask-Testing module, why I ultimately chose to scrap the LiveServerTestCase class, and how I designed my own multi-threaded test framework._
+_This section of the documentation will cover my experience with the Flask-Testing module, why I chose to scrap the LiveServerTestCase class shown on QA courseware, and how I spent **way** too long designing my own multi-threaded test framework._
 
 Test_client() is a _lightweight browser emulation_ that comes prebuilt into flask. This makes it easier for developers to test their programs without having to write their own.
-However, this client cannot _fully_ emulate the environment of an application running within a browser.
+However, this client cannot fully emulate the environment of an application running within a browser.
 
 There are a number of things that it will **not** do. The test_client() browser cannot execute JavaScript code, which makes it impossible to fully test an interactive UI. 
 Any code that is included within a http response will be returned without having been executed.
@@ -249,27 +277,42 @@ For this project, I wanted to ensure that my functional tests were running in a 
 
 This is why I chose to run my functional tests on a use a real web browser, hat is connected to our application, running on a real web server. 
 
-### UI Testing with Selenium.
-
-Selenium is a web browser automation tool that supports the most popular web browsers, across Windows, MacOS and Linux.
-
->> Permission to name this testing framework the “Mi-Guel” test framework.
->> I found my solution after reading Miguel Grinberg’s Flask Web Development (2nd edition). 
-
-Selenium requires a 'web driver' to run tests within a web browser.
-
->> Additional credit goes to the ‘GOAT’: TDD with Python (2nd edition), written by Harry J.W. Percival.
-
-
 ## Project Review
 
-### Known Issues
+Here is the section where I review the progress of my project so far (10th August 2020).
 
-### Future Optimisation
+I mentioned earlier that I see this project as an ‘evolution’.
+This isn’t something that I want to abandon, in fact, I think that it’s app that NEEDS to exist,
+with further collaboration from mental health professionals, a team of developers, and some charity funding behind it.
 
-There are many, many more  of 
+With a little bit of extra time in development, this app could truly make a difference to someone’s life.
 
-CSS styling.
+Sometimes, I wish that I had chosen an easier brief. But in a true working environment, you can’t just pick and choose your battles.
+ 
+Where I might not have the full CRUD functionality, or have a pretty JIRA board, or amazing test coverage that you might have expected from this Flask app.
+And I have already learned tremendous amounts from trying, and failing, at this project!
+
+I knew that my project was going to be large when approaching this task.
+Therefore, I chose to organise my project into blueprints, for logic, code readability and ease of navigation.
+This meant that I had to design my project with an application factory, in order to avoid circular imports.
+Here, I learned about application context and request context in relation to python applications.
+
+Selenium NOT want to play nice with me because of this, and therefore I spent a day of production, designing a custom Test Server script for use with Selenium-wire and python unittest.
+ 
+Not only did I learn more about test driven development, but I had to try and understand threading, so that I could run my tests in parallel alongside selenium.
+
+### Known Issues and Future Optimisations
+
+When you delete a user, or psychiatrist from the database, it breaks our relationship model. Also, users' posts become orphans in our database.
+I already have knowledge and code available in my project to fix this issue. However, it will take an unknown amount of time to implement.
+
+You can enter any old string of text into the phone number section. Our input validation is a little bit lacking. I would love to take time in the future to fix this.
+
+I need to finish full implementation of CRUD functionality.
+
+CSS styling is a big one. Maybe even learn about JS/Angular/Vue and have a really fancy website that actively makes people want to log on every day.
+
+There are many, many more tiny little changes that I would love to make.
 
 ## Authors
 
