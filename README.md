@@ -88,7 +88,7 @@ A previously commissioned app was incredibly bulky, and as a result, patients of
 ## Project Approach
 
  I tackled this project from a 'top down' perspective. First envisioning a working application, and designing an application 'skeleton' around this. 
- The main tool I used to achieve this was through the use of templating and blueprints within Flask. This approach was inspired by Todd Birchard of Hackers&Slackers.
+ The main two tools I used to achieve this within Flask were Jinja2 templating, and blueprints. This approach was inspired by Todd Birchard of Hackers&Slackers.
  
 My project in it's current state (10th August 2020) satisfies _some_ QA assessment criteria. Areas marked with a ~~strikethrough~~ indicate tasks in which I must still complete.
 
@@ -107,16 +107,16 @@ My project in it's current state (10th August 2020) satisfies _some_ QA assessme
 - ~~On a separate page, psychiatrists can see a list of posts that they haven't currently reviewed.~~
 - ~~Psychiatrists can comment on user moods.~~ (Framework is in place, however functionality was a lot more difficult than first envisioned.)
 
-Although full CRUD functionality has not yet been implemented, I really have been working hard at this project:
+Although **full** CRUD functionality has not yet been implemented, I have been working very hard on this project, having additionally implemented:
 
 - User authentication.
-- Favicons change depending on which user is currently logged in.
+- Custom favicons, which change depending on which user is currently logged in.
 - Custom error handling.
 - Meticulous attention to detail in bug fixes.
-- A custom test server layout for Flask apps running on an application factory model.
+- A custom test server class for Flask apps running on an application factory model.
 - The start of a Page Oriented Model approach to functional testing.
 - Nginx acting as reverse-proxy so that our app can be accessed by a domain name: www.miwellness.co.uk
-- An automated risk assessment spreadsheet that adheres to industry standard automated tolerance levels. _With dynamic colours._ 
+- An automated risk assessment spreadsheet that adheres to industry standard automated tolerance levels. _With. Dynamic. Colours._ 
 
 ## Project Management
 
@@ -127,11 +127,14 @@ Spoilers: I've never built an application before.
 When I first found out the project specification from QA, I knew that I would have to structure the creation of my app around the learning of said new technologies.
 My JIRA project roadmap was created in a manner which replicates and corresponds with my first 6 weeks of study at QA.
 
+![JIRA ROADMAP](.README_images/4202f39c.png)
+
 In my JIRA settings, I configured additional support for bug tracking, issue tracking, and user stories. In a production environment, new features are normally implemented through user stories.
 I made some attempts to work with user stories, but I found this way of thinking rather alien to me without a functioning app, and without actual clients to test.
 
-Every time I've shown my web app to F&F, the first thing they mention is that it looks like something out of 1990. 
-Of course in reality, the very first thing I would do is strap a bootstrap template on my project - A true user story.
+Every time I've shown my web app to F&F, the first thing they mention is that it looks like a relic of 1990. 
+
+In _reality_, the very first thing I would do is strap a bootstrap template on my project - Working to fix a true user story case.
 However in the context of this QA assessment with set project parameters and a strict mark scheme, I mostly chose to structure my backlog around _issues_.
 
 As a developer who favours theory and ideas, before I can truly justify implementing a new feature into my project, I have to truly understand it first.
