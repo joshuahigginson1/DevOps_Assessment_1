@@ -16,14 +16,17 @@ import time
 
 class LiveServerTestCase(unittest.TestCase):
     client = None
-    root_url = environ.get('ROOT_URL')
-    webdriver_exe_path = environ.get('WEBDRIVER_EXE_PATH')
+    root_url = "http://0.0.0.0:5000"    # DEPENDENT ON RUN ENVIRON.
+    webdriver_exe_path = "/usr/local/bin/chromedriver"  # DEPENDENT ON RUN ENVIRON.
+    options = webdriver.ChromeOptions()
+    # options.add_argument("headless")
+
 
     @classmethod  # At the very start of the tests, we must set up a Class.
     def setUpClass(cls):
 
         try:
-            cls.client = webdriver.Chrome(executable_path=cls.webdriver_exe_path)  # DEPENDENT ON RUN ENVIRON.
+            cls.client = webdriver.Chrome(executable_path=cls.webdriver_exe_path, chrome_options=cls.options)
 
         except:
             pass

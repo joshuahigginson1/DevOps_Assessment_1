@@ -45,6 +45,13 @@ class PsychiatristRegisterPageObject(CommonPageObject, PsychiatristNavBar):
         get_field_element.send_keys(input_to_type)
         print(f"Running Simulation: Currently typing '{input_to_type}' in the {get_field_label} field.")
 
+    def clear_email_form(self):
+
+        # Retrieve our form attributes.
+
+        get_field_element = self.get_email_field()['field element']
+        get_field_element.clear()  # Clears our form.
+
     def get_new_password_field(self):  # A function to return the attributes of our new password field.
 
         get_field_element = self.client.find_element_by_xpath('//*[@id="password"]')
@@ -58,8 +65,7 @@ class PsychiatristRegisterPageObject(CommonPageObject, PsychiatristNavBar):
 
         return new_password_field_attributes
 
-    def type_in_new_password_form(self,
-                                  input_to_type=user_password):  # A function to type text into our password form box.
+    def type_in_new_password_field(self, input_to_type=user_password):  # A function to type text into our password form box.
 
         # Retrieve our form attributes.
 
@@ -71,6 +77,13 @@ class PsychiatristRegisterPageObject(CommonPageObject, PsychiatristNavBar):
 
         get_field_element.send_keys(input_to_type)
         print(f"Running Simulation: Currently typing '{input_to_type}' in the {get_field_label} field.")
+
+    def clear_new_password_field(self):
+
+        # Retrieve our form attributes.
+
+        get_field_element = self.get_new_password_field()['field element']
+        get_field_element.clear()  # Clears our form.
 
     def get_confirm_password_field(self):  # A function to return the attributes of our confirm password field.
 
@@ -97,6 +110,13 @@ class PsychiatristRegisterPageObject(CommonPageObject, PsychiatristNavBar):
         get_field_element.send_keys(input_to_type)
         print(f"Running Simulation: Currently typing '{input_to_type}' in the {get_field_label} field.")
 
+    def clear_confirm_password_field(self):
+
+        # Retrieve our form attributes.
+
+        get_field_element = self.get_confirm_password_field()['field element']
+        get_field_element.clear()  # Clears our form.
+
     def get_first_name_field(self):
         get_field_element = self.client.find_element_by_xpath('//*[@id="first_name"]')
         get_label_element = self.client.find_element_by_xpath('/html/body/div[2]/form/div[4]/label')
@@ -120,6 +140,13 @@ class PsychiatristRegisterPageObject(CommonPageObject, PsychiatristNavBar):
 
         get_field_element.send_keys(input_to_type)
         print(f"Running Simulation: Currently typing '{input_to_type}' in the {get_field_label} field.")
+
+    def clear_first_name_field(self):
+
+        # Retrieve our form attributes.
+
+        get_field_element = self.get_new_password_field()['field element']
+        get_field_element.clear()  # Clears our form.
 
     def get_last_name_field(self):
         get_field_element = self.client.find_element_by_xpath('//*[@id="last_name"]')

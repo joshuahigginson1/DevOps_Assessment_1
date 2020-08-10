@@ -42,7 +42,7 @@ def account_settings():
 
         elif current_user.user_authentication == 'Psychiatrist':
             update_form.bio.label = 'Psychiatrist Bio'
-            update_form.bio.data = current_user.psych_bio
+            update_form.bio.data = current_user.psychiatrist_bio
 
     elif update_form.validate_on_submit():  # Link current user info to our update form.
 

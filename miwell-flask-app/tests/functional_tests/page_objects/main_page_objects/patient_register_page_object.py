@@ -16,7 +16,7 @@ class PatientRegisterPageObject(CommonPageObject, PatientNavBar):
     user_first_name = 'Default'
     user_last_name = 'Patient'
     user_phone_number = '07777777777'
-    user_postcode = 'L1 7DQ'
+    user_postcode = 'L1 1AA'
     user_medical_conditions = 'Robotitis. I require constant love and attention. Prone to flashing.'
 
     def get_username_field(self):  # A function to return the attributes of our username register field.
