@@ -1,5 +1,4 @@
 # Imports -----------------------------------------------------------------------------------------------------
-from os import environ
 
 from seleniumwire import webdriver
 
@@ -16,11 +15,11 @@ import time
 
 class LiveServerTestCase(unittest.TestCase):
     client = None
-    root_url = "http://0.0.0.0:5000"    # DEPENDENT ON RUN ENVIRON.
+    root_url = "http://0.0.0.0:5000"  # DEPENDENT ON RUN ENVIRON.
     webdriver_exe_path = "/usr/local/bin/chromedriver"  # DEPENDENT ON RUN ENVIRON.
     options = webdriver.ChromeOptions()
-    # options.add_argument("headless")
 
+    # options.add_argument("headless")
 
     @classmethod  # At the very start of the tests, we must set up a Class.
     def setUpClass(cls):
